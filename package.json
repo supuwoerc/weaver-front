@@ -1,0 +1,97 @@
+{
+    "name": "learn-gin-web-front",
+    "private": true,
+    "description": "learn-gin-web-front",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "preinstall": "npx only-allow pnpm",
+        "prepare": "husky install",
+        "dev": "vite",
+        "build": "tsc && vite build --mode prod",
+        "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "lint:fix": "eslint src --ext ts,tsx --fix",
+        "lint:lint-staged": "lint-staged",
+        "preview": "vite preview"
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "pnpm run lint",
+            "npx prettier --write"
+        ],
+        "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
+            "npx prettier --write--parser json"
+        ],
+        "package.json": [
+            "npx prettier --write"
+        ],
+        "*.{scss,less,styl,html}": [
+            "npx prettier --write"
+        ],
+        "*.md": [
+            "npx prettier --write"
+        ]
+    },
+    "keywords": [
+        "React",
+        "TypeScript",
+        "Vite"
+    ],
+    "author": "zhangzhouou@gmail.com",
+    "dependencies": {
+        "@ant-design/icons": "^5.1.4",
+        "@arco-design/web-react": "^2.62.0",
+        "@emotion/react": "^11.11.0",
+        "@emotion/styled": "^11.11.0",
+        "@supuwoerc/utils": "^1.1.7",
+        "@tanstack/react-query": "^4.29.12",
+        "await-to-js": "^3.0.0",
+        "axios": "^1.4.0",
+        "dayjs": "^1.11.8",
+        "immer": "^10.0.2",
+        "lodash": "^4.17.21",
+        "nprogress": "^0.2.0",
+        "qs": "^6.11.2",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-error-boundary": "^4.0.9",
+        "react-router-dom": "^6.12.0",
+        "react-transition-group": "^4.4.5",
+        "recoil": "^0.7.7"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.6.5",
+        "@commitlint/config-conventional": "^17.6.5",
+        "@emotion/babel-plugin": "^11.11.0",
+        "@types/lodash": "^4.14.195",
+        "@types/node": "^20.2.5",
+        "@types/qs": "^6.9.7",
+        "@types/react": "^18.0.37",
+        "@types/react-dom": "^18.0.11",
+        "@types/react-transition-group": "^4.4.6",
+        "@typescript-eslint/eslint-plugin": "^5.59.0",
+        "@typescript-eslint/parser": "^5.59.0",
+        "@vitejs/plugin-react": "^4.0.0",
+        "eslint": "^8.38.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.3.4",
+        "husky": "^8.0.3",
+        "lint-staged": "^13.2.2",
+        "prettier": "^2.8.8",
+        "terser": "^5.17.7",
+        "type-fest": "^3.11.1",
+        "typescript": "^5.0.2",
+        "vite": "^4.3.9",
+        "vite-plugin-eslint": "^1.8.1"
+    },
+    "license": "ISC",
+    "engines": {
+        "node": ">=18.16.0",
+        "pnpm": ">=8.6.1"
+    },
+    "volta": {
+        "node": "18.16.0"
+    }
+}
