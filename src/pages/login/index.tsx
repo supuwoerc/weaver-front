@@ -1,24 +1,8 @@
 import Col from "@arco-design/web-react/es/Grid/col"
 import Row from "@arco-design/web-react/es/Grid/row"
-import styled from "@emotion/styled"
+import LoginContainer from "./style"
 
 interface LoginProps {}
-
-const LoginContainer = styled.div`
-    height: 100%;
-    .row {
-        height: 100%;
-        .col {
-            height: 100%;
-            .carousel {
-                height: 100%;
-            }
-            .main {
-                height: 100%;
-            }
-        }
-    }
-`
 
 const Login: React.FC<LoginProps> = () => {
     return (
