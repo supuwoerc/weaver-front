@@ -39,7 +39,6 @@
     ],
     "author": "zhangzhouou@gmail.com",
     "dependencies": {
-        "@ant-design/icons": "^5.1.4",
         "@arco-design/web-react": "^2.62.0",
         "@emotion/react": "^11.11.0",
         "@emotion/styled": "^11.11.0",
