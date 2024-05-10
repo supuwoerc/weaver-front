@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react"
 import path from "path"
 import eslint from "vite-plugin-eslint"
 import { loadEnv } from "vite"
+import svgr from "vite-plugin-svgr"
 import cdnSetting from "./setting"
 // https://vitejs.dev/config/
 export default ({ mode }) => {
@@ -16,6 +17,7 @@ export default ({ mode }) => {
                     plugins: ["@emotion/babel-plugin"],
                 },
             }),
+            svgr(),
             eslint(),
         ],
         base: base,

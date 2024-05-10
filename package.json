@@ -83,7 +83,8 @@
         "type-fest": "^3.11.1",
         "typescript": "^5.0.2",
         "vite": "^4.3.9",
-        "vite-plugin-eslint": "^1.8.1"
+        "vite-plugin-eslint": "^1.8.1",
+        "vite-plugin-svgr": "^4.2.0"
     },
     "license": "ISC",
     "engines": {

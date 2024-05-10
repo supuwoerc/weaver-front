@@ -25,7 +25,7 @@ const userRoutes: CustomRouteObject[] = [
             },
             {
                 path: "",
-                element: <Navigate to={"/user/login"} />,
+                element: <Navigate to={"/user/profile"} />,
             },
         ],
     },
