@@ -1,5 +1,6 @@
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
+import { vitePluginForArco } from "@arco-plugins/vite-react"
 import path from "path"
 import eslint from "vite-plugin-eslint"
 import { loadEnv } from "vite"
@@ -18,6 +19,9 @@ export default ({ mode }) => {
                 },
             }),
             svgr(),
+            vitePluginForArco({
+                style: "css",
+            }),
             eslint(),
         ],
         base: base,
