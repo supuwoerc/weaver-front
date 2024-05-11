@@ -14,6 +14,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                     height: 100%;
                 `}
             >
+                <div>DefaultLayout</div>
                 <Outlet />
             </Layout>
         </>

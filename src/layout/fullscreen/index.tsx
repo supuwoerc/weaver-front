@@ -14,6 +14,7 @@ const FullscreenLayout: React.FC<FullscreenLayoutProps> = () => {
                     height: 100%;
                 `}
             >
+                <div>FullscreenLayout</div>
                 <Outlet />
             </Layout>
         </>

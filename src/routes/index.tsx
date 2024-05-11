@@ -1,14 +1,14 @@
 import BeforeEach from "./before-each"
-import CheckLogin from "./check-login"
+import CheckPermission from "./check-permission"
 import RouteView from "./route-view"
 
 const AppRoutes = () => {
     return (
-        <CheckLogin>
+        <CheckPermission>
             <BeforeEach>
                 <RouteView />
             </BeforeEach>
-        </CheckLogin>
+        </CheckPermission>
     )
 }
 export default AppRoutes
