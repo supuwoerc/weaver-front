@@ -1,6 +1,6 @@
 import Col from "@arco-design/web-react/es/Grid/col"
 import Row from "@arco-design/web-react/es/Grid/row"
-import LoginContainer from "./style"
+import LoginContainer from "./login-container"
 
 interface LoginProps {}
 

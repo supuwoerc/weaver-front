@@ -1,8 +1,8 @@
 import { Global, css } from "@emotion/react"
 
-interface GlobalStylesProps {}
+interface GlobalStyleProps {}
 // 全局的样式
-export const GlobalStyles: React.FC<GlobalStylesProps> = () => {
+export const GlobalStyle: React.FC<GlobalStyleProps> = () => {
     return (
         <Global
             styles={css`

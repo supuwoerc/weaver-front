@@ -1,21 +1,26 @@
 import { PropsWithChildren, useEffect, useMemo } from "react"
 import { matchRoutes, useLocation } from "react-router-dom"
+import nprogress from "nprogress"
+import "nprogress/nprogress.css"
 import routes from "./config"
 import { getAppEnv } from "@/utils"
 
 interface BeforeEachProps {}
 
 const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) => {
+    nprogress.start()
     const location = useLocation()
     const pageTitle = useMemo(() => {
         const matchs = matchRoutes(routes, location) ?? []
         const validMatchs = matchs.map((item) => {
             return item.route.meta?.title
         })
-        const [title] = validMatchs.filter(Boolean)
+        const titles = validMatchs.filter(Boolean)
+        const title = titles.pop()
         return title ?? getAppEnv().VITE_APP_TITLE
     }, [location])
     useEffect(() => {
+        nprogress.done()
         document.title = pageTitle
     }, [pageTitle])
     return <>{children}</>

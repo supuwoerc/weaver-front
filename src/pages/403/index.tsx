@@ -1,18 +1,17 @@
-// https://github.com/pd4d10/vite-plugin-svgr/issues/92#issuecomment-1733753768
-import NotFoundSVG from "@/assets/404/not-found.svg?react"
+import ForbiddenSVG from "@/assets/403/forbidden.svg?react"
 import { Button } from "@arco-design/web-react"
 import { useNavigate } from "react-router-dom"
 import Exception from "@/components/exception-container"
 
-const NotFound: React.FC = () => {
+const Forbidden: React.FC = () => {
     const navigate = useNavigate()
     return (
         <Exception>
-            <NotFoundSVG width={200} className="image" />
+            <ForbiddenSVG width={200} className="image" />
             <div className="info">
                 <div className="desc">
-                    <div className="title">404</div>
-                    <div className="tips">抱歉，你访问的页面不存在</div>
+                    <div className="title">403</div>
+                    <div className="tips">抱歉，您没有访问该资源的权限</div>
                 </div>
                 <Button className="btn" type="primary" onClick={() => navigate("/")}>
                     返回首页
@@ -21,4 +20,4 @@ const NotFound: React.FC = () => {
         </Exception>
     )
 }
-export default NotFound
+export default Forbidden

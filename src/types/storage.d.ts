@@ -1,0 +1,3 @@
+interface StorageState {
+    token: string
+}
