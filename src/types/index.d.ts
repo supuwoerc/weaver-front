@@ -4,3 +4,4 @@ declare module "*.svg" {
     const src: string
     export default src
 }
+type ThenType<T> = T extends Promise<infer U> ? U : never

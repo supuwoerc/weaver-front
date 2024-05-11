@@ -22,7 +22,7 @@ export const userInfo = atom<UserInfo>({
         ({ onSet }) => {
             onSet((value) => {
                 if (!value || value.email === "") {
-                    globalStorage.remove(getAppEnv().VITE_APP_TOKEN_KEY as keyof StorageState)
+                    globalStorage.remove(getAppEnv().VITE_APP_TOKEN_KEY)
                 }
             })
         },
