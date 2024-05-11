@@ -12,7 +12,7 @@ const userRoutes: CustomRouteObject[] = [
         path: "/user",
         element: <DefaultLayout />,
         meta: {
-            title: "用户管理",
+            title: "router.user",
             auth: false,
             icon: <IconUser />,
         },
@@ -20,7 +20,7 @@ const userRoutes: CustomRouteObject[] = [
         children: [
             {
                 path: "profile",
-                meta: { title: "账户信息", auth: true },
+                meta: { title: "router.user.profile", auth: true },
                 element: lazyLoad(UserProfile),
             },
             {

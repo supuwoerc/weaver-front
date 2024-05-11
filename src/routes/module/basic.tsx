@@ -22,7 +22,7 @@ const basicRoutes: CustomRouteObject[] = [
             {
                 path: "login",
                 meta: {
-                    title: "登录",
+                    title: "router.login",
                     auth: false,
                 },
                 element: <FullscreenLayout />,
@@ -36,7 +36,7 @@ const basicRoutes: CustomRouteObject[] = [
             {
                 path: "500",
                 meta: {
-                    title: "服务器异常",
+                    title: "router.serverError",
                     auth: false,
                 },
                 element: <DefaultLayout />,

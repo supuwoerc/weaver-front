@@ -10,19 +10,19 @@ importers:
     dependencies:
       '@arco-design/web-react':
         specifier: ^2.62.0
-        version: 2.62.0(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)
+        version: 2.62.0(@types/react@18.0.37)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@emotion/react':
         specifier: ^11.11.0
         version: 11.11.0(@types/react@18.0.37)(react@18.2.0)
       '@emotion/styled':
         specifier: ^11.11.0
-        version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.37)(react@18.2.0)
+        version: 11.11.0(@emotion/react@11.11.0(@types/react@18.0.37)(react@18.2.0))(@types/react@18.0.37)(react@18.2.0)
       '@supuwoerc/utils':
         specifier: ^1.1.7
         version: 1.1.7
       '@tanstack/react-query':
         specifier: ^4.29.12
-        version: 4.29.12(react-dom@18.2.0)(react@18.2.0)
+        version: 4.29.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       await-to-js:
         specifier: ^3.0.0
         version: 3.0.0
@@ -53,15 +53,18 @@ importers:
       react-error-boundary:
         specifier: ^4.0.9
         version: 4.0.9(react@18.2.0)
+      react-intl:
+        specifier: ^6.6.6
+        version: 6.6.6(react@18.2.0)(typescript@5.0.2)
       react-router-dom:
         specifier: ^6.12.0
-        version: 6.12.0(react-dom@18.2.0)(react@18.2.0)
+        version: 6.12.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       react-transition-group:
         specifier: ^4.4.5
-        version: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+        version: 4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       recoil:
         specifier: ^0.7.7
-        version: 0.7.7(react-dom@18.2.0)(react@18.2.0)
+        version: 0.7.7(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     devDependencies:
       '@arco-plugins/vite-react':
         specifier: ^1.3.3
@@ -98,13 +101,13 @@ importers:
         version: 4.4.6
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.59.0
-        version: 5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.2)
+        version: 5.59.0(@typescript-eslint/parser@5.59.0(eslint@8.38.0)(typescript@5.0.2))(eslint@8.38.0)(typescript@5.0.2)
       '@typescript-eslint/parser':
         specifier: ^5.59.0
         version: 5.59.0(eslint@8.38.0)(typescript@5.0.2)
       '@vitejs/plugin-react':
         specifier: ^4.0.0
-        version: 4.0.0(vite@4.3.9)
+        version: 4.0.0(vite@4.3.9(@types/node@20.2.5)(terser@5.17.7))
       eslint:
         specifier: ^8.38.0
         version: 8.38.0
@@ -113,7 +116,7 @@ importers:
         version: 8.8.0(eslint@8.38.0)
       eslint-plugin-prettier:
         specifier: ^4.2.1
-        version: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.38.0)(prettier@2.8.8)
+        version: 4.2.1(eslint-config-prettier@8.8.0(eslint@8.38.0))(eslint@8.38.0)(prettier@2.8.8)
       eslint-plugin-react-hooks:
         specifier: ^4.6.0
         version: 4.6.0(eslint@8.38.0)
@@ -143,10 +146,10 @@ importers:
         version: 4.3.9(@types/node@20.2.5)(terser@5.17.7)
       vite-plugin-eslint:
         specifier: ^1.8.1
-        version: 1.8.1(eslint@8.38.0)(vite@4.3.9)
+        version: 1.8.1(eslint@8.38.0)(vite@4.3.9(@types/node@20.2.5)(terser@5.17.7))
       vite-plugin-svgr:
         specifier: ^4.2.0
-        version: 4.2.0(vite@4.3.9)
+        version: 4.2.0(rollup@3.23.1)(vite@4.3.9(@types/node@20.2.5)(terser@5.17.7))
 
 packages:
 
@@ -550,6 +553,35 @@ packages:
     resolution: {integrity: sha512-IoD2MfUnOV58ghIHCiil01PcohxjbYR/qCxsoC+xNgUwh1EY8jOOrYmu3d3a71+tJJ23uscEV4X2HJWMsPJu4g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
+  '@formatjs/ecma402-abstract@1.18.2':
+    resolution: {integrity: sha512-+QoPW4csYALsQIl8GbN14igZzDbuwzcpWrku9nyMXlaqAlwRBgl5V+p0vWMGFqHOw37czNXaP/lEk4wbLgcmtA==}
+
+  '@formatjs/fast-memoize@2.2.0':
+    resolution: {integrity: sha512-hnk/nY8FyrL5YxwP9e4r9dqeM6cAbo8PeU9UjyXojZMNvVad2Z06FAVHyR3Ecw6fza+0GH7vdJgiKIVXTMbSBA==}
+
+  '@formatjs/icu-messageformat-parser@2.7.6':
+    resolution: {integrity: sha512-etVau26po9+eewJKYoiBKP6743I1br0/Ie00Pb/S/PtmYfmjTcOn2YCh2yNkSZI12h6Rg+BOgQYborXk46BvkA==}
+
+  '@formatjs/icu-skeleton-parser@1.8.0':
+    resolution: {integrity: sha512-QWLAYvM0n8hv7Nq5BEs4LKIjevpVpbGLAJgOaYzg9wABEoX1j0JO1q2/jVkO6CVlq0dbsxZCngS5aXbysYueqA==}
+
+  '@formatjs/intl-displaynames@6.6.6':
+    resolution: {integrity: sha512-Dg5URSjx0uzF8VZXtHb6KYZ6LFEEhCbAbKoYChYHEOnMFTw/ZU3jIo/NrujzQD2EfKPgQzIq73LOUvW6Z/LpFA==}
+
+  '@formatjs/intl-listformat@7.5.5':
+    resolution: {integrity: sha512-XoI52qrU6aBGJC9KJddqnacuBbPlb/bXFN+lIFVFhQ1RnFHpzuFrlFdjD9am2O7ZSYsyqzYRpkVcXeT1GHkwDQ==}
+
+  '@formatjs/intl-localematcher@0.5.4':
+    resolution: {integrity: sha512-zTwEpWOzZ2CiKcB93BLngUX59hQkuZjT2+SAQEscSm52peDW/getsawMcWF1rGRpMCX6D7nSJA3CzJ8gn13N/g==}
+
+  '@formatjs/intl@2.10.2':
+    resolution: {integrity: sha512-raPGWr3JRv3neXV78SqPFrGC05fIbhhNzVghHNxFde27ls2KkXiMhtP7HBybjGpikVSjjhdhaZto+4p1vmm9bQ==}
+    peerDependencies:
+      typescript: ^4.7 || 5
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   '@humanwhocodes/config-array@0.11.10':
     resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
     engines: {node: '>=10.10.0'}
@@ -720,6 +752,9 @@ packages:
 
   '@types/estree@1.0.1':
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
+
+  '@types/hoist-non-react-statics@3.3.5':
+    resolution: {integrity: sha512-SbcrWzkKBw2cdwRTwQAswfpB9g9LJWfjtUeW/jvNwbhC8cpmmNYVePa+ncbUe0rGTQ7G3Ff6mYUN2VMfLVr+Sg==}
 
   '@types/json-schema@7.0.12':
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
@@ -1463,6 +1498,9 @@ packages:
   ini@1.3.8:
     resolution: {integrity: sha1-op2kJbSIBvNHZ6Tvzjlyaa8oQyw=}
 
+  intl-messageformat@10.5.12:
+    resolution: {integrity: sha512-izl0uxhy/melhw8gP2r8pGiVieviZmM4v5Oqx3c1/R7g9cwER2smmGfSjcIsp8Y3Q53bfciL/gkxacJRx/dUvg==}
+
   is-arrayish@0.2.1:
     resolution: {integrity: sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=}
 
@@ -1900,6 +1938,15 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     peerDependenciesMeta:
       '@types/react':
+        optional: true
+
+  react-intl@6.6.6:
+    resolution: {integrity: sha512-dKXQNUrhZTlCp8uelYW8PHiM4saNKyLmHCfsJYWK0N/kZ/Ien35wjPHB8x9yQcTJbeN/hBOmb4x16iKUrdL9MA==}
+    peerDependencies:
+      react: ^16.6.0 || 17 || 18
+      typescript: ^4.7 || 5
+    peerDependenciesMeta:
+      typescript:
         optional: true
 
   react-is@16.13.1:
@@ -2422,7 +2469,7 @@ snapshots:
     dependencies:
       color: 3.2.1
 
-  '@arco-design/web-react@2.62.0(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)':
+  '@arco-design/web-react@2.62.0(@types/react@18.0.37)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@arco-design/color': 0.4.0
       '@babel/runtime': 7.22.3
@@ -2436,7 +2483,7 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
       react-focus-lock: 2.12.1(@types/react@18.0.37)(react@18.2.0)
       react-is: 18.3.1
-      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       resize-observer-polyfill: 1.5.1
       scroll-into-view-if-needed: 2.2.20
       shallowequal: 1.1.0
@@ -2661,7 +2708,7 @@ snapshots:
       '@types/node': 20.2.5
       chalk: 4.1.2
       cosmiconfig: 8.2.0
-      cosmiconfig-typescript-loader: 4.3.0(@types/node@20.2.5)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@5.0.2)
+      cosmiconfig-typescript-loader: 4.3.0(@types/node@20.2.5)(cosmiconfig@8.2.0)(ts-node@10.9.1(@types/node@20.2.5)(typescript@5.0.2))(typescript@5.0.2)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -2758,9 +2805,10 @@ snapshots:
       '@emotion/use-insertion-effect-with-fallbacks': 1.0.1(react@18.2.0)
       '@emotion/utils': 1.2.1
       '@emotion/weak-memoize': 0.3.1
-      '@types/react': 18.0.37
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
+    optionalDependencies:
+      '@types/react': 18.0.37
 
   '@emotion/serialize@1.1.2':
     dependencies:
@@ -2772,7 +2820,7 @@ snapshots:
 
   '@emotion/sheet@1.2.2': {}
 
-  '@emotion/styled@11.11.0(@emotion/react@11.11.0)(@types/react@18.0.37)(react@18.2.0)':
+  '@emotion/styled@11.11.0(@emotion/react@11.11.0(@types/react@18.0.37)(react@18.2.0))(@types/react@18.0.37)(react@18.2.0)':
     dependencies:
       '@babel/runtime': 7.22.3
       '@emotion/babel-plugin': 11.11.0
@@ -2781,8 +2829,9 @@ snapshots:
       '@emotion/serialize': 1.1.2
       '@emotion/use-insertion-effect-with-fallbacks': 1.0.1(react@18.2.0)
       '@emotion/utils': 1.2.1
-      '@types/react': 18.0.37
       react: 18.2.0
+    optionalDependencies:
+      '@types/react': 18.0.37
 
   '@emotion/unitless@0.8.1': {}
 
@@ -2883,6 +2932,54 @@ snapshots:
 
   '@eslint/js@8.38.0': {}
 
+  '@formatjs/ecma402-abstract@1.18.2':
+    dependencies:
+      '@formatjs/intl-localematcher': 0.5.4
+      tslib: 2.5.3
+
+  '@formatjs/fast-memoize@2.2.0':
+    dependencies:
+      tslib: 2.5.3
+
+  '@formatjs/icu-messageformat-parser@2.7.6':
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      '@formatjs/icu-skeleton-parser': 1.8.0
+      tslib: 2.5.3
+
+  '@formatjs/icu-skeleton-parser@1.8.0':
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      tslib: 2.5.3
+
+  '@formatjs/intl-displaynames@6.6.6':
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      '@formatjs/intl-localematcher': 0.5.4
+      tslib: 2.5.3
+
+  '@formatjs/intl-listformat@7.5.5':
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      '@formatjs/intl-localematcher': 0.5.4
+      tslib: 2.5.3
+
+  '@formatjs/intl-localematcher@0.5.4':
+    dependencies:
+      tslib: 2.5.3
+
+  '@formatjs/intl@2.10.2(typescript@5.0.2)':
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      '@formatjs/fast-memoize': 2.2.0
+      '@formatjs/icu-messageformat-parser': 2.7.6
+      '@formatjs/intl-displaynames': 6.6.6
+      '@formatjs/intl-listformat': 7.5.5
+      intl-messageformat: 10.5.12
+      tslib: 2.5.3
+    optionalDependencies:
+      typescript: 5.0.2
+
   '@humanwhocodes/config-array@0.11.10':
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
@@ -2943,11 +3040,13 @@ snapshots:
       estree-walker: 2.0.2
       picomatch: 2.3.1
 
-  '@rollup/pluginutils@5.1.0':
+  '@rollup/pluginutils@5.1.0(rollup@3.23.1)':
     dependencies:
       '@types/estree': 1.0.1
       estree-walker: 2.0.2
       picomatch: 2.3.1
+    optionalDependencies:
+      rollup: 3.23.1
 
   '@supuwoerc/utils@1.1.7':
     dependencies:
@@ -3024,12 +3123,13 @@ snapshots:
 
   '@tanstack/query-core@4.29.11': {}
 
-  '@tanstack/react-query@4.29.12(react-dom@18.2.0)(react@18.2.0)':
+  '@tanstack/react-query@4.29.12(react-dom@18.2.0(react@18.2.0))(react@18.2.0)':
     dependencies:
       '@tanstack/query-core': 4.29.11
       react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
       use-sync-external-store: 1.2.0(react@18.2.0)
+    optionalDependencies:
+      react-dom: 18.2.0(react@18.2.0)
 
   '@tsconfig/node10@1.0.9': {}
 
@@ -3045,6 +3145,11 @@ snapshots:
       '@types/json-schema': 7.0.12
 
   '@types/estree@1.0.1': {}
+
+  '@types/hoist-non-react-statics@3.3.5':
+    dependencies:
+      '@types/react': 18.0.37
+      hoist-non-react-statics: 3.3.2
 
   '@types/json-schema@7.0.12': {}
 
@@ -3084,7 +3189,7 @@ snapshots:
 
   '@types/semver@7.5.0': {}
 
-  '@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@5.0.2)':
+  '@typescript-eslint/eslint-plugin@5.59.0(@typescript-eslint/parser@5.59.0(eslint@8.38.0)(typescript@5.0.2))(eslint@8.38.0)(typescript@5.0.2)':
     dependencies:
       '@eslint-community/regexpp': 4.5.1
       '@typescript-eslint/parser': 5.59.0(eslint@8.38.0)(typescript@5.0.2)
@@ -3098,6 +3203,7 @@ snapshots:
       natural-compare-lite: 1.4.0
       semver: 7.5.1
       tsutils: 3.21.0(typescript@5.0.2)
+    optionalDependencies:
       typescript: 5.0.2
     transitivePeerDependencies:
       - supports-color
@@ -3109,6 +3215,7 @@ snapshots:
       '@typescript-eslint/typescript-estree': 5.59.0(typescript@5.0.2)
       debug: 4.3.4
       eslint: 8.38.0
+    optionalDependencies:
       typescript: 5.0.2
     transitivePeerDependencies:
       - supports-color
@@ -3125,6 +3232,7 @@ snapshots:
       debug: 4.3.4
       eslint: 8.38.0
       tsutils: 3.21.0(typescript@5.0.2)
+    optionalDependencies:
       typescript: 5.0.2
     transitivePeerDependencies:
       - supports-color
@@ -3140,6 +3248,7 @@ snapshots:
       is-glob: 4.0.3
       semver: 7.5.1
       tsutils: 3.21.0(typescript@5.0.2)
+    optionalDependencies:
       typescript: 5.0.2
     transitivePeerDependencies:
       - supports-color
@@ -3164,7 +3273,7 @@ snapshots:
       '@typescript-eslint/types': 5.59.0
       eslint-visitor-keys: 3.4.1
 
-  '@vitejs/plugin-react@4.0.0(vite@4.3.9)':
+  '@vitejs/plugin-react@4.0.0(vite@4.3.9(@types/node@20.2.5)(terser@5.17.7))':
     dependencies:
       '@babel/core': 7.22.1
       '@babel/plugin-transform-react-jsx-self': 7.21.0(@babel/core@7.22.1)
@@ -3397,7 +3506,7 @@ snapshots:
 
   convert-source-map@1.9.0: {}
 
-  cosmiconfig-typescript-loader@4.3.0(@types/node@20.2.5)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@5.0.2):
+  cosmiconfig-typescript-loader@4.3.0(@types/node@20.2.5)(cosmiconfig@8.2.0)(ts-node@10.9.1(@types/node@20.2.5)(typescript@5.0.2))(typescript@5.0.2):
     dependencies:
       '@types/node': 20.2.5
       cosmiconfig: 8.2.0
@@ -3523,12 +3632,13 @@ snapshots:
     dependencies:
       eslint: 8.38.0
 
-  eslint-plugin-prettier@4.2.1(eslint-config-prettier@8.8.0)(eslint@8.38.0)(prettier@2.8.8):
+  eslint-plugin-prettier@4.2.1(eslint-config-prettier@8.8.0(eslint@8.38.0))(eslint@8.38.0)(prettier@2.8.8):
     dependencies:
       eslint: 8.38.0
-      eslint-config-prettier: 8.8.0(eslint@8.38.0)
       prettier: 2.8.8
       prettier-linter-helpers: 1.0.0
+    optionalDependencies:
+      eslint-config-prettier: 8.8.0(eslint@8.38.0)
 
   eslint-plugin-react-hooks@4.6.0(eslint@8.38.0):
     dependencies:
@@ -3827,6 +3937,13 @@ snapshots:
   inherits@2.0.4: {}
 
   ini@1.3.8: {}
+
+  intl-messageformat@10.5.12:
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      '@formatjs/fast-memoize': 2.2.0
+      '@formatjs/icu-messageformat-parser': 2.7.6
+      tslib: 2.5.3
 
   is-arrayish@0.2.1: {}
 
@@ -4211,13 +4328,30 @@ snapshots:
   react-focus-lock@2.12.1(@types/react@18.0.37)(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.22.3
-      '@types/react': 18.0.37
       focus-lock: 1.3.5
       prop-types: 15.8.1
       react: 18.2.0
       react-clientside-effect: 1.2.6(react@18.2.0)
       use-callback-ref: 1.3.2(@types/react@18.0.37)(react@18.2.0)
       use-sidecar: 1.1.2(@types/react@18.0.37)(react@18.2.0)
+    optionalDependencies:
+      '@types/react': 18.0.37
+
+  react-intl@6.6.6(react@18.2.0)(typescript@5.0.2):
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.18.2
+      '@formatjs/icu-messageformat-parser': 2.7.6
+      '@formatjs/intl': 2.10.2(typescript@5.0.2)
+      '@formatjs/intl-displaynames': 6.6.6
+      '@formatjs/intl-listformat': 7.5.5
+      '@types/hoist-non-react-statics': 3.3.5
+      '@types/react': 18.0.37
+      hoist-non-react-statics: 3.3.2
+      intl-messageformat: 10.5.12
+      react: 18.2.0
+      tslib: 2.5.3
+    optionalDependencies:
+      typescript: 5.0.2
 
   react-is@16.13.1: {}
 
@@ -4225,7 +4359,7 @@ snapshots:
 
   react-refresh@0.14.0: {}
 
-  react-router-dom@6.12.0(react-dom@18.2.0)(react@18.2.0):
+  react-router-dom@6.12.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@remix-run/router': 1.6.3
       react: 18.2.0
@@ -4237,7 +4371,7 @@ snapshots:
       '@remix-run/router': 1.6.3
       react: 18.2.0
 
-  react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
+  react-transition-group@4.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       '@babel/runtime': 7.22.3
       dom-helpers: 5.2.1
@@ -4269,10 +4403,11 @@ snapshots:
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
 
-  recoil@0.7.7(react-dom@18.2.0)(react@18.2.0):
+  recoil@0.7.7(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:
       hamt_plus: 1.0.2
       react: 18.2.0
+    optionalDependencies:
       react-dom: 18.2.0(react@18.2.0)
 
   redent@3.0.0:
@@ -4562,16 +4697,18 @@ snapshots:
 
   use-callback-ref@1.3.2(@types/react@18.0.37)(react@18.2.0):
     dependencies:
-      '@types/react': 18.0.37
       react: 18.2.0
       tslib: 2.5.3
+    optionalDependencies:
+      '@types/react': 18.0.37
 
   use-sidecar@1.1.2(@types/react@18.0.37)(react@18.2.0):
     dependencies:
-      '@types/react': 18.0.37
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.5.3
+    optionalDependencies:
+      '@types/react': 18.0.37
 
   use-sync-external-store@1.2.0(react@18.2.0):
     dependencies:
@@ -4586,7 +4723,7 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite-plugin-eslint@1.8.1(eslint@8.38.0)(vite@4.3.9):
+  vite-plugin-eslint@1.8.1(eslint@8.38.0)(vite@4.3.9(@types/node@20.2.5)(terser@5.17.7)):
     dependencies:
       '@rollup/pluginutils': 4.2.1
       '@types/eslint': 8.40.0
@@ -4594,9 +4731,9 @@ snapshots:
       rollup: 2.79.1
       vite: 4.3.9(@types/node@20.2.5)(terser@5.17.7)
 
-  vite-plugin-svgr@4.2.0(vite@4.3.9):
+  vite-plugin-svgr@4.2.0(rollup@3.23.1)(vite@4.3.9(@types/node@20.2.5)(terser@5.17.7)):
     dependencies:
-      '@rollup/pluginutils': 5.1.0
+      '@rollup/pluginutils': 5.1.0(rollup@3.23.1)
       '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
       vite: 4.3.9(@types/node@20.2.5)(terser@5.17.7)
@@ -4606,13 +4743,13 @@ snapshots:
 
   vite@4.3.9(@types/node@20.2.5)(terser@5.17.7):
     dependencies:
-      '@types/node': 20.2.5
       esbuild: 0.17.19
       postcss: 8.4.24
       rollup: 3.23.1
-      terser: 5.17.7
     optionalDependencies:
+      '@types/node': 20.2.5
       fsevents: 2.3.2
+      terser: 5.17.7
 
   which@2.0.2:
     dependencies:
