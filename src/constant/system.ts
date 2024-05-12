@@ -5,6 +5,4 @@ export enum SystemLocale {
     en = "en",
 }
 
-export const emailRegexp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-
 export const appEnv = getAppEnv()

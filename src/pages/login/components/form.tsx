@@ -5,7 +5,10 @@ import FormContainer from "./form-container"
 import LanguageSelect from "@/components/language-select"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
 import { useState } from "react"
-import { emailRegexp } from "@/constant/system"
+import { emailRegexp, passwordRegexp } from "@/constant/user"
+import { useMutation } from "@tanstack/react-query"
+import userService from "@/service/user"
+
 const FormItem = Form.Item
 
 interface LoginOrSignupFormProps {
@@ -29,13 +32,30 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         emailError: intl.formatMessage({
             id: "error.email",
         }),
+        passwordError: intl.formatMessage({
+            id: "error.password",
+        }),
         confirmPasswordTips: intl.formatMessage({
             id: "signup.form.repassword.tips",
+        }),
+        signupSuccess: intl.formatMessage({
+            id: "success.signup",
+        }),
+        loginSuccess: intl.formatMessage({
+            id: "success.login",
         }),
     }
     const clickToggleHandle = () => {
         setIsLogin(!isLogin)
     }
+    const submitHandle = useMutation(userService[isLogin ? "login" : "signup"], {
+        onSuccess() {
+            Message.success(isLogin ? placeholder.loginSuccess : placeholder.signupSuccess)
+        },
+        onError(error) {
+            Message.error(`${error}`)
+        },
+    })
     return (
         <FormContainer className={classNames("form", type)}>
             <LanguageSelect
@@ -57,9 +77,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                 wrapperCol={{ span: 24 }}
                 autoComplete="off"
                 onSubmit={(v) => {
-                    // eslint-disable-next-line no-console
-                    console.log(v)
-                    Message.success("success")
+                    submitHandle.mutate(v)
                 }}
             >
                 <FormItem
@@ -82,7 +100,19 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                 </FormItem>
                 <FormItem
                     field="password"
-                    rules={[{ required: true, message: placeholder.password }]}
+                    rules={[
+                        {
+                            validator(value, callback) {
+                                if (!value) {
+                                    return callback(placeholder.password)
+                                } else if (!passwordRegexp.test(value)) {
+                                    return callback(placeholder.passwordError)
+                                } else {
+                                    return callback(null)
+                                }
+                            },
+                        },
+                    ]}
                 >
                     <Input.Password placeholder={placeholder.password} prefix={<IconLock />} />
                 </FormItem>

@@ -7,6 +7,11 @@ const enUS: SystemLocaleMapping = {
     "system.language.switch": "Swict to ",
 
     "error.email": "Email format error",
+    "error.password": "Password format error",
+
+    success: "Success",
+    "success.signup": "Successful registration",
+    "success.login": "Login successful",
 
     "login.login": "Login",
     "login.signup": "Sign up",

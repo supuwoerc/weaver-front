@@ -7,6 +7,11 @@ const zhCN: SystemLocaleMapping = {
     "system.language.switch": "为您切换到",
 
     "error.email": "邮箱格式错误",
+    "error.password": "密码格式错误",
+
+    success: "成功",
+    "success.signup": "注册成功",
+    "success.login": "登录成功",
 
     "login.login": "登录",
     "login.signup": "注册",
