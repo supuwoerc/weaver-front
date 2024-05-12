@@ -1,6 +1,6 @@
-import { SystemLanguage } from "@/constant/system"
+import { SystemLocale } from "@/constant/system"
 
 export interface StorageState {
     token: string
-    language: SystemLanguage
+    language: SystemLocale
 }

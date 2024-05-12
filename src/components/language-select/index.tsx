@@ -1,4 +1,4 @@
-import { SystemLanguage } from "@/constant/system"
+import { SystemLocale } from "@/constant/system"
 import { system } from "@/store"
 import { Button, Dropdown, Menu } from "@arco-design/web-react"
 import { IconLanguage } from "@arco-design/web-react/icon"
@@ -11,18 +11,18 @@ interface LanguageSelectProps {
 const list = [
     {
         label: "中文",
-        value: SystemLanguage.cn,
+        value: SystemLocale.cn,
     },
     {
         label: "English",
-        value: SystemLanguage.en,
+        value: SystemLocale.en,
     },
 ]
 
 const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
     const [_, setLanguage] = useRecoilState(system.locale)
     const onSelectHandle = (key: string) => {
-        setLanguage(key as SystemLanguage)
+        setLanguage(key as SystemLocale)
     }
     return (
         <div style={style}>
