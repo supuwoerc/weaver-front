@@ -13,12 +13,12 @@ interface LoginProps {}
 const items = [
     {
         title: "开源的前后端代码",
-        subTitle: "代码全部开源，从零构建完整系统",
+        subTitle: "代码全部开源，从零开始构建系统",
         image: ufo,
     },
     {
         title: "主流的技术栈，集成多种解决方案",
-        subTitle: "国际化，RBAC路由，状态管理...",
+        subTitle: "国际化，RBAC权限，状态管理...",
         image: write,
     },
 
@@ -42,7 +42,12 @@ const Login: React.FC<LoginProps> = () => {
                 />
                 <Col xs={0} sm={10} className="col">
                     <div className="carousel-container">
-                        <Carousel className="carousel" animation="fade">
+                        <Carousel
+                            className="carousel"
+                            animation="fade"
+                            autoPlay
+                            autoPlaySpeed={30000}
+                        >
                             {items.map((item, index) => (
                                 <div className="item" key={index}>
                                     <p className="title">{item.title}</p>
