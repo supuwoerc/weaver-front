@@ -1,8 +1,8 @@
 import { atom } from "recoil"
-import { getAppEnv } from "@/utils"
 import { UserInfo } from "@/types/user"
 import { UserGender } from "@/constant/user"
 import { globalStorage } from "@/constant/storage"
+import { appEnv } from "@/constant/system"
 
 export const defaultUserInfo = (): UserInfo => {
     return {
@@ -22,7 +22,7 @@ export const userInfo = atom<UserInfo>({
         ({ onSet }) => {
             onSet((value) => {
                 if (!value || value.email === "") {
-                    globalStorage.remove(getAppEnv().VITE_APP_TOKEN_KEY)
+                    globalStorage.remove(appEnv.VITE_APP_TOKEN_KEY)
                 }
             })
         },

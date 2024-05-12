@@ -4,7 +4,7 @@ import { matchRoutes, useLocation } from "react-router-dom"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 import routes from "./config"
-import { getAppEnv } from "@/utils"
+import { appEnv } from "@/constant/system"
 
 interface BeforeEachProps {}
 
@@ -19,7 +19,7 @@ const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) 
         })
         const titles = validMatchs.filter(Boolean)
         const title = titles.pop()
-        return title ?? getAppEnv().VITE_APP_TITLE
+        return title ?? appEnv.VITE_APP_TITLE
     }, [location])
     useEffect(() => {
         nprogress.done()
