@@ -29,6 +29,9 @@ dependencies:
   classnames:
     specifier: ^2.5.1
     version: 2.5.1
+  cryptojs:
+    specifier: ^2.5.3
+    version: 2.5.3
   dayjs:
     specifier: ^1.11.8
     version: 1.11.8
@@ -1957,6 +1960,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /cryptojs@2.5.3:
+    resolution: {integrity: sha512-+rdPl1UCxE8s3R94NNn+zMKOiI4MJ7dyh3X0c5uBL3btDr4zQ6acd7f9mY7Wb5MrccZEi2Rrha3OEtLcc5XXog==}
+    dev: false
 
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}

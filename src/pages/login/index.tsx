@@ -45,8 +45,9 @@ const Login: React.FC<LoginProps> = () => {
                         <Carousel
                             className="carousel"
                             animation="fade"
-                            autoPlay
-                            autoPlaySpeed={30000}
+                            autoPlay={{
+                                interval: 30000,
+                            }}
                         >
                             {items.map((item, index) => (
                                 <div className="item" key={index}>

@@ -6,10 +6,21 @@ const enUS: SystemLocaleMapping = {
 
     "system.language.switch": "Swict to ",
 
+    "error.email": "Email format error",
+
     "login.login": "Login",
     "login.signup": "Sign up",
-    "login.form.title": "Account Login",
+    "login.form.title": "Login",
     "login.form.desc": "Login to Learn GIN Web",
+    "login.form.email.placeholer": "please enter email",
+    "login.form.password.placeholer": "please enter password",
+    "login.form.password.remember": "Remember",
+    "login.form.password.forget": "Forgotten password?",
+
+    "signup.form.title": "Sign up",
+    "signup.form.desc": "Register for a Learn GIN Web account",
+    "signup.form.repassword.placeholer": "Re-enter password",
+    "signup.form.repassword.tips": "Inconsistent passwords",
 
     "router.login": "Login",
     "router.serverError": "Server Error",
