@@ -2,6 +2,7 @@ import { css } from "@emotion/react"
 import { CSSProperties } from "react"
 import { useNavigate } from "react-router-dom"
 import LogoContainer from "./logo-container"
+import { appEnv } from "@/constant/system"
 
 export type ResponsiveKey = "lg" | "md" | "sm" | "xl" | "xs" | "xxl" | "xxxl"
 export interface LogoProps {
@@ -38,7 +39,7 @@ const Logo: React.FC<LogoProps> = (props) => {
             `}
         >
             <img src="/favicon.svg" alt="logo" width={30} />
-            <div>Learn GIN Web</div>
+            <div>{appEnv.VITE_APP_NAME}</div>
         </LogoContainer>
     )
 }

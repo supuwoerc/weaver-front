@@ -18,9 +18,12 @@ export const locale = atom<SystemLocale>({
                     loadLocale(value).then(({ mapping, locale }) => {
                         const intl = getIntl(locale, mapping!)
                         const label = value === SystemLocale.cn ? "中文" : "English"
-                        const msg = `${intl.formatMessage({
-                            id: "system.language.switch",
-                        })}${label}`
+                        const msg = `${intl.formatMessage(
+                            {
+                                id: "system.language.switch",
+                            },
+                            { locale: label },
+                        )}`
                         Message.info(msg)
                     })
                 }
