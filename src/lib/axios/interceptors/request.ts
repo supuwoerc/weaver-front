@@ -6,9 +6,11 @@ import { appEnv } from "@/constant/system"
 const generateRequestInterceptors = (_client: WrapAxionsInstance) => {
     return [
         (config: InternalAxiosRequestConfig) => {
-            // 请求携带token
+            // 请求携带token和locale
             const tokenKey = appEnv.VITE_APP_TOKEN_KEY
+            const localeKey = appEnv.VITE_APP_LOCALE_KEY
             config.headers[tokenKey] = globalStorage.get(tokenKey) ?? ""
+            config.headers[localeKey] = globalStorage.get(localeKey) ?? ""
             return config
         },
         (error: any) => {

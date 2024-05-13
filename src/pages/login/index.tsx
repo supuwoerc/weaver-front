@@ -39,6 +39,9 @@ const Login: React.FC<LoginProps> = () => {
                         top: 22,
                         zIndex: 2,
                     }}
+                    color={{
+                        xs: "#1d2230",
+                    }}
                 />
                 <Col xs={0} sm={10} className="col">
                     <div className="carousel-container">

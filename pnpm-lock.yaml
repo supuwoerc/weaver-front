@@ -15,11 +15,14 @@ dependencies:
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.0)(@types/react@18.0.37)(react@18.2.0)
   '@supuwoerc/utils':
-    specifier: ^1.1.7
-    version: 1.1.7
+    specifier: ^1.1.8
+    version: 1.1.8
   '@tanstack/react-query':
     specifier: ^4.29.12
     version: 4.29.12(react-dom@18.2.0)(react@18.2.0)
+  '@types/lodash-es':
+    specifier: ^4.17.12
+    version: 4.17.12
   await-to-js:
     specifier: ^3.0.0
     version: 3.0.0
@@ -38,7 +41,7 @@ dependencies:
   immer:
     specifier: ^10.0.2
     version: 10.0.2
-  lodash:
+  lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
   nprogress:
@@ -82,9 +85,6 @@ devDependencies:
   '@emotion/babel-plugin':
     specifier: ^11.11.0
     version: 11.11.0
-  '@types/lodash':
-    specifier: ^4.14.195
-    version: 4.14.195
   '@types/node':
     specifier: ^20.2.5
     version: 20.2.5
@@ -1134,8 +1134,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /@supuwoerc/utils@1.1.7:
-    resolution: {integrity: sha512-395F4c0vXZU/g0jOzCQieHq+C+9CbXFDWoyS9SDKZKynItHbfbt1MCV5R+BCWV2vxjTwOmAVxqv0vJ0x8sBgwA==}
+  /@supuwoerc/utils@1.1.8:
+    resolution: {integrity: sha512-z36nt4faMjsDzLUPD36/SJUFpINVlxRXdhtRyZVv8Jt25NiPtfS7gff3/oEiL8WEUqnoIZ5g/VW2bZoS8Q0i+g==}
     dependencies:
       throttle-debounce: 5.0.0
     dev: false
@@ -1325,9 +1325,15 @@ packages:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
     dev: true
 
-  /@types/lodash@4.14.195:
-    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
-    dev: true
+  /@types/lodash-es@4.17.12:
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+    dependencies:
+      '@types/lodash': 4.17.1
+    dev: false
+
+  /@types/lodash@4.17.1:
+    resolution: {integrity: sha512-X+2qazGS3jxLAIz5JDXDzglAF3KpijdhFxlf/V1+hEsOUc+HnWi81L/uv/EvGuV90WY+7mPGFCUDGfQC3Gj95Q==}
+    dev: false
 
   /@types/minimist@1.2.2:
     resolution: {integrity: sha1-7nceK6Sz3Fs3KTXVSf2WF780W4w=}
@@ -2859,6 +2865,10 @@ packages:
     dependencies:
       p-locate: 5.0.0
     dev: true
+
+  /lodash-es@4.17.21:
+    resolution: {integrity: sha1-Q+YmxG5lkbd1C+srUBFzkMYJ4+4=}
+    dev: false
 
   /lodash.camelcase@4.3.0:
     resolution: {integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=}

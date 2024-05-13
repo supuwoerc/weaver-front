@@ -1,13 +1,17 @@
 import { css } from "@emotion/react"
 import { CSSProperties } from "react"
 import { useNavigate } from "react-router-dom"
+import LogoContainer from "./logo-container"
 
-interface LogoProps {
+export type ResponsiveKey = "lg" | "md" | "sm" | "xl" | "xs" | "xxl" | "xxxl"
+export interface LogoProps {
     style?: CSSProperties
-    color?: string
+    color?: Partial<Record<ResponsiveKey, string>> | string
     to?: string
 }
-const Logo: React.FC<LogoProps> = ({ style, to, color = "#fff" }) => {
+
+const Logo: React.FC<LogoProps> = (props) => {
+    const { style, to, color = "#fff" } = props
     const navigate = useNavigate()
     const onClickHandle = () => {
         if (to) {
@@ -15,14 +19,14 @@ const Logo: React.FC<LogoProps> = ({ style, to, color = "#fff" }) => {
         }
     }
     return (
-        <div
-            onClick={onClickHandle}
+        <LogoContainer
             style={style}
+            onClick={onClickHandle}
+            colorSetting={color}
             css={css`
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
-                color: ${color};
                 cursor: ${to ? "pointer" : "auto"};
                 img {
                     margin-right: 8px;
@@ -35,7 +39,7 @@ const Logo: React.FC<LogoProps> = ({ style, to, color = "#fff" }) => {
         >
             <img src="/favicon.svg" alt="logo" width={30} />
             <div>Learn GIN Web</div>
-        </div>
+        </LogoContainer>
     )
 }
 export default Logo

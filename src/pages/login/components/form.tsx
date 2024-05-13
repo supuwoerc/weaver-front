@@ -105,7 +105,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                             validator(value, callback) {
                                 if (!value) {
                                     return callback(placeholder.password)
-                                } else if (!passwordRegexp.test(value)) {
+                                } else if (!isLogin && !passwordRegexp.test(value)) {
                                     return callback(placeholder.passwordError)
                                 } else {
                                     return callback(null)

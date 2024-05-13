@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useMemo } from "react"
+import { PropsWithChildren, useEffect, useMemo, useRef } from "react"
 import { useIntl } from "react-intl"
 import { matchRoutes, useLocation } from "react-router-dom"
 import nprogress from "nprogress"
@@ -9,8 +9,21 @@ import { appEnv } from "@/constant/system"
 interface BeforeEachProps {}
 
 const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) => {
-    nprogress.start()
     const location = useLocation()
+    const prevLocation = useRef({
+        pathname: "",
+        hash: "",
+        search: "",
+    })
+    const { pathname, hash, search } = prevLocation.current
+    if (location.hash != hash || location.pathname != pathname || location.search != search) {
+        prevLocation.current = {
+            pathname: location.pathname,
+            hash: location.hash,
+            search: location.search,
+        }
+        nprogress.start()
+    }
     const intl = useIntl()
     const pageTitle = useMemo(() => {
         const matchs = matchRoutes(routes, location) ?? []
@@ -24,7 +37,7 @@ const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) 
     useEffect(() => {
         nprogress.done()
         document.title = intl.formatMessage({ id: pageTitle })
-    }, [intl, pageTitle])
+    }, [intl, pageTitle, location.pathname, location.hash, location.search])
     return <>{children}</>
 }
 
