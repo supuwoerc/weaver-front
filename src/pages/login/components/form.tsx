@@ -1,10 +1,10 @@
 import { Button, Checkbox, Form, Input, Link, Message, Space } from "@arco-design/web-react"
 import classNames from "classnames"
-import { FormattedMessage, useIntl } from "react-intl"
+import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
 import LanguageSelect from "@/components/language-select"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
 import { useMutation } from "@tanstack/react-query"
 import userService from "@/service/user"
@@ -14,43 +14,63 @@ const FormItem = Form.Item
 interface LoginOrSignupFormProps {
     type: "login" | "signup"
 }
+const getIntlMapping = (intl: IntlShape) => {
+    return {
+        loginPrimaryBtn: intl.formatMessage({
+            id: "login.login.btn.login",
+        }),
+        loginTextBtn: intl.formatMessage({
+            id: "login.login.btn.signup",
+        }),
+        loginEmailPlaceholder: intl.formatMessage({
+            id: "login.login.placeholder.email",
+        }),
+        loginPasswordPlaceholder: intl.formatMessage({
+            id: "login.login.placeholder.password",
+        }),
+        loginRemember: intl.formatMessage({
+            id: "login.login.remember",
+        }),
+        loginForgetPassword: intl.formatMessage({
+            id: "login.login.forget",
+        }),
+        signupEmailPlaceholder: intl.formatMessage({
+            id: "login.signup.placeholder.email",
+        }),
+        signupPasswordPlaceholder: intl.formatMessage({
+            id: "login.signup.placeholder.password",
+        }),
+        signupConfirmPasswordPlaceholder: intl.formatMessage({
+            id: "login.signup.placeholder.confirmPassword",
+        }),
+        loginSuccess: intl.formatMessage({
+            id: "login.login.success",
+        }),
+        signupSuccess: intl.formatMessage({
+            id: "login.signup.success",
+        }),
+        emailError: intl.formatMessage({
+            id: "login.error.email",
+        }),
+        passwordError: intl.formatMessage({
+            id: "login.error.email",
+        }),
+    }
+}
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const [form] = Form.useForm()
     const [remember, setRemember] = useState(false)
     const [isLogin, setIsLogin] = useState(true)
     const intl = useIntl()
-    const placeholder = {
-        email: intl.formatMessage({
-            id: "login.form.email.placeholer",
-        }),
-        password: intl.formatMessage({
-            id: "login.form.password.placeholer",
-        }),
-        confirmPassword: intl.formatMessage({
-            id: "signup.form.repassword.placeholer",
-        }),
-        emailError: intl.formatMessage({
-            id: "error.email",
-        }),
-        passwordError: intl.formatMessage({
-            id: "error.password",
-        }),
-        confirmPasswordTips: intl.formatMessage({
-            id: "signup.form.repassword.tips",
-        }),
-        signupSuccess: intl.formatMessage({
-            id: "success.signup",
-        }),
-        loginSuccess: intl.formatMessage({
-            id: "success.login",
-        }),
-    }
+    const intlMapping = useMemo(() => {
+        return getIntlMapping(intl)
+    }, [intl])
     const clickToggleHandle = () => {
         setIsLogin(!isLogin)
     }
     const submitHandle = useMutation(userService[isLogin ? "login" : "signup"], {
         onSuccess() {
-            Message.success(isLogin ? placeholder.loginSuccess : placeholder.signupSuccess)
+            Message.success(isLogin ? intlMapping.loginSuccess : intlMapping.signupSuccess)
         },
         onError(error) {
             Message.error(`${error}`)
@@ -66,10 +86,10 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                 }}
             />
             <div className="title">
-                <FormattedMessage id={isLogin ? "login.form.title" : "signup.form.title"} />
+                <FormattedMessage id={isLogin ? "login.login.title" : "login.signup.title"} />
             </div>
             <div className="desc">
-                <FormattedMessage id={isLogin ? "login.form.desc" : "signup.form.desc"} />
+                <FormattedMessage id={isLogin ? "login.login.desc" : "login.signup.desc"} />
             </div>
             <Form
                 form={form}
@@ -86,9 +106,13 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         {
                             validator(value, callback) {
                                 if (!value) {
-                                    return callback(placeholder.email)
+                                    return callback(
+                                        isLogin
+                                            ? intlMapping.loginEmailPlaceholder
+                                            : intlMapping.signupEmailPlaceholder,
+                                    )
                                 } else if (!emailRegexp.test(value)) {
-                                    return callback(placeholder.emailError)
+                                    return callback(intlMapping.emailError)
                                 } else {
                                     return callback(null)
                                 }
@@ -96,7 +120,14 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         },
                     ]}
                 >
-                    <Input placeholder={placeholder.email} prefix={<IconUser />} />
+                    <Input
+                        placeholder={
+                            isLogin
+                                ? intlMapping.loginEmailPlaceholder
+                                : intlMapping.signupEmailPlaceholder
+                        }
+                        prefix={<IconUser />}
+                    />
                 </FormItem>
                 <FormItem
                     field="password"
@@ -104,9 +135,13 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         {
                             validator(value, callback) {
                                 if (!value) {
-                                    return callback(placeholder.password)
+                                    return callback(
+                                        isLogin
+                                            ? intlMapping.loginPasswordPlaceholder
+                                            : intlMapping.signupPasswordPlaceholder,
+                                    )
                                 } else if (!isLogin && !passwordRegexp.test(value)) {
-                                    return callback(placeholder.passwordError)
+                                    return callback(intlMapping.passwordError)
                                 } else {
                                     return callback(null)
                                 }
@@ -114,7 +149,14 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         },
                     ]}
                 >
-                    <Input.Password placeholder={placeholder.password} prefix={<IconLock />} />
+                    <Input.Password
+                        placeholder={
+                            isLogin
+                                ? intlMapping.loginPasswordPlaceholder
+                                : intlMapping.signupPasswordPlaceholder
+                        }
+                        prefix={<IconLock />}
+                    />
                 </FormItem>
                 {!isLogin && (
                     <FormItem
@@ -124,7 +166,9 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                                 required: true,
                                 validator(value, callback) {
                                     if (!value || form.getFieldValue("password") !== value) {
-                                        return callback(placeholder.confirmPasswordTips)
+                                        return callback(
+                                            intlMapping.signupConfirmPasswordPlaceholder,
+                                        )
                                     } else {
                                         return callback(null)
                                     }
@@ -133,7 +177,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         ]}
                     >
                         <Input.Password
-                            placeholder={placeholder.confirmPassword}
+                            placeholder={intlMapping.signupConfirmPasswordPlaceholder}
                             prefix={<IconLock />}
                         />
                     </FormItem>
@@ -148,16 +192,18 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                             }}
                         >
                             <Checkbox value={remember} onChange={setRemember}>
-                                <FormattedMessage id="login.form.password.remember" />
+                                <FormattedMessage id="login.login.remember" />
                             </Checkbox>
                             <Link href="/reset-password" style={{ flexShrink: 0 }}>
-                                <FormattedMessage id="login.form.password.forget" />
+                                <FormattedMessage id="login.login.forget" />
                             </Link>
                         </div>
                     )}
                     <FormItem style={{ margin: 0 }}>
                         <Button type="primary" htmlType="submit" long>
-                            <FormattedMessage id={isLogin ? "login.login" : "login.signup"} />
+                            <FormattedMessage
+                                id={isLogin ? "login.login.btn.login" : "login.login.btn.signup"}
+                            />
                         </Button>
                     </FormItem>
                     <Button
@@ -166,7 +212,9 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         onClick={clickToggleHandle}
                         style={{ color: "#88909c" }}
                     >
-                        <FormattedMessage id={isLogin ? "login.signup" : "login.login"} />
+                        <FormattedMessage
+                            id={isLogin ? "login.login.btn.signup" : "login.login.btn.login"}
+                        />
                     </Button>
                 </Space>
             </Form>
