@@ -19,7 +19,7 @@ const routes: CustomRouteObject[] = [
         children: [
             {
                 path: "*",
-                meta: { title: "404", auth: false },
+                meta: { title: "router.notFound", auth: false },
                 element: lazyLoad(NotFound),
             },
         ],

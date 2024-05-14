@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Link, Space } from "@arco-design/web-react"
+import { Button, Form, Input, Link, Space } from "@arco-design/web-react"
 import classNames from "classnames"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
@@ -9,6 +9,7 @@ import { emailRegexp, passwordRegexp } from "@/constant/user"
 import { useLocation } from "react-router-dom"
 import useUser from "@/hooks/useUser"
 import { LoginRequest, SignupRequest } from "@/service/user"
+import md5 from "md5"
 
 const FormItem = Form.Item
 
@@ -28,9 +29,6 @@ const getIntlMapping = (intl: IntlShape) => {
         }),
         loginPasswordPlaceholder: intl.formatMessage({
             id: "login.login.placeholder.password",
-        }),
-        loginRemember: intl.formatMessage({
-            id: "login.login.remember",
         }),
         loginForgetPassword: intl.formatMessage({
             id: "login.login.forget",
@@ -55,24 +53,21 @@ const getIntlMapping = (intl: IntlShape) => {
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const [form] = Form.useForm<LoginRequest | SignupRequest>()
     const localtion = useLocation()
-    const [remember, setRemember] = useState(false)
     const [isLogin, setIsLogin] = useState(localtion.pathname == "/login")
     const intl = useIntl()
     const intlMapping = useMemo(() => {
         return getIntlMapping(intl)
     }, [intl])
-    const { login, signup } = useUser(intlMapping)
+    const { login, signup } = useUser(intlMapping, null, () => {
+        setIsLogin(true)
+    })
     const clickToggleHandle = () => {
         form.clearFields()
         setIsLogin(!isLogin)
     }
     const submitHandle = (v: LoginRequest | SignupRequest) => {
-        if (isLogin) {
-            login(v)
-        } else {
-            signup(v)
-            setIsLogin(true)
-        }
+        v.password = md5(v.password)
+        isLogin ? login(v) : signup(v)
     }
     return (
         <FormContainer className={classNames("form", type)}>
@@ -187,9 +182,6 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                                 alignItems: "center",
                             }}
                         >
-                            <Checkbox value={remember} onChange={setRemember}>
-                                <FormattedMessage id="login.login.remember" />
-                            </Checkbox>
                             <Link href="/reset-password" style={{ flexShrink: 0 }}>
                                 <FormattedMessage id="login.login.forget" />
                             </Link>

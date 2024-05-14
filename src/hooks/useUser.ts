@@ -1,16 +1,15 @@
-import userService, { LoginRequest, SignupRequest } from "@/service/user"
+import userService, { LoginRequest, LoginResponse, SignupRequest } from "@/service/user"
 import { user } from "@/store"
 import { Message } from "@arco-design/web-react"
 import { useMutation } from "@tanstack/react-query"
 import { useIntl } from "react-intl"
-import { useNavigate } from "react-router-dom"
 import { useResetRecoilState, useSetRecoilState } from "recoil"
 export default function useUser(
     intlMapping: Record<string, string> = {},
-    loginRedirect: string | null = "/",
-    logoutRedirect = "/",
+    loginSuccess: ((data: LoginResponse) => void) | null = null,
+    signupSuccess: (() => void) | null = null,
+    logoutSuccess: (() => void) | null = null,
 ) {
-    const navigate = useNavigate()
     const intl = useIntl()
     const setUserInfo = useSetRecoilState(user.userInfo)
     const setToken = useSetRecoilState(user.token)
@@ -31,8 +30,8 @@ export default function useUser(
             setUserInfo(user)
             setToken(token)
             setRefreshToken(refresh_token)
-            if (loginRedirect) {
-                navigate("/")
+            if (loginSuccess) {
+                loginSuccess(data)
             }
         },
         onError(error) {
@@ -41,11 +40,13 @@ export default function useUser(
     })
     const signupHandle = useMutation(userService.signup, {
         onSuccess() {
-            Message.success(intlMapping.signupSuccess)
             const msg = `${intl.formatMessage({
                 id: "login.signup.success",
             })}`
             Message.success(msg)
+            if (signupSuccess) {
+                signupSuccess()
+            }
         },
         onError(error) {
             Message.error(`${error}`)
@@ -56,7 +57,9 @@ export default function useUser(
         resetUserInfo()
         resetToken()
         resetRefreshToken()
-        navigate(logoutRedirect)
+        if (logoutSuccess) {
+            logoutSuccess()
+        }
     }
     const login = (params: LoginRequest) => loginHandle.mutate(params)
     const signup = (params: SignupRequest) => signupHandle.mutate(params)

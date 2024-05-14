@@ -9,7 +9,6 @@ const enUS: SystemLocaleMapping = {
     "login.login.desc": "Login to Learn GIN Web",
     "login.login.placeholder.email": "please enter email",
     "login.login.placeholder.password": "please enter password",
-    "login.login.remember": "Remember",
     "login.login.forget": "Forgotten password?",
 
     "login.signup.title": "Sign up",

@@ -21,7 +21,7 @@ const generateResponseInterceptors = (client: WrapAxionsInstance) => {
             const tokenKey = appEnv.VITE_APP_TOKEN_KEY
             const refreshTokenKey = appEnv.VITE_APP_REFRESH_TOKEN_KEY
             const { code } = response.data
-            if (status >= 200) {
+            if (status >= 500) {
                 const { headers } = config
                 const locale = (headers.get("Locale") || SystemLocale.en) as SystemLocale
                 globalRouter.navigate?.("/500")

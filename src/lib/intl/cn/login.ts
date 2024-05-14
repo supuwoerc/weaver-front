@@ -9,8 +9,7 @@ const zhCN: SystemLocaleMapping = {
     "login.login.desc": "登录到 Learn GIN Web",
     "login.login.placeholder.email": "请输入登录邮箱",
     "login.login.placeholder.password": "请输入登录密码",
-    "login.login.remember": "记住密码",
-    "login.login.forget": "忘记密码",
+    "login.login.forget": "忘记密码？",
 
     "login.signup.title": "注册",
     "login.signup.desc": "注册Learn GIN Web帐号",
