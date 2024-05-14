@@ -34,6 +34,20 @@ const basicRoutes: CustomRouteObject[] = [
                 ],
             },
             {
+                path: "signup",
+                meta: {
+                    title: "router.signup",
+                    auth: false,
+                },
+                element: <FullscreenLayout />,
+                children: [
+                    {
+                        path: "",
+                        element: <Login />,
+                    },
+                ],
+            },
+            {
                 path: "500",
                 meta: {
                     title: "router.serverError",

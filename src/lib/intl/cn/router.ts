@@ -6,6 +6,7 @@ const zhCN: SystemLocaleMapping = {
     "router.serverError": "服务器错误",
     "router.user": "账户",
     "router.user.profile": "账户信息",
+    "router.signup": "注册",
 }
 
 export default zhCN

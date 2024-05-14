@@ -8,6 +8,7 @@ import { useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
 import { useMutation } from "@tanstack/react-query"
 import userService from "@/service/user"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const FormItem = Form.Item
 
@@ -59,18 +60,26 @@ const getIntlMapping = (intl: IntlShape) => {
 }
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const [form] = Form.useForm()
+    const localtion = useLocation()
     const [remember, setRemember] = useState(false)
-    const [isLogin, setIsLogin] = useState(true)
+    const [isLogin, setIsLogin] = useState(localtion.pathname == "/login")
+    const navigate = useNavigate()
     const intl = useIntl()
     const intlMapping = useMemo(() => {
         return getIntlMapping(intl)
     }, [intl])
     const clickToggleHandle = () => {
+        form.clearFields()
         setIsLogin(!isLogin)
     }
     const submitHandle = useMutation(userService[isLogin ? "login" : "signup"], {
         onSuccess() {
             Message.success(isLogin ? intlMapping.loginSuccess : intlMapping.signupSuccess)
+            if (isLogin) {
+                navigate("/")
+            } else {
+                setIsLogin(true)
+            }
         },
         onError(error) {
             Message.error(`${error}`)

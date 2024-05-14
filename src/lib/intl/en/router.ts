@@ -6,6 +6,7 @@ const enUS: SystemLocaleMapping = {
     "router.serverError": "Server Error",
     "router.user": "Account",
     "router.user.profile": "Profile",
+    "router.signup": "Sign up",
 }
 
 export default enUS

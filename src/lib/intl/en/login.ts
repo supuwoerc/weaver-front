@@ -18,8 +18,8 @@ const enUS: SystemLocaleMapping = {
     "login.signup.placeholder.password": "please enter password",
     "login.signup.placeholder.confirmPassword": "re-enter password",
 
-    "login.login.success": "Login success，welcome {name}",
-    "login.signup.success": "Registration Successful",
+    "login.login.success": "Login success,welcome {name}",
+    "login.signup.success": "Registration is successful,you can log in now～",
 
     "login.error.email": "Email format error",
     "login.error.password": "Password format error",

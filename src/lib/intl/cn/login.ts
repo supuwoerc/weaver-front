@@ -19,7 +19,7 @@ const zhCN: SystemLocaleMapping = {
     "login.signup.placeholder.confirmPassword": "请再次输入密码",
 
     "login.login.success": "登录成功，欢迎{name}",
-    "login.signup.success": "注册成功",
+    "login.signup.success": "注册成功，现在可以登录了～",
 
     "login.error.email": "邮箱格式错误",
     "login.error.password": "密码格式错误",
