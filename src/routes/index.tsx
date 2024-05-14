@@ -1,5 +1,5 @@
 import BeforeEach from "./before-each"
-import CheckPermission from "./check-permission"
+import CheckPermission from "./check-login"
 import RouteView from "./route-view"
 
 const AppRoutes = () => {

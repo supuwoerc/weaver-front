@@ -1,10 +1,11 @@
 import { UserGender } from "@/constant/user"
 
 interface UserInfo {
-    roles: Array<number>
-    email: string
+    id: string
     nickname: string
     gender: UserGender
-    about: string
+    email: string
     birthday: string
+    about: string
+    roles: Array<number>
 }

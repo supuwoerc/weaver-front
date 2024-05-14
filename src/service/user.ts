@@ -1,10 +1,22 @@
 import defaultClient from "@/constant/axios"
+import { UserInfo } from "@/types/user"
 
-// 注册 TODO:补充参数类型
-const signup = (params: any) => defaultClient.post<boolean>("/public/user/signup", params)
+export interface LoginRequest {
+    email: string
+    password: string
+}
 
-// 登录 TODO:补充参数类型
-const login = (params: any) => defaultClient.post<boolean>("/public/user/login", params)
+export interface SignupRequest extends LoginRequest {}
+export interface LoginResponse {
+    refresh_token: string
+    token: string
+    user: UserInfo
+}
+
+const signup = (params: SignupRequest) => defaultClient.post<null>("/public/user/signup", params)
+
+const login = (params: LoginRequest) =>
+    defaultClient.post<LoginResponse>("/public/user/login", params)
 
 export default {
     signup,

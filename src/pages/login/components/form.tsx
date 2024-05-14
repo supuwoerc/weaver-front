@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Link, Message, Space } from "@arco-design/web-react"
+import { Button, Checkbox, Form, Input, Link, Space } from "@arco-design/web-react"
 import classNames from "classnames"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
@@ -6,9 +6,9 @@ import LanguageSelect from "@/components/language-select"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
 import { useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
-import { useMutation } from "@tanstack/react-query"
-import userService from "@/service/user"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import useUser from "@/hooks/useUser"
+import { LoginRequest, SignupRequest } from "@/service/user"
 
 const FormItem = Form.Item
 
@@ -44,12 +44,6 @@ const getIntlMapping = (intl: IntlShape) => {
         signupConfirmPasswordPlaceholder: intl.formatMessage({
             id: "login.signup.placeholder.confirmPassword",
         }),
-        loginSuccess: intl.formatMessage({
-            id: "login.login.success",
-        }),
-        signupSuccess: intl.formatMessage({
-            id: "login.signup.success",
-        }),
         emailError: intl.formatMessage({
             id: "login.error.email",
         }),
@@ -59,32 +53,27 @@ const getIntlMapping = (intl: IntlShape) => {
     }
 }
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
-    const [form] = Form.useForm()
+    const [form] = Form.useForm<LoginRequest | SignupRequest>()
     const localtion = useLocation()
     const [remember, setRemember] = useState(false)
     const [isLogin, setIsLogin] = useState(localtion.pathname == "/login")
-    const navigate = useNavigate()
     const intl = useIntl()
     const intlMapping = useMemo(() => {
         return getIntlMapping(intl)
     }, [intl])
+    const { login, signup } = useUser(intlMapping)
     const clickToggleHandle = () => {
         form.clearFields()
         setIsLogin(!isLogin)
     }
-    const submitHandle = useMutation(userService[isLogin ? "login" : "signup"], {
-        onSuccess() {
-            Message.success(isLogin ? intlMapping.loginSuccess : intlMapping.signupSuccess)
-            if (isLogin) {
-                navigate("/")
-            } else {
-                setIsLogin(true)
-            }
-        },
-        onError(error) {
-            Message.error(`${error}`)
-        },
-    })
+    const submitHandle = (v: LoginRequest | SignupRequest) => {
+        if (isLogin) {
+            login(v)
+        } else {
+            signup(v)
+            setIsLogin(true)
+        }
+    }
     return (
         <FormContainer className={classNames("form", type)}>
             <LanguageSelect
@@ -105,9 +94,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                 style={{ width: 320 }}
                 wrapperCol={{ span: 24 }}
                 autoComplete="off"
-                onSubmit={(v) => {
-                    submitHandle.mutate(v)
-                }}
+                onSubmit={submitHandle}
             >
                 <FormItem
                     field="email"

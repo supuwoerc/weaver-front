@@ -1,5 +1,5 @@
 import { lazy } from "react"
-import { cloneDeep } from "lodash"
+import { cloneDeep } from "lodash-es"
 import { selector } from "recoil"
 import { user } from "../index"
 import { lazyLoad } from "@/routes/lazyload"
