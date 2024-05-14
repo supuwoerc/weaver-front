@@ -40,7 +40,7 @@ const Login: React.FC<LoginProps> = () => {
                         zIndex: 2,
                     }}
                     color={{
-                        xs: "#1d2230",
+                        xs: "var(--color-text-1)",
                     }}
                 />
                 <Col xs={0} sm={10} className="col">

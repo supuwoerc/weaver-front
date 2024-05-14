@@ -12,7 +12,7 @@ export interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = (props) => {
-    const { style, to, color = "#fff" } = props
+    const { style, to, color = "var(--color-bg-1)" } = props
     const navigate = useNavigate()
     const onClickHandle = () => {
         if (to) {
