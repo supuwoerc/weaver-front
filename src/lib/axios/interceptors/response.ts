@@ -1,7 +1,7 @@
 import { globalStorage } from "@/constant/storage"
 import { AxiosResponse } from "axios"
 import { WrapAxionsInstance } from ".."
-import { appEnv } from "@/constant/system"
+import { ServerErrorMessage, SystemLocale, appEnv, globalRouter } from "@/constant/system"
 
 let isRefreshing = false
 let requests: Array<(token: string) => void> = []
@@ -17,11 +17,16 @@ const refreshTokenService = () => {
 const generateResponseInterceptors = (client: WrapAxionsInstance) => {
     return [
         (response: AxiosResponse) => {
-            const { config } = response
+            const { config, status } = response
             const tokenKey = appEnv.VITE_APP_TOKEN_KEY
             const refreshTokenKey = appEnv.VITE_APP_REFRESH_TOKEN_KEY
             const { code } = response.data
-            if (code == 10003) {
+            if (status >= 200) {
+                const { headers } = config
+                const locale = (headers.get("Locale") || SystemLocale.en) as SystemLocale
+                globalRouter.navigate?.("/500")
+                return Promise.reject(ServerErrorMessage[locale])
+            } else if (code == 10003) {
                 // token错误，尝试刷新token
                 const refreshToken = globalStorage.get(refreshTokenKey)
                 if (refreshToken) {

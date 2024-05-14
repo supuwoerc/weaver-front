@@ -8,11 +8,7 @@ import { system } from "@/store"
 import { useQueryClient } from "@tanstack/react-query"
 import { getIntl } from "@/utils"
 
-interface UnderlayProps {
-    // arcoLocale: Locale
-    // locale: string
-    // messages: SystemLocaleMapping
-}
+interface UnderlayProps {}
 
 const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
     const qc = useQueryClient()
@@ -25,12 +21,12 @@ const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
             return loadLocale(locale)
         }).then(setIntlSetting)
     }, [qc, locale])
-
     const isLoaded = intlSetting.arcoLocale && intlSetting.locale && intlSetting.mapping
     if (!isLoaded) {
         return null
     }
     const intlInstance = getIntl(intlSetting.locale!, intlSetting.mapping!)
+
     return (
         <ConfigProvider locale={intlSetting.arcoLocale}>
             <Intl locale={intlInstance.locale} messages={intlInstance.messages}>
