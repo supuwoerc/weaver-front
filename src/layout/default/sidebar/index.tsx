@@ -17,18 +17,18 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const onClickMenuItemHandle = (key: string) => {
         navigate(key)
     }
-    const defaultSelectedKeys = useMemo(() => {
-        const keys = routePath.map((item) => item.path ?? "").filter(Boolean)
+    const selectedKeys = useMemo(() => {
+        const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys
     }, [routePath])
-    const defaultOpenKeys = defaultSelectedKeys.slice(0, -1)
+    const openKeys = selectedKeys.slice(0, -1)
     return (
         <SidebarContainer>
             <Menu
                 style={{ width: 200, height: "100%" }}
                 hasCollapseButton
-                defaultOpenKeys={defaultOpenKeys}
-                defaultSelectedKeys={defaultSelectedKeys}
+                openKeys={openKeys}
+                selectedKeys={selectedKeys}
                 onClickMenuItem={onClickMenuItemHandle}
             >
                 {menuRoutes.map((item) => {

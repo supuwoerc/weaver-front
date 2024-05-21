@@ -9,7 +9,6 @@ import Sidebar from "./sidebar"
 import BreadcrumbMenu from "./breadcrumb-menu"
 import { useRecoilValue } from "recoil"
 import { routes } from "@/store"
-import useCurrentRoute from "@/hooks/useCurrentRoute"
 import { getParents } from "@supuwoerc/utils"
 
 interface DefaultLayoutProps {}
@@ -19,10 +18,9 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const nodeRef = useRef(null)
     const currentOutlet = useOutlet()
     const menuRoutes = useRecoilValue(routes.menuRoutes)
-    const currentRoute = useCurrentRoute(menuRoutes)
     const routePath = useMemo(() => {
-        return getParents(menuRoutes, currentRoute?.route.path, "path")
-    }, [menuRoutes, currentRoute])
+        return getParents(menuRoutes, location.pathname, "path")
+    }, [location.pathname, menuRoutes])
 
     return (
         <Layout
