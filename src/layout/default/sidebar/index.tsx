@@ -2,7 +2,7 @@ import { Menu } from "@arco-design/web-react"
 import { IconApps } from "@arco-design/web-react/icon"
 import SidebarContainer from "./sidebar-container"
 import { FormattedMessage } from "react-intl"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
 const MenuItem = Menu.Item
@@ -14,14 +14,17 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
-    const onClickMenuItemHandle = (key: string) => {
-        navigate(key)
-    }
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys
     }, [routePath])
-    const openKeys = selectedKeys.slice(0, -1)
+    const [openKeys, setOpenKeys] = useState<Array<string>>(selectedKeys.slice(0, -1))
+    const onClickMenuItemHandle = (key: string) => {
+        navigate(key)
+    }
+    const onClickSubMenuHandle = (_key: string, openKeys: string[]) => {
+        setOpenKeys(openKeys)
+    }
     return (
         <SidebarContainer>
             <Menu
@@ -30,6 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                 openKeys={openKeys}
                 selectedKeys={selectedKeys}
                 onClickMenuItem={onClickMenuItemHandle}
+                onClickSubMenu={onClickSubMenuHandle}
             >
                 {menuRoutes.map((item) => {
                     return (
@@ -46,7 +50,9 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                                 item.children.map((sub) => {
                                     return (
                                         <MenuItem key={sub.path!}>
-                                            <FormattedMessage id={sub.meta?.title} />
+                                            {sub.meta?.title ? (
+                                                <FormattedMessage id={sub.meta?.title} />
+                                            ) : null}
                                         </MenuItem>
                                     )
                                 })}
