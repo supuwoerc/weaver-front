@@ -29,6 +29,9 @@ const BreadcrumbMenu: React.FC<BreadcrumbProps> = ({ routePath }) => {
         <Breadcrumb
             css={css`
                 margin: 14px 0;
+                .arco-breadcrumb-item:first-of-type {
+                    padding-left: 0;
+                }
             `}
             separator={<IconRight />}
             routes={routes}

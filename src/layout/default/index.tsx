@@ -40,7 +40,17 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                 <Layout.Sider style={{ width: "auto" }}>
                     <Sidebar menuRoutes={menuRoutes} routePath={routePath} />
                 </Layout.Sider>
-                <Layout.Content style={{ height: "100%", background: "var(--color-fill-2)" }}>
+                <Layout.Content
+                    css={css`
+                        height: 100%;
+                        background: var(--color-fill-2);
+                        padding: 0 14px;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                    `}
+                >
+                    <BreadcrumbMenu routePath={routePath} />
                     <SwitchTransition mode="out-in">
                         <CSSTransition
                             key={location.pathname}
@@ -55,23 +65,20 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                                 <div
                                     ref={nodeRef}
                                     style={{
-                                        height: "100%",
+                                        flex: 1,
                                         background: "var(--color-fill-2)",
-                                        padding: "0 14px",
                                         boxSizing: "border-box",
                                     }}
                                     className="fade-slide"
-                                    css={css`
-                                        display: flex;
-                                        flex-direction: column;
-                                        .page {
-                                            flex: 1;
-                                            overflow-y: auto;
-                                        }
-                                    `}
                                 >
-                                    <BreadcrumbMenu routePath={routePath} />
-                                    <div className="page">{currentOutlet}</div>
+                                    <div
+                                        css={css`
+                                            height: 100%;
+                                            overflow-y: auto;
+                                        `}
+                                    >
+                                        {currentOutlet}
+                                    </div>
                                 </div>
                             )}
                         </CSSTransition>
