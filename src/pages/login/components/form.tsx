@@ -46,7 +46,7 @@ const getIntlMapping = (intl: IntlShape) => {
             id: "login.error.email",
         }),
         passwordError: intl.formatMessage({
-            id: "login.error.email",
+            id: "login.error.password",
         }),
     }
 }

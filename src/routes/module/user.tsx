@@ -16,7 +16,6 @@ const userRoutes: CustomRouteObject[] = [
             auth: false,
             icon: <IconUser />,
         },
-        id: "root",
         children: [
             {
                 path: "profile",

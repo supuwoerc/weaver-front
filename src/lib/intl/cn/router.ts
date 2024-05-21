@@ -8,6 +8,9 @@ const zhCN: SystemLocaleMapping = {
     "router.user.profile": "账户信息",
     "router.signup": "注册",
     "router.notFound": "不存在的资源",
+    "router.dashboard": "仪表盘",
+    "router.dashboard.workplace": "工作台",
+    "router.dashboard.todo": "待办",
 }
 
 export default zhCN

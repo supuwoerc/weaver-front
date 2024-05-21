@@ -8,6 +8,9 @@ const enUS: SystemLocaleMapping = {
     "router.user.profile": "Profile",
     "router.signup": "Sign up",
     "router.notFound": "Not found",
+    "router.dashboard": "Dashboard",
+    "router.dashboard.workplace": "Workplace",
+    "router.dashboard.todo": "Todo",
 }
 
 export default enUS

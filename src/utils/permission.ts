@@ -7,18 +7,27 @@ import { UserInfo } from "@/types/user"
  * @param routes 完整树状路由
  * @returns 有权限的路由tree
  */
-export function getMenuRoutes(user: UserInfo, routes: CustomRouteObject[]): CustomRouteObject[] {
+export function getMenuRoutes(
+    user: UserInfo,
+    routes: CustomRouteObject[],
+    path = "",
+): Array<CustomRouteObject> {
     const { roles: userRoles = [] } = user
     return routes.filter((route) => {
+        if (route.path && !route.path.includes("/")) {
+            route.path = path + "/" + route.path
+        }
         const isNotNeedAuth = !route.meta?.auth || (route.meta.roles ?? []).length === 0
         const routeNeedRoles = route.meta?.roles ?? []
         const roleIsExist = routeNeedRoles.some((item) => userRoles.includes(item))
-        const childFilterResult = getMenuRoutes(user, route.children ?? [])
+        const childFilterResult = getMenuRoutes(user, route.children ?? [], route.path)
         const existPermission = isNotNeedAuth || roleIsExist || childFilterResult.length > 0
-        if (existPermission) {
+        if (existPermission && childFilterResult.length > 0) {
             route.children = childFilterResult
+        } else {
+            delete route.children
         }
-        return existPermission
+        return existPermission && !route.meta?.hidden && route.path !== ""
     })
 }
 
