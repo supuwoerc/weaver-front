@@ -5,6 +5,8 @@ import { FormattedMessage } from "react-intl"
 import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
+import { useRecoilState } from "recoil"
+import { system } from "@/store"
 const MenuItem = Menu.Item
 const SubMenu = Menu.SubMenu
 
@@ -14,6 +16,7 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
+    const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(system.sidebarCollapsed)
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys
@@ -34,6 +37,8 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                 selectedKeys={selectedKeys}
                 onClickMenuItem={onClickMenuItemHandle}
                 onClickSubMenu={onClickSubMenuHandle}
+                collapse={sidebarCollapsed}
+                onCollapseChange={setSidebarCollapsed}
             >
                 {menuRoutes.map((item) => {
                     return (

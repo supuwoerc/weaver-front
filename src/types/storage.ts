@@ -4,4 +4,5 @@ export interface StorageState {
     token: string
     refreshToken: string
     language: SystemLocale
+    collapse: string
 }

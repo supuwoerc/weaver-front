@@ -31,3 +31,17 @@ export const locale = atom<SystemLocale>({
         },
     ],
 })
+
+const currentSidebarCollapsed = globalStorage.get(appEnv.VITE_APP_COLLAPSE_KEY) || false
+
+export const sidebarCollapsed = atom<boolean>({
+    key: "sidebarCollapsed",
+    default: currentSidebarCollapsed,
+    effects: [
+        ({ onSet }) => {
+            onSet((value) => {
+                globalStorage.set(appEnv.VITE_APP_COLLAPSE_KEY, value)
+            })
+        },
+    ],
+})

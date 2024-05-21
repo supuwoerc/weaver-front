@@ -7,6 +7,7 @@ interface ImportMetaEnv {
     readonly VITE_APP_TOKEN_KEY: StorageState["token"]
     readonly VITE_APP_REFRESH_TOKEN_KEY: StorageState["refreshToken"]
     readonly VITE_APP_LOCALE_KEY: StorageState["language"]
+    readonly VITE_APP_COLLAPSE_KEY: StorageState["collapse"]
     readonly VITE_APP_DEFAULT_SERVER: string
 }
 
