@@ -1,4 +1,4 @@
-import { Spin } from "@arco-design/web-react"
+import { Skeleton, Spin } from "@arco-design/web-react"
 import { css } from "@emotion/react"
 import { useEffect, useState } from "react"
 
@@ -21,14 +21,20 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen }) => {
                 width: ${fullscreen ? "100vw" : "100%"};
                 height: ${fullscreen ? "100vh" : "100%"};
                 position: relative;
-                .ant-spin {
+                .arco-spin {
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
                 }
             `}
         >
-            <Spin dot />
+            <Spin size={40} />
+            <Skeleton
+                animation
+                text={{
+                    rows: 12,
+                }}
+            />
         </div>
     )
 }
