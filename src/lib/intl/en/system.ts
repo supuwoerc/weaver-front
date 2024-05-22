@@ -5,6 +5,8 @@ import { SystemLocaleMapping } from ".."
 const enUS: SystemLocaleMapping = {
     [appEnv.VITE_APP_TITLE]: appEnv.VITE_APP_TITLE,
     "system.language.switch": "Swict to {locale}",
+    "system.logout": "Log out",
+    "system.setting": "System Setting",
 }
 
 export default enUS

@@ -2,13 +2,15 @@ import { Menu } from "@arco-design/web-react"
 import { IconApps } from "@arco-design/web-react/icon"
 import SidebarContainer from "./sidebar-container"
 import { FormattedMessage } from "react-intl"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
 import { useRecoilState } from "recoil"
+import { useWindowSize } from "react-use"
 import { system } from "@/store"
 const MenuItem = Menu.Item
 const SubMenu = Menu.SubMenu
+const HIDE_SIDEBAR_BREAKPOINT = 1024
 
 interface SidebarProps {
     routePath: CustomRouteObject[]
@@ -16,7 +18,9 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
+    const { width } = useWindowSize()
     const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(system.sidebarCollapsed)
+    const [latestTrigger, setLatestTrigger] = useRecoilState(system.collapsedLatestTrigger)
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys
@@ -28,6 +32,12 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const onClickSubMenuHandle = (_key: string, openKeys: string[]) => {
         setOpenKeys(openKeys)
     }
+    useEffect(() => {
+        if (latestTrigger !== "user" && width < HIDE_SIDEBAR_BREAKPOINT) {
+            setSidebarCollapsed(true)
+            setLatestTrigger("breakpoint")
+        }
+    }, [width, latestTrigger, setSidebarCollapsed, setLatestTrigger])
     return (
         <SidebarContainer>
             <Menu
@@ -38,7 +48,10 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                 onClickMenuItem={onClickMenuItemHandle}
                 onClickSubMenu={onClickSubMenuHandle}
                 collapse={sidebarCollapsed}
-                onCollapseChange={setSidebarCollapsed}
+                onCollapseChange={(val) => {
+                    setLatestTrigger("user")
+                    setSidebarCollapsed(val)
+                }}
             >
                 {menuRoutes.map((item) => {
                     return (

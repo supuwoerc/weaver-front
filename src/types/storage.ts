@@ -5,4 +5,5 @@ export interface StorageState {
     refreshToken: string
     language: SystemLocale
     collapse: string
+    theme: string
 }

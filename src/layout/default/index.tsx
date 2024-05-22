@@ -12,7 +12,6 @@ import { routes } from "@/store"
 import { getParents } from "@supuwoerc/utils"
 
 interface DefaultLayoutProps {}
-
 const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const location = useLocation()
     const nodeRef = useRef(null)
@@ -34,7 +33,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
             </Layout.Header>
             <Layout
                 css={css`
-                    height: 100%;
+                    height: calc(100% - 62px);
                 `}
             >
                 <Layout.Sider style={{ width: "auto" }}>
@@ -42,7 +41,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                 </Layout.Sider>
                 <Layout.Content
                     css={css`
-                        height: 100%;
+                        flex: 1;
                         background: var(--color-fill-2);
                         padding: 0 14px;
                         box-sizing: border-box;
@@ -66,7 +65,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                                     ref={nodeRef}
                                     style={{
                                         flex: 1,
-                                        background: "var(--color-fill-2)",
                                         boxSizing: "border-box",
                                     }}
                                     className="fade-slide"
@@ -74,7 +72,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                                     <div
                                         css={css`
                                             height: 100%;
-                                            overflow-y: auto;
                                         `}
                                     >
                                         {currentOutlet}

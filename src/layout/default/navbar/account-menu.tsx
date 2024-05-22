@@ -1,13 +1,31 @@
-import { Dropdown, Menu } from "@arco-design/web-react"
+import { Divider, Dropdown, Menu, Space } from "@arco-design/web-react"
+import { IconSettings, IconUser, IconPoweroff } from "@arco-design/web-react/icon"
 import { css } from "@emotion/react"
+import { FormattedMessage } from "react-intl"
 
 interface AccountMenuProps {}
 const AccountMenu: React.FC<AccountMenuProps> = () => {
     const dropList = (
         <Menu>
-            <Menu.Item key="1">Beijing</Menu.Item>
-            <Menu.Item key="2">Shanghai</Menu.Item>
-            <Menu.Item key="3">Guangzhou</Menu.Item>
+            <Menu.Item key="profiel">
+                <Space>
+                    <IconUser />
+                    <FormattedMessage id="router.user.profile" />
+                </Space>
+            </Menu.Item>
+            <Menu.Item key="setting">
+                <Space>
+                    <IconSettings />
+                    <FormattedMessage id="system.setting" />
+                </Space>
+            </Menu.Item>
+            <Divider style={{ margin: "2px 0" }} />
+            <Menu.Item key="logout">
+                <Space>
+                    <IconPoweroff />
+                    <FormattedMessage id="system.logout" />
+                </Space>
+            </Menu.Item>
         </Menu>
     )
     return (
@@ -20,8 +38,10 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
                     width: 32px;
                     height: 32px;
                     border-radius: 50%;
-                    box-shadow: 0 0 0 1px var(--color-border-1);
                     cursor: pointer;
+                    background-color: var(--color-secondary);
+                    padding: 4px;
+                    box-sizing: border-box;
                 `}
             />
         </Dropdown>

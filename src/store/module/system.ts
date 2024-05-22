@@ -45,3 +45,22 @@ export const sidebarCollapsed = atom<boolean>({
         },
     ],
 })
+
+export const collapsedLatestTrigger = atom<"user" | "breakpoint" | null>({
+    key: "collapsedLatestTrigger",
+    default: null,
+})
+
+const currentTheme = globalStorage.get(appEnv.VITE_APP_THEME_KEY) || "dark"
+
+export const theme = atom<"dark" | "light">({
+    key: "theme",
+    default: currentTheme,
+    effects: [
+        ({ onSet }) => {
+            onSet((value) => {
+                globalStorage.set(appEnv.VITE_APP_THEME_KEY, value)
+            })
+        },
+    ],
+})
