@@ -1,6 +1,6 @@
 import { system } from "@/store"
 import { Button } from "@arco-design/web-react"
-import { IconMoon, IconSun } from "@arco-design/web-react/icon"
+import { IconMoonFill, IconSunFill } from "@arco-design/web-react/icon"
 import { CSSProperties, useEffect } from "react"
 import { useRecoilState } from "recoil"
 
@@ -24,7 +24,7 @@ const ThemeSelect: React.FC<ThemeSelectProps> = ({ style }) => {
     return (
         <div style={style}>
             <Button type="secondary" shape="circle" onClick={onClickHandle}>
-                {theme === "dark" ? <IconSun /> : <IconMoon />}
+                {theme === "dark" ? <IconSunFill /> : <IconMoonFill />}
             </Button>
         </div>
     )
