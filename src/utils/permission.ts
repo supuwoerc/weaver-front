@@ -8,11 +8,11 @@ import { UserInfo } from "@/types/user"
  * @returns 有权限的路由tree
  */
 export function getMenuRoutes(
-    user: UserInfo,
+    user: UserInfo | null,
     routes: CustomRouteObject[],
     path = "",
 ): Array<CustomRouteObject> {
-    const { roles: userRoles = [] } = user
+    const { roles: userRoles = [] } = user ?? {}
     return routes.filter((route) => {
         if (route.path && !route.path.includes("/")) {
             route.path = path + "/" + route.path
@@ -38,11 +38,11 @@ export function getMenuRoutes(
  * @returns 有权限的路由tree
  */
 export function getPermissionRoutes(
-    user: UserInfo,
+    user: UserInfo | null,
     routes: CustomRouteObject[],
     forbidden: React.ReactNode,
 ): CustomRouteObject[] {
-    const { roles: userRoles = [] } = user
+    const { roles: userRoles = [] } = user ?? {}
     return routes.map((route) => {
         const isNotNeedAuth = !route.meta?.auth || (route.meta.roles ?? []).length === 0
         const routeNeedRoles = route.meta?.roles ?? []

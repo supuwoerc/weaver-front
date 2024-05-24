@@ -36,6 +36,7 @@ export default ({ mode }) => {
             outDir: "dist",
             assetsDir: "static",
             minify: "terser",
+            chunkSizeWarningLimit: 1024,
             terserOptions: {
                 compress: {
                     drop_console: true,
