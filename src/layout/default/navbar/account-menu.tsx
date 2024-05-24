@@ -1,12 +1,31 @@
+import useUser from "@/hooks/useUser"
 import { Divider, Dropdown, Menu, Space } from "@arco-design/web-react"
 import { IconSettings, IconUser, IconPoweroff } from "@arco-design/web-react/icon"
 import { css } from "@emotion/react"
 import { FormattedMessage } from "react-intl"
+import { useNavigate } from "react-router-dom"
 
 interface AccountMenuProps {}
 const AccountMenu: React.FC<AccountMenuProps> = () => {
+    const navigate = useNavigate()
+    const { logout } = useUser(null, null, () => {
+        navigate("/login")
+    })
+    const onClickMenuItemHandle = (key: string) => {
+        switch (key) {
+            case "profiel":
+                navigate("/user/profile")
+                break
+            case "setting":
+                navigate("/setting")
+                break
+            case "logout":
+                logout()
+                break
+        }
+    }
     const dropList = (
-        <Menu>
+        <Menu onClickMenuItem={onClickMenuItemHandle}>
             <Menu.Item key="profiel">
                 <Space>
                     <IconUser />

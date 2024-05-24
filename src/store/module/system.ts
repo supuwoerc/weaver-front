@@ -51,7 +51,7 @@ export const collapsedLatestTrigger = atom<"user" | "breakpoint" | null>({
     default: null,
 })
 
-const currentTheme = globalStorage.get(appEnv.VITE_APP_THEME_KEY) || "dark"
+const currentTheme = globalStorage.get(appEnv.VITE_APP_THEME_KEY) || "light"
 
 export const theme = atom<"dark" | "light">({
     key: "theme",

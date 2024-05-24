@@ -17,7 +17,7 @@ export const defaultUserInfo = (): UserInfo => {
     }
 }
 
-export const userInfo = atom<UserInfo>({
+export const userInfo = atom<UserInfo | null>({
     key: "userInfo",
     default: defaultUserInfo(),
     effects: [
@@ -33,7 +33,7 @@ export const userInfo = atom<UserInfo>({
 
 const defaultToken = globalStorage.get(appEnv.VITE_APP_TOKEN_KEY) || ""
 
-export const token = atom<StorageState["token"]>({
+export const token = atom<StorageState["token"] | null>({
     key: "token",
     default: defaultToken,
     effects: [
@@ -51,7 +51,7 @@ export const token = atom<StorageState["token"]>({
 
 const defaultRefreshToken = globalStorage.get(appEnv.VITE_APP_REFRESH_TOKEN_KEY) || ""
 
-export const refreshToken = atom<StorageState["refreshToken"]>({
+export const refreshToken = atom<StorageState["refreshToken"] | null>({
     key: "refreshToken",
     default: defaultRefreshToken,
     effects: [

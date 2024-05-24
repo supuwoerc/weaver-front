@@ -58,7 +58,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const intlMapping = useMemo(() => {
         return getIntlMapping(intl)
     }, [intl])
-    const { login, signup } = useUser(intlMapping, null, () => {
+    const { login, signup } = useUser(null, () => {
         setIsLogin(true)
     })
     const clickToggleHandle = () => {

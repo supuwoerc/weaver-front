@@ -3,9 +3,8 @@ import { user } from "@/store"
 import { Message } from "@arco-design/web-react"
 import { useMutation } from "@tanstack/react-query"
 import { useIntl } from "react-intl"
-import { useResetRecoilState, useSetRecoilState } from "recoil"
+import { useSetRecoilState } from "recoil"
 export default function useUser(
-    intlMapping: Record<string, string> = {},
     loginSuccess: ((data: LoginResponse) => void) | null = null,
     signupSuccess: (() => void) | null = null,
     logoutSuccess: (() => void) | null = null,
@@ -14,9 +13,6 @@ export default function useUser(
     const setUserInfo = useSetRecoilState(user.userInfo)
     const setToken = useSetRecoilState(user.token)
     const setRefreshToken = useSetRecoilState(user.refreshToken)
-    const resetUserInfo = useResetRecoilState(user.userInfo)
-    const resetToken = useResetRecoilState(user.token)
-    const resetRefreshToken = useResetRecoilState(user.refreshToken)
     const loginHandle = useMutation(userService.login, {
         onSuccess(data) {
             const { user, token, refresh_token } = data
@@ -54,9 +50,9 @@ export default function useUser(
     })
     // TODO:请求接口登出,将token和refreshToken加入黑名单
     const logout = () => {
-        resetUserInfo()
-        resetToken()
-        resetRefreshToken()
+        setUserInfo(null)
+        setToken(null)
+        setRefreshToken(null)
         if (logoutSuccess) {
             logoutSuccess()
         }
