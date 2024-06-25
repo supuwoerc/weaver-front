@@ -4,12 +4,13 @@ import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
 import LanguageSelect from "@/components/language-select"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
 import { useLocation } from "react-router-dom"
 import useUser from "@/hooks/useUser"
 import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
+import { appEnv } from "@/constant/system"
 
 const FormItem = Form.Item
 
@@ -69,6 +70,12 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         v.password = md5(v.password)
         isLogin ? login(v) : signup(v)
     }
+    useEffect(() => {
+        if (appEnv.DEV) {
+            form.setFieldValue("email", "zhangzhouou@gmail.com")
+            form.setFieldValue("password", "_Admin123")
+        }
+    }, [form])
     return (
         <FormContainer className={classNames("form", type)}>
             <LanguageSelect

@@ -24,7 +24,9 @@ const generateResponseInterceptors = (client: WrapAxionsInstance) => {
             if (status >= 500) {
                 const { headers } = config
                 const locale = (headers.get("Locale") || SystemLocale.en) as SystemLocale
-                globalRouter.navigate?.("/500")
+                if (window.location.pathname !== "/500") {
+                    globalRouter.navigate?.("/500")
+                }
                 return Promise.reject(ServerErrorMessage[locale])
             } else if (code == 10003) {
                 // token错误，尝试刷新token
