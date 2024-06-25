@@ -59,7 +59,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const intlMapping = useMemo(() => {
         return getIntlMapping(intl)
     }, [intl])
-    const { login, signup } = useUser(null, () => {
+    const { login, signup, loginLoading, signupLoading } = useUser(null, () => {
         setIsLogin(true)
     })
     const clickToggleHandle = () => {
@@ -195,7 +195,12 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         </div>
                     )}
                     <FormItem style={{ margin: 0 }}>
-                        <Button type="primary" htmlType="submit" long>
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            long
+                            loading={isLogin ? loginLoading : signupLoading}
+                        >
                             <FormattedMessage
                                 id={isLogin ? "login.login.btn.login" : "login.login.btn.signup"}
                             />
@@ -206,6 +211,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         long
                         onClick={clickToggleHandle}
                         style={{ color: "#88909c" }}
+                        disabled={loginLoading || signupLoading}
                     >
                         <FormattedMessage
                             id={isLogin ? "login.login.btn.signup" : "login.login.btn.login"}
