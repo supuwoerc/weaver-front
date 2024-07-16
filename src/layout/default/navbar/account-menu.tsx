@@ -13,7 +13,7 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
     })
     const onClickMenuItemHandle = (key: string) => {
         switch (key) {
-            case "profiel":
+            case "profile":
                 navigate("/user/profile")
                 break
             case "setting":
@@ -26,7 +26,7 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
     }
     const dropList = (
         <Menu onClickMenuItem={onClickMenuItemHandle}>
-            <Menu.Item key="profiel">
+            <Menu.Item key="profile">
                 <Space>
                     <IconUser />
                     <FormattedMessage id="router.user.profile" />
