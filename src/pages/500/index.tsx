@@ -4,7 +4,6 @@ import { Button } from "@arco-design/web-react"
 import { useNavigate } from "react-router-dom"
 import Exception from "@/components/exception-container"
 
-// TODO:当status code>500时
 const ServerError: React.FC = () => {
     const navigate = useNavigate()
     return (

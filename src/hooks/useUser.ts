@@ -2,6 +2,7 @@ import userService, { LoginRequest, LoginResponse, SignupRequest } from "@/servi
 import { user } from "@/store"
 import { Message } from "@arco-design/web-react"
 import { useMutation } from "@tanstack/react-query"
+import { useState } from "react"
 import { useIntl } from "react-intl"
 import { useSetRecoilState } from "recoil"
 export default function useUser(
@@ -13,7 +14,12 @@ export default function useUser(
     const setUserInfo = useSetRecoilState(user.userInfo)
     const setToken = useSetRecoilState(user.token)
     const setRefreshToken = useSetRecoilState(user.refreshToken)
+    const [loginLoading, setLoginLoading] = useState(false)
+    const [signupLoading, setSignupLoading] = useState(false)
     const loginHandle = useMutation(userService.login, {
+        onMutate() {
+            setLoginLoading(true)
+        },
         onSuccess(data) {
             const { user, token, refresh_token } = data
             const msg = `${intl.formatMessage(
@@ -33,8 +39,14 @@ export default function useUser(
         onError(error) {
             Message.error(`${error}`)
         },
+        onSettled() {
+            setLoginLoading(false)
+        },
     })
     const signupHandle = useMutation(userService.signup, {
+        onMutate() {
+            setSignupLoading(true)
+        },
         onSuccess() {
             const msg = `${intl.formatMessage({
                 id: "login.signup.success",
@@ -46,6 +58,9 @@ export default function useUser(
         },
         onError(error) {
             Message.error(`${error}`)
+        },
+        onSettled() {
+            setSignupLoading(false)
         },
     })
     // TODO:请求接口登出,将token和refreshToken加入黑名单
@@ -61,7 +76,9 @@ export default function useUser(
     const signup = (params: SignupRequest) => signupHandle.mutate(params)
     return {
         login,
+        loginLoading,
         signup,
+        signupLoading,
         logout,
     }
 }

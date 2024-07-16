@@ -30,7 +30,7 @@ const dashboardRoutes: CustomRouteObject[] = [
             },
             {
                 path: "",
-                element: <Navigate to={"/dashboard/workplace"} />,
+                element: <Navigate to={"/dashboard/workplace"} replace />,
             },
         ],
     },
