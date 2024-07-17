@@ -4,9 +4,9 @@ import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
 import LanguageSelect from "@/components/language-select"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
-import { useLocation } from "react-router-dom"
+import { useLocation, useSearchParams } from "react-router-dom"
 import useUser from "@/hooks/useUser"
 import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
@@ -51,20 +51,32 @@ const getIntlMapping = (intl: IntlShape) => {
         }),
     }
 }
+const enum TabType {
+    login = "login",
+    signup = "signup",
+}
+const TabArr = [TabType.login, TabType.signup]
+const TabKey = "tab"
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const [form] = Form.useForm<LoginRequest | SignupRequest>()
-    const localtion = useLocation()
-    const [isLogin, setIsLogin] = useState(localtion.pathname == "/login")
+    const location = useLocation()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const tab = searchParams.get(TabKey)
+    const pathnameIsLogin = location.pathname == "/login"
+    const pathnameIsSignup = location.pathname == "/signup"
+    const isLogin = useMemo(() => {
+        return tab === TabType.login || (pathnameIsLogin && !TabArr.includes(tab as TabType))
+    }, [tab, pathnameIsLogin])
     const intl = useIntl()
     const intlMapping = useMemo(() => {
         return getIntlMapping(intl)
     }, [intl])
     const { login, signup, loginLoading, signupLoading } = useUser(null, () => {
-        setIsLogin(true)
+        setSearchParams({ [TabKey]: TabType.login })
     })
     const clickToggleHandle = () => {
         form.clearFields()
-        setIsLogin(!isLogin)
+        setSearchParams({ tab: isLogin ? TabType.signup : TabType.login })
     }
     const submitHandle = (v: LoginRequest | SignupRequest) => {
         v.password = md5(v.password)
@@ -76,6 +88,15 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
             form.setFieldValue("password", "_Admin123")
         }
     }, [form])
+    useEffect(() => {
+        const excludeType = !TabArr.includes(searchParams.get(TabKey) as TabType)
+        if (pathnameIsLogin && excludeType) {
+            setSearchParams({ [TabKey]: TabType.login })
+        }
+        if (pathnameIsSignup && excludeType) {
+            setSearchParams({ [TabKey]: TabType.signup })
+        }
+    }, [pathnameIsLogin, pathnameIsSignup, searchParams, setSearchParams])
     return (
         <FormContainer className={classNames("form", type)}>
             <LanguageSelect
