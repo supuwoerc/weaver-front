@@ -46,7 +46,11 @@ const Logo: React.FC<LogoProps> = (props) => {
                     font-weight: bold;
                     font-size: 18px;
                 }
-                @keyframes logo {
+                @keyframes logoAnimation {
+                    from {
+                        stroke-dashoffset: var(--stroke-length);
+                        fill: none;
+                    }
                     to {
                         stroke-dashoffset: 0;
                     }
@@ -54,11 +58,11 @@ const Logo: React.FC<LogoProps> = (props) => {
                 .animation-path {
                     stroke-dasharray: var(--stroke-length);
                     stroke-dashoffset: var(--stroke-length);
-                    animation: logo 2s linear forwards infinite;
+                    animation: logoAnimation 3s ease-in-out forwards;
                 }
             `}
         >
-            <Favicon width={30} style={{ marginRight: 8 }} />
+            <Favicon width={30} style={{ marginRight: 8 }} stroke="#FFD700" strokeWidth={20} />
             <div>{appEnv.VITE_APP_NAME}</div>
         </LogoContainer>
     )
