@@ -1,9 +1,9 @@
 import { globalStorage } from "@/constant/storage"
 import { InternalAxiosRequestConfig } from "axios"
-import { WrapAxionsInstance } from ".."
+import { WrapAxiosInstance } from ".."
 import { appEnv } from "@/constant/system"
 
-const generateRequestInterceptors = (_client: WrapAxionsInstance) => {
+const generateRequestInterceptors = (_client: WrapAxiosInstance) => {
     return [
         (config: InternalAxiosRequestConfig) => {
             // 请求携带token和locale

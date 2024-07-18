@@ -1,6 +1,6 @@
 import { globalStorage } from "@/constant/storage"
 import { AxiosResponse } from "axios"
-import { WrapAxionsInstance } from ".."
+import { WrapAxiosInstance } from ".."
 import { ServerErrorMessage, SystemLocale, appEnv, globalRouter } from "@/constant/system"
 
 let isRefreshing = false
@@ -14,7 +14,7 @@ const refreshTokenService = () => {
     })
 }
 
-const generateResponseInterceptors = (client: WrapAxionsInstance) => {
+const generateResponseInterceptors = (client: WrapAxiosInstance) => {
     return [
         (response: AxiosResponse) => {
             const { config, status } = response
