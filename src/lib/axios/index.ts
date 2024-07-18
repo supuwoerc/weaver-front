@@ -3,7 +3,7 @@ import requestInterceptors from "./interceptors/request"
 import responseInterceptors from "./interceptors/response"
 import qs from "qs"
 
-export interface WrapAxionsInstance extends AxiosInstance {
+export interface WrapAxiosInstance extends AxiosInstance {
     get<T>(url: string, config?: AxiosRequestConfig): Promise<T>
     post<T>(url: string, data?: any, config?: AxiosRequestConfig, extraConfig?: any): Promise<T>
 }
@@ -17,7 +17,7 @@ const generateAxiosClient = (
     baseURL: string,
     config: AxiosRequestConfig = {},
     enableInterceptor = true,
-): WrapAxionsInstance => {
+): WrapAxiosInstance => {
     const client = axios.create({
         ...config,
         baseURL,
