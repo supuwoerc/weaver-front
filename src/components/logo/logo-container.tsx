@@ -3,9 +3,13 @@ import { LogoProps, ResponsiveKey } from "."
 import { isString } from "@supuwoerc/utils"
 import { mediaQueries } from "@/constant/style"
 
-const defaultColor = "#fff"
+const DEFAULT_COLOR = "#fff"
 
-const getColor = (props: LogoContainerProps, size: ResponsiveKey = "xs") => {
+const getColor = (
+    props: LogoContainerProps,
+    size: ResponsiveKey = "xs",
+    defaultColor = DEFAULT_COLOR,
+) => {
     const { colorSetting: color } = props
     if (isString(color)) {
         return color || defaultColor
@@ -15,6 +19,7 @@ const getColor = (props: LogoContainerProps, size: ResponsiveKey = "xs") => {
 
 interface LogoContainerProps {
     colorSetting: NonNullable<LogoProps["color"]>
+    defaultColor?: string
 }
 
 const LogoContainer = styled.div<LogoContainerProps>`

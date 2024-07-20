@@ -20,10 +20,23 @@ export default ({ mode }) => {
             }),
             svgr(),
             vitePluginForArco({
-                style: "css",
+                // https://github.com/arco-design/arco-plugins/blob/main/packages/plugin-vite-react/README.zh-CN.md
+                // 为了实现局部暗黑模式，引入less
+                style: true,
             }),
             eslint(),
         ],
+        css: {
+            preprocessorOptions: {
+                less: {
+                    modifyVars: {
+                        // 此处可以修改arco的less变量的 & 实现局部暗黑模式
+                        "arco-theme-tag": ".arco-theme",
+                    },
+                    javascriptEnabled: true,
+                },
+            },
+        },
         base: base,
         publicDir: "public",
         resolve: {

@@ -33,11 +33,26 @@ const appCommon = css`
         margin: 0;
         padding: 0;
         position: relative;
+        overflow-x: hidden;
     }
     body {
         background-color: var(--color-bg-1);
         color: var(--color-text-1);
         color-scheme: dark; // 这个属性设置后，滚动条也能表现为暗色模式
+    }
+    a {
+        color: rgb(var(--primary-6));
+        text-decoration: none;
+    }
+`
+
+// css变量设置
+const variables = css`
+    body {
+        --reset-password-form-shadow: rgba(0, 0, 0, 0.2) 0px 7px 59px 0px;
+    }
+    body[arco-theme="dark"] {
+        --reset-password-form-shadow: rgba(255, 255, 255, 0.2) 0px 7px 59px 0px;
     }
 `
 
@@ -49,6 +64,7 @@ export const GlobalStyle: React.FC<GlobalStyleProps> = () => {
             styles={css`
                 ${scrollbar}
                 ${appCommon}
+                ${variables}
             `}
         />
     )

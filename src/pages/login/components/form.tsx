@@ -1,12 +1,11 @@
-import { Button, Form, Input, Link, Space } from "@arco-design/web-react"
+import { Button, Form, Input, Space } from "@arco-design/web-react"
 import classNames from "classnames"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
-import LanguageSelect from "@/components/language-select"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
 import { useEffect, useMemo } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
-import { useLocation, useSearchParams } from "react-router-dom"
+import { Link, useLocation, useSearchParams } from "react-router-dom"
 import useUser from "@/hooks/useUser"
 import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
@@ -99,13 +98,6 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     }, [pathnameIsLogin, pathnameIsSignup, searchParams, setSearchParams])
     return (
         <FormContainer className={classNames("form", type)}>
-            <LanguageSelect
-                style={{
-                    position: "fixed",
-                    right: "22px",
-                    top: "22px",
-                }}
-            />
             <div className="title">
                 <FormattedMessage id={isLogin ? "login.login.title" : "login.signup.title"} />
             </div>
@@ -210,7 +202,12 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                                 alignItems: "center",
                             }}
                         >
-                            <Link href="/reset-password" style={{ flexShrink: 0 }}>
+                            <Link
+                                to="/reset-password"
+                                style={{
+                                    flexShrink: 0,
+                                }}
+                            >
                                 <FormattedMessage id="login.login.forget" />
                             </Link>
                         </div>

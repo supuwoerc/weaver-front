@@ -62,7 +62,7 @@ const Logo: React.FC<LogoProps> = (props) => {
                 }
             `}
         >
-            <Favicon width={30} style={{ marginRight: 8 }} stroke="#FFD700" strokeWidth={20} />
+            <Favicon width={30} style={{ marginRight: 8 }} stroke="#FFD700" strokeWidth={16} />
             <div>{appEnv.VITE_APP_NAME}</div>
         </LogoContainer>
     )

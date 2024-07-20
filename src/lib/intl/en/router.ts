@@ -11,6 +11,7 @@ const enUS: SystemLocaleMapping = {
     "router.dashboard": "Dashboard",
     "router.dashboard.workplace": "Workplace",
     "router.dashboard.todo": "Todo",
+    "router.resetPassword": "Reset password",
 }
 
 export default enUS

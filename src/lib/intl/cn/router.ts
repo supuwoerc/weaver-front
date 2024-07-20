@@ -11,6 +11,7 @@ const zhCN: SystemLocaleMapping = {
     "router.dashboard": "仪表盘",
     "router.dashboard.workplace": "工作台",
     "router.dashboard.todo": "待办",
+    "router.resetPassword": "重置密码",
 }
 
 export default zhCN

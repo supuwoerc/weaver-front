@@ -3,9 +3,12 @@ import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
-import Login from "@/pages/login"
 
+import { lazyLoad } from "../lazyload"
+
+const Login = lazy(() => import("@/pages/login"))
 const ServerError = lazy(() => import("@/pages/500/index"))
+const ResetPassword = lazy(() => import("@/pages/reset-password/index"))
 const basicRoutes: CustomRouteObject[] = [
     {
         path: "/",
@@ -29,7 +32,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: <Login />,
+                        element: lazyLoad(Login),
                     },
                 ],
             },
@@ -43,7 +46,21 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: <Login />,
+                        element: lazyLoad(Login),
+                    },
+                ],
+            },
+            {
+                path: "reset-password",
+                meta: {
+                    title: "router.resetPassword",
+                    auth: false,
+                },
+                element: <FullscreenLayout color={"var(--color-text-1)"} />,
+                children: [
+                    {
+                        path: "",
+                        element: lazyLoad(ResetPassword),
                     },
                 ],
             },

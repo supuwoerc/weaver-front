@@ -5,7 +5,6 @@ import { Carousel } from "@arco-design/web-react"
 import ufo from "@/assets/login/ufo.png"
 import write from "@/assets/login/write.png"
 import stockpile from "@/assets/login/stockpile.png"
-import Logo from "@/components/logo"
 import LoginOrSignupForm from "./components/form"
 
 interface LoginProps {}
@@ -32,17 +31,6 @@ const Login: React.FC<LoginProps> = () => {
     return (
         <LoginContainer>
             <Row className="row">
-                <Logo
-                    style={{
-                        position: "fixed",
-                        left: 22,
-                        top: 22,
-                        zIndex: 2,
-                    }}
-                    color={{
-                        xs: "var(--color-text-1)",
-                    }}
-                />
                 <Col xs={0} sm={10} className="col">
                     <div className="carousel-container">
                         <Carousel
