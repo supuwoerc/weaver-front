@@ -31,6 +31,9 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen }) => {
             <Spin size={40} />
             <Skeleton
                 animation
+                style={{
+                    padding: "min(15vh,120px) 22px",
+                }}
                 text={{
                     rows: 12,
                 }}
