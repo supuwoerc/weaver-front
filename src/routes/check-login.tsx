@@ -9,19 +9,19 @@ interface InitAppStateProps {}
 const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }) => {
     const token = useRecoilValue(user.token)
     const navigate = useNavigate()
-    const localtion = useLocation()
-    const matchs = matchRoutes(routes, localtion)
-    const isNeedLogin = matchs?.some((item) => {
+    const location = useLocation()
+    const ret = matchRoutes(routes, location)
+    const isNeedLogin = ret?.some((item) => {
         const route = item.route
         return Boolean(route.meta?.auth)
     })
     useEffect(() => {
         if (!token && isNeedLogin) {
             navigate("/login")
-        } else if (token && localtion.pathname === "/login") {
+        } else if (token && location.pathname === "/login") {
             navigate("/")
         }
-    }, [navigate, token, isNeedLogin, localtion])
+    }, [navigate, token, isNeedLogin, location])
     return <>{children}</>
 }
 

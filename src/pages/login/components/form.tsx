@@ -83,11 +83,11 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         isLogin ? login(v) : signup(v)
     }
     useEffect(() => {
-        if (appEnv.DEV) {
+        if (appEnv.DEV && isLogin) {
             form.setFieldValue("email", "zhangzhouou@gmail.com")
             form.setFieldValue("password", "_Admin123")
         }
-    }, [form])
+    }, [form, isLogin])
     useEffect(() => {
         const excludeType = !TabArr.includes(searchParams.get(TabKey) as TabType)
         if (pathnameIsLogin && excludeType) {
