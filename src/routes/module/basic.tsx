@@ -56,7 +56,7 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.resetPassword",
                     auth: false,
                 },
-                element: <FullscreenLayout color={"var(--color-text-1)"} />,
+                element: <FullscreenLayout color={"var(--color-text-1)"} to="/login" />,
                 children: [
                     {
                         path: "",

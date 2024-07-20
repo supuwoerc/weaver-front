@@ -10,10 +10,12 @@ import ThemeSelect from "@/components/theme-select"
 
 interface FullscreenLayoutProps {
     color?: Partial<Record<ResponsiveKey, string>> | string
+    to?: string
 }
 
 const FullscreenLayout: React.FC<FullscreenLayoutProps> = ({
     color = { xs: "var(--color-text-1)" },
+    to,
 }) => {
     const location = useLocation()
     const nodeRef = useRef(null)
@@ -32,6 +34,7 @@ const FullscreenLayout: React.FC<FullscreenLayoutProps> = ({
                     top: 22,
                     zIndex: 2,
                 }}
+                to={to}
                 color={color}
             />
             <Space

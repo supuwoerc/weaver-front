@@ -69,12 +69,12 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
     useEffect(() => {
         const email = searchParams.get("email")
         const cur = Number(searchParams.get("current"))
-        if (![1, 2, 3].includes(cur)) {
+        if (searchParams.get("current") && ![2, 3].includes(cur)) {
             setSearchParams({
                 current: "1",
             })
         }
-        if ([1, 2].includes(cur) && email && emailRegexp.test(email)) {
+        if ([0, 1, 2].includes(cur) && email && emailRegexp.test(email)) {
             form.setFieldValue("email", email)
         }
     }, [searchParams, current, form, setSearchParams])
@@ -140,7 +140,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = () => {
                         <Result
                             status="success"
                             title={<FormattedMessage id="resetPassword.step3.title" />}
-                            subTitle={<FormattedMessage id="resetPassword.step3.subTitle" />}
+                            subTitle={<FormattedMessage id="resetPassword.step3.title" />}
                             extra={[
                                 <Link to={"/login"} key={1}>
                                     {<FormattedMessage id="resetPassword.step3.btn" />}
