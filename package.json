@@ -2,7 +2,7 @@
     "name": "learn-gin-web-front",
     "private": true,
     "description": "learn-gin-web-front",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
