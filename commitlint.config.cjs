@@ -5,17 +5,19 @@ module.exports = {
             2,
             "always",
             [
-                "build", // 项目构建或者依赖的改动
                 "feat", // 添加新功能
                 "fix", // 处理bug
-                "update", // 更新某功能
-                "refactor", // 重构
-                "docs", // 修改文档
                 "chore", // 调整构建过程或辅助工具，如添加依赖等
+                "docs", // 修改文档
                 "style", // 不影响代码运行的变动
-                "revert", // 回滚到上一个版本
+                "refactor", // 重构
                 "perf", // 优化性能
                 "test", // 添加测试
+                "revert", // 回滚到上一个版本
+                "build", // 项目构建或者依赖的改动
+                "ci", // ci
+                "config", // 配置
+                "release", // 配置
             ],
         ],
         "type-case": [0],
