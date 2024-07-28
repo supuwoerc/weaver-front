@@ -26,18 +26,20 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
     )
     const client = useQueryClient()
     const [code, setCode] = useState("")
+    const [time, setTime] = useState(defaultTime)
+    const timer = useRef<ReturnType<typeof setTimeout>>()
     const regenerateHandle = useCallback(() => {
+        timer.current && clearTimeout(timer.current)
         setTime(defaultTime)
-        timer.current && clearInterval(timer.current)
         client.invalidateQueries(queryKey)
     }, [client])
     useEffect(() => {
         if (visible) {
             setCode("")
+        } else {
+            setTime(defaultTime)
         }
     }, [visible])
-    const [time, setTime] = useState(defaultTime)
-    const timer = useRef<ReturnType<typeof setTimeout>>()
     useEffect(() => {
         if (visible && !isFetching && data && data.base64) {
             timer.current = setTimeout(() => {
@@ -49,7 +51,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
             }, 1000)
         }
         return () => {
-            timer.current && clearInterval(timer.current)
+            timer.current && clearTimeout(timer.current)
         }
     }, [visible, isFetching, data, time, regenerateHandle])
     return (
