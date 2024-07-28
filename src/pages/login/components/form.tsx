@@ -3,13 +3,14 @@ import classNames from "classnames"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import FormContainer from "./form-container"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
 import { Link, useLocation, useSearchParams } from "react-router-dom"
 import useUser from "@/hooks/useUser"
 import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
 import { appEnv } from "@/constant/system"
+import VerificationModal from "@/components/verification-modal"
 
 const FormItem = Form.Item
 
@@ -59,6 +60,7 @@ const TabKey = "tab"
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const [form] = Form.useForm<LoginRequest | SignupRequest>()
     const location = useLocation()
+    const [visible, setVisible] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams()
     const tab = searchParams.get(TabKey)
     const pathnameIsLogin = location.pathname == "/login"
@@ -79,7 +81,19 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     }
     const submitHandle = (v: LoginRequest | SignupRequest) => {
         v.password = md5(v.password)
-        isLogin ? login(v) : signup(v)
+        if (isLogin) {
+            login(v)
+        } else {
+            setVisible(true)
+        }
+    }
+    const finishHandle = (id: string, code: string) => {
+        setVisible(false)
+        const value = form.getFieldsValue() as SignupRequest
+        value.password = md5(value.password)
+        value.id = id
+        value.code = code
+        signup(value)
     }
     useEffect(() => {
         if (appEnv.DEV && isLogin) {
@@ -237,6 +251,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                     </Button>
                 </Space>
             </Form>
+            <VerificationModal visible={visible} finishHandle={finishHandle} />
         </FormContainer>
     )
 }

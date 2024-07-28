@@ -6,7 +6,10 @@ export interface LoginRequest {
     password: string
 }
 
-export interface SignupRequest extends LoginRequest {}
+export interface SignupRequest extends LoginRequest {
+    id: string
+    code: string
+}
 export interface LoginResponse {
     refresh_token: string
     token: string

@@ -3,7 +3,7 @@ import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
 
-import { lazyLoad } from "../lazyload"
+import { lazyLoad } from "../../components/lazyload"
 
 const Login = lazy(() => import("@/pages/login"))
 const ServerError = lazy(() => import("@/pages/500/index"))

@@ -2,7 +2,7 @@ import { lazy } from "react"
 import { cloneDeep } from "lodash-es"
 import { selector } from "recoil"
 import { user } from "../index"
-import { lazyLoad } from "@/routes/lazyload"
+import { lazyLoad } from "@/components/lazyload"
 import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
 import routes from "@/routes/config"
 

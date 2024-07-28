@@ -1,7 +1,7 @@
 import { IconUser } from "@arco-design/web-react/icon"
 import DefaultLayout from "@/layout/default/index"
 import { lazy } from "react"
-import { lazyLoad } from "../lazyload"
+import { lazyLoad } from "../../components/lazyload"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 

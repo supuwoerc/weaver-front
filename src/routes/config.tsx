@@ -1,5 +1,5 @@
 import DefaultLayout from "@/layout/default"
-import { lazyLoad } from "./lazyload"
+import { lazyLoad } from "../components/lazyload"
 import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import basicRoutes from "./module/basic"
