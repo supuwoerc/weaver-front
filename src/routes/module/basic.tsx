@@ -1,4 +1,3 @@
-import DefaultLayout from "@/layout/default/index"
 import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
@@ -70,11 +69,11 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.serverError",
                     auth: false,
                 },
-                element: <DefaultLayout />,
+                element: <FullscreenLayout color={"var(--color-text-1)"} />,
                 children: [
                     {
                         path: "",
-                        element: <ServerError />,
+                        element: lazyLoad(ServerError),
                     },
                 ],
             },
