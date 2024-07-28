@@ -39,7 +39,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
     const [time, setTime] = useState(defaultTime)
     const timer = useRef<ReturnType<typeof setTimeout>>()
     useEffect(() => {
-        if (!isFetching && data && data.base64) {
+        if (visible && !isFetching && data && data.base64) {
             timer.current = setTimeout(() => {
                 if (time > 0) {
                     setTime((prev) => prev - 1)
@@ -51,7 +51,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
         return () => {
             timer.current && clearInterval(timer.current)
         }
-    }, [isFetching, data, time, regenerateHandle])
+    }, [visible, isFetching, data, time, regenerateHandle])
     return (
         <Modal
             title={null}
