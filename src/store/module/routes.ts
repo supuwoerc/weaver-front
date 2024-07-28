@@ -21,8 +21,8 @@ export const menuRoutes = selector<CustomRouteObject[]>({
 })
 
 // 系统路由
-export const syncPermisisonRoutes = selector<CustomRouteObject[]>({
-    key: "syncPermisisonRoutes",
+export const syncPermissionRoutes = selector<CustomRouteObject[]>({
+    key: "syncPermissionRoutes",
     get: ({ get }) => {
         const userInfo = get(user.userInfo)
         const syncPermissionRoutes = getPermissionRoutes(
