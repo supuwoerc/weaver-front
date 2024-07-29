@@ -36,9 +36,6 @@ export default function useUser(
                 loginSuccess(data)
             }
         },
-        onError(error) {
-            Message.error(`${error}`)
-        },
         onSettled() {
             setLoginLoading(false)
         },
@@ -55,9 +52,6 @@ export default function useUser(
             if (signupSuccess) {
                 signupSuccess()
             }
-        },
-        onError(error) {
-            Message.error(`${error}`)
         },
         onSettled() {
             setSignupLoading(false)
