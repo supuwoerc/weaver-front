@@ -6,6 +6,7 @@ import Meta from "@arco-design/web-react/es/Card/meta"
 import { IconRefresh } from "@arco-design/web-react/icon"
 import VerificationCard from "./verification-card"
 import { useCallback, useEffect, useRef, useState } from "react"
+import { isDefined, isNull } from "@supuwoerc/utils"
 
 interface VerificationModalProps {
     visible: boolean
@@ -24,6 +25,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
             enabled: visible,
         },
     )
+    const alt = (error as Error)?.message ?? ""
     const client = useQueryClient()
     const [code, setCode] = useState("")
     const [time, setTime] = useState(defaultTime)
@@ -71,9 +73,11 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
                     <Skeleton
                         loading={isFetching}
                         text={{ rows: 0 }}
+                        animation={true}
                         image={{
                             style: {
                                 width: 380,
+                                height: 100,
                             },
                         }}
                     >
@@ -98,15 +102,18 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
                                 title={`${time}s`}
                                 width={348}
                                 height={100}
-                                src={data?.base64}
-                                alt={error as string}
+                                src={data?.base64 || ""}
+                                alt={alt}
                             />
-                            <Progress
-                                type="line"
-                                showText={false}
-                                percent={(time * 100) / defaultTime}
-                                trailColor="var(--color-primary-light-1)"
-                            />
+
+                            {isDefined(data?.base64) && (
+                                <Progress
+                                    type="line"
+                                    showText={false}
+                                    percent={(time * 100) / defaultTime}
+                                    trailColor="var(--color-primary-light-1)"
+                                />
+                            )}
                         </div>
                     </Skeleton>
                 }
@@ -125,6 +132,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
                             <VerificationCode
                                 value={code}
                                 size="large"
+                                disabled={isFetching || !isNull(error)}
                                 onChange={(v) => setCode(v)}
                                 onFinish={(v) => finishHandle(data?.id ?? "", v)}
                             />

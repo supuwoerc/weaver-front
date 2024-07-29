@@ -2,6 +2,9 @@ import styled from "@emotion/styled"
 import { Card } from "@arco-design/web-react"
 
 const VerificationCard = styled(Card)`
+    .arco-card-cover {
+        margin-bottom: 8px;
+    }
     .arco-card-body {
         padding-top: 0;
     }
