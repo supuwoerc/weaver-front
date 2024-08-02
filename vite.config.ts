@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import { vitePluginForArco } from "@arco-plugins/vite-react"
@@ -6,11 +8,21 @@ import eslint from "vite-plugin-eslint"
 import { loadEnv } from "vite"
 import svgr from "vite-plugin-svgr"
 import cdnSetting from "./setting"
+
 // https://vitejs.dev/config/
 export default ({ mode }) => {
     const env = loadEnv(mode, process.cwd())
     const base = cdnSetting[env.VITE_APP_ENV]
     return defineConfig({
+        // vitest只做组件的单元测试,页面的测试由cypress完成
+        test: {
+            environment: "jsdom",
+            include: ["src/components/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
+            coverage: {
+                provider: "v8",
+                include: ["src/components/**/*.tsx"],
+            },
+        },
         plugins: [
             react({
                 jsxImportSource: "@emotion/react",
@@ -65,7 +77,9 @@ export default ({ mode }) => {
             open: true,
             strictPort: false,
             cors: true,
-            https: false,
+            hmr: {
+                port: 12345, // https://github.com/vitejs/vite/issues/14328#issuecomment-1897675256
+            },
         },
     })
 }
