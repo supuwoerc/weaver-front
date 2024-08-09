@@ -1,4 +1,4 @@
-import { test, describe } from "vitest"
+import { test, describe, expect } from "vitest"
 import { render, screen } from "@testing-library/react"
 import LanguageSelect from "../index"
 import { RecoilRoot } from "recoil"
@@ -10,6 +10,8 @@ describe("language-select", () => {
                 <LanguageSelect />
             </RecoilRoot>,
         )
-        screen.debug()
+        // screen.debug()
+        expect(screen.getByRole("button")).toBeInTheDocument()
+        expect(screen.getByRole("button")).toBeEnabled()
     })
 })

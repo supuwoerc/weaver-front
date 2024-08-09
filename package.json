@@ -75,6 +75,7 @@
         "@emotion/babel-plugin": "^11.11.0",
         "@release-it/conventional-changelog": "^8.0.1",
         "@testing-library/dom": "^10.4.0",
+        "@testing-library/jest-dom": "^6.4.8",
         "@testing-library/react": "^16.0.0",
         "@types/md5": "^2.3.5",
         "@types/node": "^20.2.5",

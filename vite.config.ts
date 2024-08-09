@@ -22,6 +22,8 @@ export default ({ mode }) => {
                 provider: "v8",
                 include: ["src/components/**/*.tsx"],
             },
+            setupFiles: ["./setup-test.ts"],
+            globals: true,
         },
         plugins: [
             react({
