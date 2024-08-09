@@ -1,17 +1,44 @@
-import { test, describe, expect } from "vitest"
-import { render, screen } from "@testing-library/react"
+import { test, describe, expect, vi } from "vitest"
+import { fireEvent, render, screen } from "@testing-library/react"
+import { userEvent } from "@testing-library/user-event"
 import LanguageSelect from "../index"
 import { RecoilRoot } from "recoil"
+import * as Recoil from "recoil"
+import { languageList } from "@/constant/language-select"
 
 describe("language-select", () => {
-    test("render language-select component", () => {
+    const mockSetLanguage = vi.fn()
+    beforeEach(() => {
+        vi.spyOn(Recoil, "useSetRecoilState").mockReturnValue(mockSetLanguage)
         render(
             <RecoilRoot>
                 <LanguageSelect />
             </RecoilRoot>,
         )
-        // screen.debug()
-        expect(screen.getByRole("button")).toBeInTheDocument()
-        expect(screen.getByRole("button")).toBeEnabled()
+    })
+
+    test("render language-select component", () => {
+        const button = screen.getByRole("button")
+        expect(button).toBeInTheDocument()
+        expect(button).toBeEnabled()
+    })
+
+    test("render language-select options", async () => {
+        const button = screen.getByRole("button")
+        await userEvent.click(button)
+        const languageOptions = ["中文", "English"]
+        for (const option of languageOptions) {
+            expect(screen.getByText(option)).toBeInTheDocument()
+        }
+    })
+
+    test("calling the switch language method", async () => {
+        const button = screen.getByRole("button")
+        for (const option of languageList) {
+            await userEvent.click(button)
+            const btn = screen.getByText(option.label)
+            await fireEvent.click(btn)
+            expect(mockSetLanguage).toHaveBeenLastCalledWith(option.value)
+        }
     })
 })

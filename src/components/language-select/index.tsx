@@ -1,26 +1,17 @@
+import { languageList } from "@/constant/language-select"
 import { SystemLocale } from "@/constant/system"
 import { system } from "@/store"
 import { Button, Dropdown, Menu } from "@arco-design/web-react"
 import { IconLanguage } from "@arco-design/web-react/icon"
 import { CSSProperties } from "react"
-import { useRecoilState } from "recoil"
+import { useSetRecoilState } from "recoil"
 
 interface LanguageSelectProps {
     style?: CSSProperties
 }
-const list = [
-    {
-        label: "中文",
-        value: SystemLocale.cn,
-    },
-    {
-        label: "English",
-        value: SystemLocale.en,
-    },
-]
 
 const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
-    const [_, setLanguage] = useRecoilState(system.locale)
+    const setLanguage = useSetRecoilState(system.locale)
     const onSelectHandle = (key: string) => {
         setLanguage(key as SystemLocale)
     }
@@ -30,7 +21,7 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
                 trigger={"click"}
                 droplist={
                     <Menu onClickMenuItem={onSelectHandle}>
-                        {list.map((item) => {
+                        {languageList.map((item) => {
                             return <Menu.Item key={item.value}>{item.label}</Menu.Item>
                         })}
                     </Menu>

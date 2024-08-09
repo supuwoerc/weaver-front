@@ -26,14 +26,8 @@
             "@/*": ["src/*"]
         },
         "jsxImportSource": "@emotion/react",
-        "types": [
-            "@emotion/react",
-            "node",
-            "vite-plugin-svgr/client",
-            "@testing-library/jest-dom",
-            "cypress"
-        ]
+        "types": ["@emotion/react", "node", "vite-plugin-svgr/client", "cypress"]
     },
-    "include": ["src", "src/types/*.d.ts", "cypress/**/*.ts"],
+    "include": ["src", "src/types/*.d.ts", "cypress/**/*.ts", "setup-test.ts"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -11,6 +11,7 @@ module.exports = {
         "plugin:@typescript-eslint/recommended",
         "plugin:react-hooks/recommended",
         "plugin:prettier/recommended", //  引入prettier规则,避免产生冲突
+        "plugin:jest-dom/recommended",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -20,7 +21,7 @@ module.exports = {
         ecmaVersion: "latest",
         sourceType: "module",
     },
-    plugins: ["react-refresh"],
+    plugins: ["react-refresh", "jest-dom"],
     rules: {
         "@typescript-eslint/no-unused-vars": ["off"],
         semi: "off",
