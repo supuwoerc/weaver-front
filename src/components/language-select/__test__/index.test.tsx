@@ -1,4 +1,4 @@
-import { test, describe, expect, vi } from "vitest"
+import { test, describe, expect, vi, afterAll } from "vitest"
 import { fireEvent, render, screen } from "@testing-library/react"
 import { userEvent } from "@testing-library/user-event"
 import LanguageSelect from "../index"
@@ -15,6 +15,10 @@ describe("language-select", () => {
                 <LanguageSelect />
             </RecoilRoot>,
         )
+    })
+
+    afterAll(() => {
+        mockSetLanguage.mockRestore()
     })
 
     test("render language-select component", () => {
@@ -40,5 +44,6 @@ describe("language-select", () => {
             await fireEvent.click(btn)
             expect(mockSetLanguage).toHaveBeenLastCalledWith(option.value)
         }
+        expect(mockSetLanguage).toHaveBeenCalledTimes(languageList.length)
     })
 })
