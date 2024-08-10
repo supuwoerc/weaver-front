@@ -44,5 +44,6 @@ module.exports = {
                 props: false,
             },
         ],
+        "jest-dom/prefer-in-document": "off",
     },
 }
