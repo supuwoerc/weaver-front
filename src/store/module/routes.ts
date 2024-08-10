@@ -2,7 +2,7 @@ import { lazy } from "react"
 import { cloneDeep } from "lodash-es"
 import { selector } from "recoil"
 import { user } from "../index"
-import { lazyLoad } from "@/components/lazyload"
+import { lazyload } from "@/components/lazyload"
 import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
 import routes from "@/routes/config"
 
@@ -28,7 +28,7 @@ export const syncPermissionRoutes = selector<CustomRouteObject[]>({
         const syncPermissionRoutes = getPermissionRoutes(
             userInfo,
             cloneDeep(routes),
-            lazyLoad(Forbidden),
+            lazyload(Forbidden),
         )
         return syncPermissionRoutes
     },

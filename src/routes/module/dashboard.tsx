@@ -1,7 +1,7 @@
 import { IconDashboard } from "@arco-design/web-react/icon"
 import DefaultLayout from "@/layout/default/index"
 import { lazy } from "react"
-import { lazyLoad } from "../../components/lazyload"
+import { lazyload } from "../../components/lazyload"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 
@@ -21,12 +21,12 @@ const dashboardRoutes: CustomRouteObject[] = [
             {
                 path: "workplace",
                 meta: { title: "router.dashboard.workplace", auth: true },
-                element: lazyLoad(Workplace),
+                element: lazyload(Workplace),
             },
             {
                 path: "todo",
                 meta: { title: "router.dashboard.todo", auth: true },
-                element: lazyLoad(Todo),
+                element: lazyload(Todo),
             },
             {
                 path: "",

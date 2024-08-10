@@ -3,7 +3,7 @@ import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
 
-import { lazyLoad } from "../../components/lazyload"
+import { lazyload } from "../../components/lazyload"
 
 const Login = lazy(() => import("@/pages/login"))
 const ServerError = lazy(() => import("@/pages/500/index"))
@@ -31,7 +31,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyLoad(Login),
+                        element: lazyload(Login),
                     },
                 ],
             },
@@ -45,7 +45,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyLoad(Login),
+                        element: lazyload(Login),
                     },
                 ],
             },
@@ -59,7 +59,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyLoad(ResetPassword),
+                        element: lazyload(ResetPassword),
                     },
                 ],
             },
@@ -73,7 +73,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyLoad(ServerError),
+                        element: lazyload(ServerError),
                     },
                 ],
             },

@@ -1,5 +1,5 @@
 import DefaultLayout from "@/layout/default"
-import { lazyLoad } from "../components/lazyload"
+import { lazyload } from "../components/lazyload"
 import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import basicRoutes from "./module/basic"
@@ -22,7 +22,7 @@ const routes: CustomRouteObject[] = [
             {
                 path: "*",
                 meta: { title: "router.notFound", auth: false },
-                element: lazyLoad(NotFound),
+                element: lazyload(NotFound),
             },
         ],
     },
