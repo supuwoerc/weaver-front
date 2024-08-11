@@ -4,13 +4,14 @@ import { useEffect, useState } from "react"
 
 interface LoadingFallbackProps {
     fullscreen?: boolean
+    delay?: number
 }
-const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen }) => {
+const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen, delay = 200 }) => {
     const [showLoading, setShowLoading] = useState(false)
     useEffect(() => {
-        const timer = setTimeout(() => setShowLoading(true), 200)
+        const timer = setTimeout(() => setShowLoading(true), delay)
         return () => clearTimeout(timer)
-    }, [])
+    }, [delay])
     if (!showLoading) {
         return null
     }
