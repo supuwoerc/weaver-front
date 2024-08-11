@@ -25,3 +25,7 @@ dist-ssr
 
 /docs/
 /coverage/
+
+
+# 解决cypress启动缓慢:https://github.com/cypress-io/cypress/issues/27226
+.pnpm-store

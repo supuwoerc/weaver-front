@@ -112,10 +112,10 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     }, [pathnameIsLogin, pathnameIsSignup, searchParams, setSearchParams])
     return (
         <FormContainer className={classNames("form", type)}>
-            <div className="title">
+            <div className="title" data-test="title">
                 <FormattedMessage id={isLogin ? "login.login.title" : "login.signup.title"} />
             </div>
-            <div className="desc">
+            <div className="desc" data-test="desc">
                 <FormattedMessage id={isLogin ? "login.login.desc" : "login.signup.desc"} />
             </div>
             <Form
@@ -151,6 +151,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                                 ? intlMapping.loginEmailPlaceholder
                                 : intlMapping.signupEmailPlaceholder
                         }
+                        data-test="email"
                         prefix={<IconUser />}
                     />
                 </FormItem>
@@ -180,6 +181,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                                 ? intlMapping.loginPasswordPlaceholder
                                 : intlMapping.signupPasswordPlaceholder
                         }
+                        data-test="password"
                         prefix={<IconLock />}
                     />
                 </FormItem>
@@ -203,6 +205,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                     >
                         <Input.Password
                             placeholder={intlMapping.signupConfirmPasswordPlaceholder}
+                            data-test="confirm-password"
                             prefix={<IconLock />}
                         />
                     </FormItem>
@@ -221,6 +224,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                                 style={{
                                     flexShrink: 0,
                                 }}
+                                data-test="reset-password-link"
                             >
                                 <FormattedMessage id="login.login.forget" />
                             </Link>
@@ -232,6 +236,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                             htmlType="submit"
                             long
                             loading={isLogin ? loginLoading : signupLoading}
+                            data-test="primary-button"
                         >
                             <FormattedMessage
                                 id={isLogin ? "login.login.btn.login" : "login.login.btn.signup"}
@@ -244,6 +249,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                         onClick={clickToggleHandle}
                         style={{ color: "#88909c" }}
                         disabled={loginLoading || signupLoading}
+                        data-test="switch-button"
                     >
                         <FormattedMessage
                             id={isLogin ? "login.login.btn.signup" : "login.login.btn.login"}
