@@ -2,11 +2,11 @@ import { lazy } from "react"
 import { cloneDeep } from "lodash-es"
 import { selector } from "recoil"
 import { user } from "../index"
-import { lazyload } from "@/components/lazyload"
 import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
 import routes from "@/routes/config"
 
 import { CustomRouteObject } from "@/types/routes"
+import lazyload from "@/components/lazyload"
 
 const Forbidden = lazy(() => import("@/pages/403/index"))
 

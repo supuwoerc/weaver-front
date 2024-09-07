@@ -2,8 +2,7 @@ import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
-
-import { lazyload } from "../../components/lazyload"
+import lazyload from "@/components/lazyload/index"
 
 const Login = lazy(() => import("@/pages/login"))
 const ServerError = lazy(() => import("@/pages/500/index"))

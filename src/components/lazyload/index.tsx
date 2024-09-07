@@ -1,7 +1,7 @@
 import LoadingFallback from "@/components/loading-fallback"
 import { Suspense } from "react"
 
-export function lazyload(
+function lazyload(
     Component: React.LazyExoticComponent<any>,
     fallback = <LoadingFallback />,
 ): React.ReactNode {
@@ -11,3 +11,5 @@ export function lazyload(
         </Suspense>
     )
 }
+
+export default lazyload
