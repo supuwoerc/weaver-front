@@ -8,6 +8,10 @@ import { appEnv } from "@/constant/system"
 
 interface BeforeEachProps {}
 
+nprogress.configure({
+    showSpinner: false,
+})
+
 const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) => {
     const location = useLocation()
     const prevLocation = useRef({

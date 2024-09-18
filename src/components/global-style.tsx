@@ -48,11 +48,11 @@ const appCommon = css`
 
 // css变量设置
 const variables = css`
-    body {
+    .arco-theme {
         --reset-password-form-shadow: rgba(0, 0, 0, 0.2) 0px 7px 59px 0px;
         --theme-color: #4070ff;
     }
-    body[arco-theme="dark"] {
+    .arco-theme[arco-theme="dark"] {
         --reset-password-form-shadow: rgba(255, 255, 255, 0.2) 0px 7px 59px 0px;
         --theme-color: #4070ff;
     }

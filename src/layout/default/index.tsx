@@ -6,7 +6,6 @@ import { SwitchTransition, CSSTransition } from "react-transition-group"
 import { transitionCss } from "../router-transition"
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
-import BreadcrumbMenu from "./breadcrumb-menu"
 import { useRecoilValue } from "recoil"
 import { routes } from "@/store"
 import { getParents } from "@supuwoerc/utils"
@@ -43,13 +42,12 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                     css={css`
                         flex: 1;
                         background: var(--color-fill-2);
-                        padding: 0 14px;
                         box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
+                        justify-content: space-between;
                     `}
                 >
-                    <BreadcrumbMenu routePath={routePath} />
                     <SwitchTransition mode="out-in">
                         <CSSTransition
                             key={location.pathname}
