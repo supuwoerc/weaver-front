@@ -18,7 +18,7 @@ const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }
     useEffect(() => {
         if (!token && isNeedLogin) {
             navigate("/login")
-        } else if (token && location.pathname === "/login") {
+        } else if (token && ["/login", "/signup"].includes(location.pathname)) {
             navigate("/")
         }
     }, [navigate, token, isNeedLogin, location])

@@ -15,7 +15,7 @@
         "preview": "vite preview",
         "test": "vitest",
         "test:staged": "vitest --run",
-        "cypress": "cypress open",
+        "cy:open": "cypress open",
         "coverage": "vitest run --coverage",
         "release": "release-it"
     },
