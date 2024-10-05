@@ -7,7 +7,7 @@ import { transitionCss } from "../router-transition"
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
 import { useRecoilValue } from "recoil"
-import { routes } from "@/store"
+import { routes, system } from "@/store"
 import { getParents } from "@supuwoerc/utils"
 
 interface DefaultLayoutProps {}
@@ -16,6 +16,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const nodeRef = useRef(null)
     const currentOutlet = useOutlet()
     const menuRoutes = useRecoilValue(routes.menuRoutes)
+    const sidebarCollapsed = useRecoilValue(system.sidebarCollapsed)
     const routePath = useMemo(() => {
         return getParents(menuRoutes, location.pathname, "path")
     }, [location.pathname, menuRoutes])
@@ -27,17 +28,18 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                 ${transitionCss}
             `}
         >
-            <Layout.Header>
-                <Navbar />
-            </Layout.Header>
-            <Layout
-                css={css`
-                    height: calc(100% - 62px);
-                `}
+            <Layout.Sider
+                collapsible
+                collapsed={sidebarCollapsed}
+                trigger={null}
+                style={{ boxShadow: "none" }}
             >
-                <Layout.Sider style={{ width: "auto" }}>
-                    <Sidebar menuRoutes={menuRoutes} routePath={routePath} />
-                </Layout.Sider>
+                <Sidebar menuRoutes={menuRoutes} routePath={routePath} />
+            </Layout.Sider>
+            <Layout>
+                <Layout.Header>
+                    <Navbar />
+                </Layout.Header>
                 <Layout.Content
                     css={css`
                         flex: 1;

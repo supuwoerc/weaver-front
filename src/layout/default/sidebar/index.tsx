@@ -2,25 +2,21 @@ import { Menu } from "@arco-design/web-react"
 import { IconApps } from "@arco-design/web-react/icon"
 import SidebarContainer from "./sidebar-container"
 import { FormattedMessage } from "react-intl"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
-import { useRecoilState } from "recoil"
-import { useWindowSize } from "react-use"
+import Logo from "@/components/logo"
+import { useRecoilValue } from "recoil"
 import { system } from "@/store"
 const MenuItem = Menu.Item
 const SubMenu = Menu.SubMenu
-const HIDE_SIDEBAR_BREAKPOINT = 1024
-
 interface SidebarProps {
     routePath: CustomRouteObject[]
     menuRoutes: CustomRouteObject[]
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
-    const { width } = useWindowSize()
-    const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(system.sidebarCollapsed)
-    const [latestTrigger, setLatestTrigger] = useRecoilState(system.collapsedLatestTrigger)
+    const sidebarCollapsed = useRecoilValue(system.sidebarCollapsed)
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys
@@ -32,26 +28,19 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const onClickSubMenuHandle = (_key: string, openKeys: string[]) => {
         setOpenKeys(openKeys)
     }
-    useEffect(() => {
-        if (latestTrigger !== "user" && width < HIDE_SIDEBAR_BREAKPOINT) {
-            setSidebarCollapsed(true)
-            setLatestTrigger("breakpoint")
-        }
-    }, [width, latestTrigger, setSidebarCollapsed, setLatestTrigger])
     return (
         <SidebarContainer>
+            <Logo
+                color={"var(--color-text-1)"}
+                style={{ height: 60, width: "100%", justifyContent: "center" }}
+                onlyLogo={sidebarCollapsed}
+            />
             <Menu
-                style={{ width: 200, height: "100%" }}
-                hasCollapseButton
+                style={{ height: "calc(100% - 60px)" }}
                 openKeys={openKeys}
                 selectedKeys={selectedKeys}
                 onClickMenuItem={onClickMenuItemHandle}
                 onClickSubMenu={onClickSubMenuHandle}
-                collapse={sidebarCollapsed}
-                onCollapseChange={(val) => {
-                    setLatestTrigger("user")
-                    setSidebarCollapsed(val)
-                }}
             >
                 {menuRoutes.map((item) => {
                     return (

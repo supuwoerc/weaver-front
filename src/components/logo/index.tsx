@@ -11,10 +11,11 @@ export interface LogoProps {
     style?: CSSProperties
     color?: Partial<Record<ResponsiveKey, string>> | string
     to?: string
+    onlyLogo?: boolean
 }
 
 const Logo: React.FC<LogoProps> = (props) => {
-    const { style, to, color = "var(--color-bg-1)" } = props
+    const { style, to, color = "var(--color-bg-1)", onlyLogo = false } = props
     const logoRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const onClickHandle = () => {
@@ -41,6 +42,7 @@ const Logo: React.FC<LogoProps> = (props) => {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
+                white-space: nowrap;
                 cursor: ${to ? "pointer" : "auto"};
                 div {
                     font-weight: bold;
@@ -62,8 +64,8 @@ const Logo: React.FC<LogoProps> = (props) => {
                 }
             `}
         >
-            <Favicon width={30} style={{ marginRight: 8 }} stroke="#FFD700" strokeWidth={16} />
-            <div>{appEnv.VITE_APP_NAME}</div>
+            <Favicon width={30} style={{ marginRight: 10 }} stroke="#4070ff" strokeWidth={16} />
+            {onlyLogo ? null : <div>{appEnv.VITE_APP_NAME}</div>}
         </LogoContainer>
     )
 }
