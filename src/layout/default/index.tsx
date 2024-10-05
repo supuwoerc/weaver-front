@@ -44,10 +44,10 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                     css={css`
                         flex: 1;
                         background: var(--color-fill-2);
-                        box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
+                        overflow-y: auto;
                     `}
                 >
                     <SwitchTransition mode="out-in">

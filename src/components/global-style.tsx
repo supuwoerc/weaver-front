@@ -1,4 +1,5 @@
 import { Global, css } from "@emotion/react"
+import emotionReset from "emotion-reset"
 
 // 滚动条设置
 const scrollbar = css`
@@ -44,10 +45,20 @@ const appCommon = css`
         color: rgb(var(--primary-6));
         text-decoration: none;
     }
+    *,
+    *::after,
+    *::before {
+        box-sizing: border-box;
+        font-size: 14px;
+        font-family: tahoma, "microsoft yahei", "微软雅黑";
+    }
 `
 
 // css变量设置
 const variables = css`
+    :root:root {
+        --main-padding: 14px;
+    }
     .arco-theme {
         --reset-password-form-shadow: rgba(0, 0, 0, 0.2) 0px 7px 59px 0px;
         --theme-color: #4070ff;
@@ -67,6 +78,7 @@ export const GlobalStyle: React.FC<GlobalStyleProps> = () => {
                 ${scrollbar}
                 ${appCommon}
                 ${variables}
+                ${emotionReset}
             `}
         />
     )

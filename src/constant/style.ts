@@ -7,3 +7,18 @@ export const mediaQueries = {
     xxl: "@media (min-width: 1600px)",
     xxxl: "@media (min-width: 2000px)",
 }
+export const tagColors = [
+    "red",
+    "orangered",
+    "orange",
+    "gold",
+    "lime",
+    "green",
+    "cyan",
+    "blue",
+    "arcoblue",
+    "purple",
+    "pinkpurple",
+    "magenta",
+    "gray",
+]

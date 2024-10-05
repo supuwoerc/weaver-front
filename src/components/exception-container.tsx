@@ -11,7 +11,6 @@ const Exception = styled.div`
         height: 200px;
     }
     .info {
-        box-sizing: border-box;
         height: 200px;
         padding: 0.5em;
         padding-bottom: 40px;

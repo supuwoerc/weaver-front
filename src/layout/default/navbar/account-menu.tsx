@@ -60,7 +60,6 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
                     cursor: pointer;
                     background-color: var(--color-secondary);
                     padding: 4px;
-                    box-sizing: border-box;
                 `}
             />
         </Dropdown>
