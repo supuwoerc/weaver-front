@@ -18,7 +18,7 @@ const basicRoutes: CustomRouteObject[] = [
         children: [
             {
                 path: "",
-                element: <Navigate to={"/user"} replace />,
+                element: <Navigate to={"/dashboard"} replace />,
             },
             {
                 path: "login",
