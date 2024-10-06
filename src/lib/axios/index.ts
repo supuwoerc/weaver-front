@@ -7,16 +7,30 @@ export interface WrapAxiosInstance extends AxiosInstance {
     get<T>(url: string, config?: AxiosRequestConfig): Promise<T>
     post<T>(url: string, data?: any, config?: AxiosRequestConfig, extraConfig?: any): Promise<T>
 }
-const setInterceptors = (client: AxiosInstance) => {
+
+export enum InterceptorType {
+    onlyRequest,
+    onlyResponse,
+    all,
+}
+
+const setRequestInterceptors = (client: AxiosInstance) => {
     const [requestResolve, requestReject] = requestInterceptors(client)
-    const [responseResolve, responseReject] = responseInterceptors(client)
     client.interceptors.request.use(requestResolve, requestReject)
+}
+const setResponseInterceptors = (client: AxiosInstance) => {
+    const [responseResolve, responseReject] = responseInterceptors(client)
     client.interceptors.response.use(responseResolve, responseReject)
 }
+const setInterceptors = (client: AxiosInstance) => {
+    setRequestInterceptors(client)
+    setResponseInterceptors(client)
+}
+
 const generateAxiosClient = (
     baseURL: string,
     config: AxiosRequestConfig = {},
-    enableInterceptor = true,
+    interceptorType = InterceptorType.all,
 ): WrapAxiosInstance => {
     const client = axios.create({
         ...config,
@@ -25,9 +39,19 @@ const generateAxiosClient = (
             return qs.stringify(params)
         },
     })
-    if (enableInterceptor) {
-        setInterceptors(client)
+    switch (interceptorType) {
+        case InterceptorType.onlyRequest:
+            setRequestInterceptors(client)
+            break
+        case InterceptorType.onlyResponse:
+            setResponseInterceptors(client)
+            break
+        case InterceptorType.all:
+            setInterceptors(client)
+            break
     }
     return client
 }
 export default generateAxiosClient
+
+export { setRequestInterceptors, setResponseInterceptors, setInterceptors }

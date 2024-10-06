@@ -2,17 +2,10 @@ import { globalStorage } from "@/constant/storage"
 import { AxiosResponse } from "axios"
 import { WrapAxiosInstance } from ".."
 import { ServerErrorMessage, SystemLocale, appEnv, globalRouter } from "@/constant/system"
+import userService from "@/service/user"
 
 let isRefreshing = false
 let requests: Array<(token: string) => void> = []
-
-// TODO:实现刷新token
-const refreshTokenService = () => {
-    return Promise.resolve({
-        newToken: "",
-        newFreshToken: "",
-    })
-}
 
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
     return [
@@ -34,20 +27,32 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                 if (refreshToken) {
                     if (!isRefreshing) {
                         isRefreshing = true
-                        return refreshTokenService().then(({ newToken, newFreshToken }) => {
-                            globalStorage.set(tokenKey, newToken)
-                            globalStorage.set(refreshTokenKey, newFreshToken)
-                            config.baseURL = ""
-                            config.headers[tokenKey] = newToken
-                            requests.forEach((cb) => cb(newToken))
-                            requests = []
-                            return client(config)
-                        })
+                        return userService
+                            .refreshToken()
+                            .then(({ data }) => {
+                                const { code } = data
+                                if (code === 10000) {
+                                    globalStorage.set(tokenKey, data.data.token)
+                                    globalStorage.set(refreshTokenKey, data.data.refresh_token)
+                                    config.headers["Authorization"] = data.data.token
+                                    requests.forEach((cb) => cb(data.data.token))
+                                    requests = []
+                                    return client(config)
+                                } else {
+                                    return Promise.reject(data.message)
+                                }
+                            })
+                            .catch(() => {
+                                globalStorage.remove(tokenKey)
+                                window.location.replace("/login")
+                            })
+                            .finally(() => {
+                                isRefreshing = false
+                            })
                     } else {
                         return new Promise((resolve) => {
                             requests.push((token: string) => {
-                                config.baseURL = ""
-                                config.headers[tokenKey] = token
+                                config.headers["Authorization"] = token
                                 resolve(client(config))
                             })
                         })
