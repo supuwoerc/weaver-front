@@ -7,6 +7,14 @@ import userService from "@/service/user"
 let isRefreshing = false
 let requests: Array<(token: string) => void> = []
 
+function gotoLogin() {
+    const tokenKey = appEnv.VITE_APP_TOKEN_KEY
+    const refreshTokenKey = appEnv.VITE_APP_REFRESH_TOKEN_KEY
+    globalStorage.remove(tokenKey)
+    globalStorage.remove(refreshTokenKey)
+    window.location.replace("/login")
+}
+
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
     return [
         (response: AxiosResponse) => {
@@ -43,8 +51,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                 }
                             })
                             .catch(() => {
-                                globalStorage.remove(tokenKey)
-                                window.location.replace("/login")
+                                gotoLogin()
                             })
                             .finally(() => {
                                 isRefreshing = false
@@ -58,16 +65,13 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                         })
                     }
                 } else {
-                    globalStorage.remove(tokenKey)
-                    window.location.replace("/login")
+                    gotoLogin()
                 }
             } else if (code === 10000) {
                 return response.data.data
             } else if (code == 10006) {
                 // 长token失效
-                globalStorage.remove(tokenKey)
-                globalStorage.remove(refreshTokenKey)
-                window.location.replace("/login")
+                gotoLogin()
             } else {
                 return Promise.reject(response.data.message || response.data.msg)
             }

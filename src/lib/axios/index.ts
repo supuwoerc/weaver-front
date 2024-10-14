@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios"
-import requestInterceptors from "./interceptors/request"
+import requestInterceptors, { generateRefreshInterceptors } from "./interceptors/request"
 import responseInterceptors from "./interceptors/response"
 import qs from "qs"
 
@@ -12,6 +12,7 @@ export enum InterceptorType {
     onlyRequest,
     onlyResponse,
     all,
+    refreshToken,
 }
 
 const setRequestInterceptors = (client: AxiosInstance) => {
@@ -25,6 +26,10 @@ const setResponseInterceptors = (client: AxiosInstance) => {
 const setInterceptors = (client: AxiosInstance) => {
     setRequestInterceptors(client)
     setResponseInterceptors(client)
+}
+const setRefreshInterceptors = (client: AxiosInstance) => {
+    const [requestResolve, requestReject] = generateRefreshInterceptors(client)
+    client.interceptors.request.use(requestResolve, requestReject)
 }
 
 const generateAxiosClient = (
@@ -49,9 +54,13 @@ const generateAxiosClient = (
         case InterceptorType.all:
             setInterceptors(client)
             break
+        case InterceptorType.refreshToken:
+            setRefreshInterceptors(client)
+            break
     }
     return client
 }
+
 export default generateAxiosClient
 
-export { setRequestInterceptors, setResponseInterceptors, setInterceptors }
+export { setRequestInterceptors, setResponseInterceptors, setInterceptors, generateAxiosClient }
