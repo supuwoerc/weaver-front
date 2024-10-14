@@ -1,15 +1,24 @@
-import { Timeline, Upload, Button } from "@arco-design/web-react"
+import { Timeline, Upload, Button, Tooltip } from "@arco-design/web-react"
 import UserInfoContainer from "./user-info-container"
 import backageImage from "@/assets/user/profile/user-info/default-bg.png"
 import { Building2, Mail, Tag as TagIcon } from "lucide-react"
 import TimelineItem from "@arco-design/web-react/es/Timeline/item"
-import { IconCamera } from "@arco-design/web-react/icon"
+import { IconCamera, IconInfoCircle } from "@arco-design/web-react/icon"
+import { useRecoilValue } from "recoil"
+import { user } from "@/store"
+import { useIntl } from "react-intl"
 
 interface UserInfoProps {}
 
 const iconSize = 14
 
 const UserInfo: React.FC<UserInfoProps> = () => {
+    const userInfo = useRecoilValue(user.userInfo)
+    const intl = useIntl()
+    const tips = intl.formatMessage({
+        id: "user.infoEditor.info.tips",
+    })
+    const showTips = !userInfo?.nickname || !userInfo.avatar
     return (
         <UserInfoContainer backageImage={backageImage}>
             <div className="simple-info">
@@ -24,20 +33,27 @@ const UserInfo: React.FC<UserInfoProps> = () => {
                     </div>
                 </Upload>
                 <div className="desc">
-                    <p className="name">测试账户</p>
+                    <p className="name">{userInfo?.nickname || "***"}</p>
                     <p className="dept">
                         <Building2 size={iconSize} />
-                        <span>总裁办</span>
+                        <span>{userInfo?.about || "***"}</span>
                     </p>
                     <p className="email">
                         <Mail size={iconSize} />
-                        <span>zhangzhouou@gmail.com</span>
+                        <span>{userInfo?.email || "***"}</span>
                     </p>
                     <div className="roles">
                         <TagIcon size={iconSize} />
-                        <span>关于我</span>
+                        <span>{userInfo?.about || "***"}</span>
                     </div>
                 </div>
+                {showTips && (
+                    <div className="warning">
+                        <Tooltip color={"rgb(var(--red-6))"} content={tips} position="left">
+                            <IconInfoCircle style={{ fontSize: 20 }} />
+                        </Tooltip>
+                    </div>
+                )}
             </div>
             <div className="operations">
                 <Timeline>

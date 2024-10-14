@@ -7,13 +7,14 @@ export interface UserInfoContainerProps {
 const UserInfoContainer = styled.div<UserInfoContainerProps>`
     min-height: 300px;
     .simple-info {
-        height: 200px;
+        height: 140px;
         background-image: url(${(props) => props.backageImage});
         background-repeat: no-repeat;
         background-size: cover;
         display: flex;
         align-items: flex-start;
-        padding: 58px 6%;
+        padding: 32px 6%;
+        position: relative;
         .arco-upload {
             .favicon {
                 position: relative;
@@ -57,6 +58,13 @@ const UserInfoContainer = styled.div<UserInfoContainerProps>`
                     padding: 0 4px;
                 }
             }
+        }
+        .warning {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            color: rgb(var(--red-6));
+            cursor: pointer;
         }
     }
     .operations {

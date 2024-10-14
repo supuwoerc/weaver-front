@@ -1,3 +1,5 @@
+import { globalStorage } from "@/constant/storage"
+import { appEnv } from "@/constant/system"
 import userService, { LoginRequest, LoginResponse, SignupRequest } from "@/service/user"
 import { user } from "@/store"
 import { Message } from "@arco-design/web-react"
@@ -29,7 +31,8 @@ export default function useUser(
                 { name: user.nickname || user.email },
             )}`
             Message.success(msg)
-            setUserInfo(user)
+            globalStorage.set(appEnv.VITE_APP_TOKEN_KEY, token)
+            globalStorage.set(appEnv.VITE_APP_REFRESH_TOKEN_KEY, refresh_token)
             setToken(token)
             setRefreshToken(refresh_token)
             if (loginSuccess) {

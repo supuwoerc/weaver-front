@@ -5,6 +5,7 @@ const zhCN: SystemLocaleMapping = {
     "user.infoEditor.info.sava": "保存",
     "user.infoEditor.info.edit": "编辑",
     "user.infoEditor.info.title": "基础信息",
+    "user.infoEditor.info.tips": "账户信息尚未完善",
     "user.infoEditor.form.email": "邮箱",
     "user.infoEditor.form.password": "密码",
     "user.infoEditor.form.nickname": "昵称",

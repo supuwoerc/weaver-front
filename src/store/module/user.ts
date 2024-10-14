@@ -7,8 +7,9 @@ import { StorageState } from "@/types/storage"
 
 export const defaultUserInfo = (): UserInfo => {
     return {
-        id: "",
+        id: 0,
         roles: [],
+        avatar: "",
         email: "",
         nickname: "",
         gender: UserGender.GENDER_UNKNOWN,

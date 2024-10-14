@@ -1,8 +1,9 @@
 import { UserGender } from "@/constant/user"
 
 interface UserInfo {
-    id: string
+    id: number
     nickname: string
+    avatar: string
     gender: UserGender
     email: string
     birthday: string

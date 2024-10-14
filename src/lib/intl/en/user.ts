@@ -5,6 +5,7 @@ const enUS: SystemLocaleMapping = {
     "user.infoEditor.info.sava": "Save",
     "user.infoEditor.info.edit": "Edit",
     "user.infoEditor.info.title": "Basic Info",
+    "user.infoEditor.info.tips": "Account information is not complete",
     "user.infoEditor.form.email": "Email",
     "user.infoEditor.form.password": "Password",
     "user.infoEditor.form.nickname": "Nickname",

@@ -110,6 +110,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
             setSearchParams({ [TabKey]: TabType.signup })
         }
     }, [pathnameIsLogin, pathnameIsSignup, searchParams, setSearchParams])
+
     return (
         <FormContainer className={classNames("form", type)}>
             <div className="title" data-test="title">

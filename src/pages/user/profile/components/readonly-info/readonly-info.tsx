@@ -43,9 +43,9 @@ const InfoEditor: React.FC<InfoEditorProps> = () => {
                 <div className="items">
                     {formItems.map((item) => {
                         return (
-                            <div className="btn-item" key={item.label}>
+                            <div className="btn-item" key={item.label} title={item.label}>
                                 <item.icon width={72} height={72} />
-                                <p>{item.label}</p>
+                                <div>{item.label}</div>
                             </div>
                         )
                     })}

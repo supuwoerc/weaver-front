@@ -7,9 +7,15 @@ const ReadonlyInfoContainer = styled.div`
         .btn-item {
             cursor: pointer;
             text-align: center;
-            p {
+            > div {
+                overflow: hidden;
+                word-break: break-all;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 margin-top: 4px;
                 font-weight: bold;
+                padding: 0 1em;
+                height: 16px;
             }
             svg {
                 transition: transform 0.3s;
