@@ -14,6 +14,7 @@ const NavbarContainer = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
         &:hover {
             background: var(--color-secondary);
         }

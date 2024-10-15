@@ -13,12 +13,10 @@ const Navbar: React.FC<NavbarProps> = () => {
     const [sidebarCollapsed, setSidebarCollapsed] = useRecoilState(system.sidebarCollapsed)
     const props = {
         fontSize: 20,
-        cursor: "pointer",
-        onClick: () => setSidebarCollapsed(!sidebarCollapsed),
     }
     return (
         <NavbarContainer>
-            <div className="trigger">
+            <div className="trigger" onClick={() => setSidebarCollapsed(!sidebarCollapsed)}>
                 {!sidebarCollapsed ? <IconMenuFold {...props} /> : <IconMenuUnfold {...props} />}
             </div>
             <Space size={14}>
