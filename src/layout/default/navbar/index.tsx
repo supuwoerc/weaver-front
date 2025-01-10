@@ -9,7 +9,7 @@ import { system } from "@/store"
 interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-    const sidebarCollapsed = system.useSystemConfig((state) => state.sidebarCollapsed)
+    const sidebarCollapsed = system.useSystemConfigStore((state) => state.sidebarCollapsed)
     const props = {
         fontSize: 20,
     }

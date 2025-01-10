@@ -1,16 +1,14 @@
-import { globalStorage } from "@/constant/storage"
 import { InternalAxiosRequestConfig } from "axios"
 import { WrapAxiosInstance } from ".."
-import { appEnv } from "@/constant/system"
+import { system, user } from "@/store"
 
 const generateRequestInterceptors = (_client: WrapAxiosInstance) => {
     return [
         (config: InternalAxiosRequestConfig) => {
-            // 请求携带token和locale
-            const tokenKey = appEnv.VITE_APP_TOKEN_KEY
-            const localeKey = appEnv.VITE_APP_LOCALE_KEY
-            config.headers["Authorization"] = "Bearer " + (globalStorage.get(tokenKey) ?? "")
-            config.headers["Locale"] = globalStorage.get(localeKey) ?? ""
+            const { token } = user.useLoginStore.getState()
+            const { locale } = system.useSystemConfigStore.getState()
+            config.headers["Authorization"] = "Bearer " + token
+            config.headers["Locale"] = locale
             return config
         },
         (error: any) => {
@@ -22,13 +20,11 @@ const generateRequestInterceptors = (_client: WrapAxiosInstance) => {
 const generateRefreshInterceptors = (_client: WrapAxiosInstance) => {
     return [
         (config: InternalAxiosRequestConfig) => {
-            // 请求携带token和locale
-            const tokenKey = appEnv.VITE_APP_TOKEN_KEY
-            const localeKey = appEnv.VITE_APP_LOCALE_KEY
-            const refreshTokenKey = appEnv.VITE_APP_REFRESH_TOKEN_KEY
-            config.headers["Authorization"] = "Bearer " + (globalStorage.get(tokenKey) ?? "")
-            config.headers["Locale"] = globalStorage.get(localeKey) ?? ""
-            config.headers["Refresh-Token"] = globalStorage.get(refreshTokenKey) ?? ""
+            const { token, refreshToken } = user.useLoginStore.getState()
+            const { locale } = system.useSystemConfigStore.getState()
+            config.headers["Authorization"] = "Bearer " + (token ?? "")
+            config.headers["Locale"] = locale
+            config.headers["Refresh-Token"] = refreshToken ?? ""
             return config
         },
         (error: any) => {

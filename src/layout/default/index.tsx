@@ -14,8 +14,8 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const location = useLocation()
     const nodeRef = useRef(null)
     const currentOutlet = useOutlet()
-    const menuRoutes = routes.useSystemRoute((state) => state.menuRoutes)
-    const sidebarCollapsed = system.useSystemConfig((state) => state.sidebarCollapsed)
+    const menuRoutes = routes.useSystemRouteStore((state) => state.menuRoutes)
+    const sidebarCollapsed = system.useSystemConfigStore((state) => state.sidebarCollapsed)
     const routePath = useMemo(() => {
         return getParents(menuRoutes, location.pathname, "path")
     }, [location.pathname, menuRoutes])

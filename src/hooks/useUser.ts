@@ -1,5 +1,3 @@
-import { globalStorage } from "@/constant/storage"
-import { appEnv } from "@/constant/system"
 import userService, { LoginRequest, LoginResponse, SignupRequest } from "@/service/user"
 import { user as userStore } from "@/store"
 import { Message } from "@arco-design/web-react"
@@ -27,9 +25,8 @@ export default function useUser(
                 { name: user.nickname || user.email },
             )}`
             Message.success(msg)
-            globalStorage.set(appEnv.VITE_APP_TOKEN_KEY, token)
-            globalStorage.set(appEnv.VITE_APP_REFRESH_TOKEN_KEY, refresh_token)
-            userStore.setTokens(token, refresh_token)
+            userStore.setToken(token)
+            userStore.setRefreshToken(refresh_token)
             if (loginSuccess) {
                 loginSuccess(data)
             }
@@ -57,8 +54,7 @@ export default function useUser(
     })
     // TODO:请求接口登出,将token和refreshToken加入黑名单
     const logout = () => {
-        userStore.clearUserInfo()
-        userStore.clearTokens()
+        userStore.clear()
         if (logoutSuccess) {
             logoutSuccess()
         }

@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
-    const sidebarCollapsed = system.useSystemConfig((state) => state.sidebarCollapsed)
+    const sidebarCollapsed = system.useSystemConfigStore((state) => state.sidebarCollapsed)
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys

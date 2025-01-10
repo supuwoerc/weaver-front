@@ -13,12 +13,12 @@ interface UserInfoProps {}
 const iconSize = 14
 
 const UserInfo: React.FC<UserInfoProps> = () => {
-    const { nickname, avatar, about, email } = user.useUserInfo(
+    const { nickname, avatar, about, email } = user.useLoginStore(
         useShallow((state) => ({
-            nickname: state?.nickname,
-            avatar: state?.avatar,
-            about: state?.about,
-            email: state?.email,
+            nickname: state?.userInfo?.nickname,
+            avatar: state?.userInfo?.avatar,
+            about: state?.userInfo?.about,
+            email: state?.userInfo?.email,
         })),
     )
     const intl = useIntl()

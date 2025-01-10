@@ -8,7 +8,7 @@ interface ThemeSelectProps {
 }
 
 const ThemeSelect: React.FC<ThemeSelectProps> = ({ style }) => {
-    const theme = system.useSystemConfig((state) => state.theme)
+    const theme = system.useSystemConfigStore((state) => state.theme)
     const onClickHandle = () => {
         const target = theme === "dark" ? "light" : "dark"
         system.setSystemTheme(target)

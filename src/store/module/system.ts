@@ -1,37 +1,48 @@
 import { create } from "zustand"
-import { globalStorage } from "@/constant/storage"
-import { SystemLocale, appEnv } from "@/constant/system"
+import { SystemLocale, appIsDevEnv } from "@/constant/system"
+import { devtools, persist } from "zustand/middleware"
+import { immer } from "zustand/middleware/immer"
 
-type TSystemConfigState = {
+type TSystemConfigStore = {
     locale: SystemLocale
     sidebarCollapsed: boolean
-    collapsedLatestTrigger: "user" | "breakpoint" | null
     theme: "dark" | "light"
 }
 
-const initialSystemConfig: TSystemConfigState = {
-    locale: globalStorage.get(appEnv.VITE_APP_LOCALE_KEY) || SystemLocale.cn,
-    sidebarCollapsed: globalStorage.get(appEnv.VITE_APP_COLLAPSE_KEY) || false,
-    collapsedLatestTrigger: null,
-    theme: globalStorage.get(appEnv.VITE_APP_THEME_KEY) || "light",
+const initialSystemConfig: TSystemConfigStore = {
+    locale: SystemLocale.cn,
+    sidebarCollapsed: false,
+    theme: "light",
 }
 
-export const useSystemConfig = create<TSystemConfigState>()(() => initialSystemConfig)
+const SYSTEM_CONFIG_STORE_NAME = "systemConfigStore"
+
+export const useSystemConfigStore = create<TSystemConfigStore>()(
+    immer(
+        devtools(
+            persist(() => initialSystemConfig, { name: SYSTEM_CONFIG_STORE_NAME }),
+            {
+                name: SYSTEM_CONFIG_STORE_NAME,
+                enabled: appIsDevEnv,
+            },
+        ),
+    ),
+)
 
 export const setSystemLocale = (locale: SystemLocale) => {
-    useSystemConfig.setState({ locale })
+    useSystemConfigStore.setState((state) => {
+        state.locale = locale
+    })
 }
 
 export const setSystemSidebarCollapsed = (sidebarCollapsed: boolean) => {
-    useSystemConfig.setState({ sidebarCollapsed })
+    useSystemConfigStore.setState((state) => {
+        state.sidebarCollapsed = sidebarCollapsed
+    })
 }
 
-export const setSystemCollapsedLatestTrigger = (
-    collapsedLatestTrigger: TSystemConfigState["collapsedLatestTrigger"],
-) => {
-    useSystemConfig.setState({ collapsedLatestTrigger })
-}
-
-export const setSystemTheme = (theme: TSystemConfigState["theme"]) => {
-    useSystemConfig.setState({ theme })
+export const setSystemTheme = (theme: TSystemConfigStore["theme"]) => {
+    useSystemConfigStore.setState((state) => {
+        state.theme = theme
+    })
 }

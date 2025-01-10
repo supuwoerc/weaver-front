@@ -1,51 +1,64 @@
 import { UserInfo } from "@/types/user"
-import { UserGender } from "@/constant/user"
-import { globalStorage } from "@/constant/storage"
-import { appEnv } from "@/constant/system"
+import { appIsDevEnv } from "@/constant/system"
 import { create } from "zustand"
+import { devtools, persist } from "zustand/middleware"
+import { immer } from "zustand/middleware/immer"
 import { StorageState } from "@/types/storage"
 
-export const initialUserInfo: UserInfo = {
-    id: 0,
-    email: "",
-    nickname: null,
-    avatar: null,
-    gender: UserGender.GENDER_UNKNOWN,
-    birthday: null,
-    about: null,
-    permissions: [],
+type TLoginStore = {
+    userInfo: UserInfo | null
+    token: StorageState["token"] | null
+    refreshToken: StorageState["refreshToken"] | null
 }
 
-export const useUserInfo = create<UserInfo | null>()(() => initialUserInfo)
-
-export const setUserInfo = (userInfo: UserInfo) => {
-    useUserInfo.setState(userInfo)
+export const initialLoginState: TLoginStore = {
+    userInfo: null,
+    token: null,
+    refreshToken: null,
 }
 
-export const clearUserInfo = () => {
-    useUserInfo.setState(null)
+const LOGIN_STORE_NAME = "loginStore"
+
+export const useLoginStore = create<TLoginStore>()(
+    immer(
+        devtools(
+            persist(() => initialLoginState, {
+                name: LOGIN_STORE_NAME,
+                partialize: (state) => ({
+                    token: state.token,
+                    refreshToken: state.refreshToken,
+                }),
+            }),
+            {
+                name: LOGIN_STORE_NAME,
+                enabled: appIsDevEnv,
+            },
+        ),
+    ),
+)
+
+export const setUserInfo = (val: UserInfo) => {
+    useLoginStore.setState((state) => {
+        state.userInfo = val
+    })
 }
 
-type TokenStoreState = {
-    token: StorageState["token"]
-    refreshToken: StorageState["refreshToken"]
+export const setToken = (val: TLoginStore["token"]) => {
+    useLoginStore.setState((state) => {
+        state.token = val
+    })
 }
 
-const initialToken: TokenStoreState = {
-    token: globalStorage.get(appEnv.VITE_APP_TOKEN_KEY) || "",
-    refreshToken: globalStorage.get(appEnv.VITE_APP_REFRESH_TOKEN_KEY) || "",
+export const setRefreshToken = (val: TLoginStore["refreshToken"]) => {
+    useLoginStore.setState((state) => {
+        state.refreshToken = val
+    })
 }
 
-export const useToken = create<TokenStoreState | null>(() => initialToken)
-
-export const setTokens = (
-    token: StorageState["token"],
-    refreshToken: StorageState["refreshToken"],
-) => {
-    useToken.setState({ token, refreshToken })
-}
-
-// 清理token
-export const clearTokens = () => {
-    useToken.setState(null)
+export const clear = () => {
+    useLoginStore.setState((state) => {
+        state.userInfo = null
+        state.token = null
+        state.refreshToken = null
+    })
 }

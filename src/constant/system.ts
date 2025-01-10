@@ -23,6 +23,8 @@ export const ServerErrorMessage = new Proxy(
 
 export const appEnv = getAppEnv()
 
+export const appIsDevEnv = appEnv.VITE_APP_ENV === "dev"
+
 export const globalRouter = { navigate: null } as {
     navigate: null | NavigateFunction
 }

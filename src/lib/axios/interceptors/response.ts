@@ -1,17 +1,14 @@
-import { globalStorage } from "@/constant/storage"
 import { AxiosResponse } from "axios"
 import { WrapAxiosInstance } from ".."
-import { ServerErrorMessage, SystemLocale, appEnv, globalRouter } from "@/constant/system"
+import { ServerErrorMessage, SystemLocale, globalRouter } from "@/constant/system"
 import userService from "@/service/user"
+import { user } from "@/store"
 
 let isRefreshing = false
 let requests: Array<(token: string) => void> = []
 
 function gotoLogin() {
-    const tokenKey = appEnv.VITE_APP_TOKEN_KEY
-    const refreshTokenKey = appEnv.VITE_APP_REFRESH_TOKEN_KEY
-    globalStorage.remove(tokenKey)
-    globalStorage.remove(refreshTokenKey)
+    user.useLoginStore.persist.clearStorage()
     window.location.replace("/login")
 }
 
@@ -19,8 +16,6 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
     return [
         (response: AxiosResponse) => {
             const { config, status } = response
-            const tokenKey = appEnv.VITE_APP_TOKEN_KEY
-            const refreshTokenKey = appEnv.VITE_APP_REFRESH_TOKEN_KEY
             const { code } = response.data
             if (status >= 500) {
                 const { headers } = config
@@ -31,7 +26,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                 return Promise.reject(ServerErrorMessage[locale])
             } else if (code == 10003) {
                 // token错误，尝试刷新token
-                const refreshToken = globalStorage.get(refreshTokenKey)
+                const { refreshToken } = user.useLoginStore.getState()
                 if (refreshToken) {
                     if (!isRefreshing) {
                         isRefreshing = true
@@ -40,8 +35,10 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                             .then(({ data }) => {
                                 const { code } = data
                                 if (code === 10000) {
-                                    globalStorage.set(tokenKey, data.data.token)
-                                    globalStorage.set(refreshTokenKey, data.data.refresh_token)
+                                    user.useLoginStore.setState((state) => {
+                                        state.token = data.data.token
+                                        state.refreshToken = data.data.token
+                                    })
                                     config.headers["Authorization"] = data.data.token
                                     requests.forEach((cb) => cb(data.data.token))
                                     requests = []
