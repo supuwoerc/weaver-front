@@ -22,7 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     <BasicCard>
                         <InfoEditor />
                     </BasicCard>
-                    <BasicCard>
+                    <BasicCard style={{ marginTop: 14 }}>
                         <ReadonlyInfo />
                     </BasicCard>
                 </Col>
