@@ -1,4 +1,4 @@
-import LoadingFallback from "@/components/loading-fallback"
+import LoadingFallback from "@/components/loadingFallback"
 import { Suspense } from "react"
 
 function lazyload(

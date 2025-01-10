@@ -3,7 +3,6 @@ import Intl from "./intl"
 import { BrowserRouter } from "react-router-dom"
 import { PropsWithChildren, useEffect, useState } from "react"
 import loadLocale from "@/lib/intl"
-import { useRecoilValue } from "recoil"
 import { system } from "@/store"
 import { useQueryClient } from "@tanstack/react-query"
 import { getIntl } from "@/utils"
@@ -15,7 +14,7 @@ const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
     const [intlSetting, setIntlSetting] = useState<
         Partial<ThenType<ReturnType<typeof loadLocale>>>
     >({})
-    const locale = useRecoilValue(system.locale)
+    const locale = system.useSystemConfig((state) => state.locale)
     useEffect(() => {
         qc.fetchQuery(["provider", "intl"], () => {
             return loadLocale(locale)

@@ -1,21 +1,17 @@
 import { globalStorage } from "@/constant/storage"
 import { appEnv } from "@/constant/system"
 import userService, { LoginRequest, LoginResponse, SignupRequest } from "@/service/user"
-import { user } from "@/store"
+import { user as userStore } from "@/store"
 import { Message } from "@arco-design/web-react"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
 import { useIntl } from "react-intl"
-import { useSetRecoilState } from "recoil"
 export default function useUser(
     loginSuccess: ((data: LoginResponse) => void) | null = null,
     signupSuccess: (() => void) | null = null,
     logoutSuccess: (() => void) | null = null,
 ) {
     const intl = useIntl()
-    const setUserInfo = useSetRecoilState(user.userInfo)
-    const setToken = useSetRecoilState(user.token)
-    const setRefreshToken = useSetRecoilState(user.refreshToken)
     const [loginLoading, setLoginLoading] = useState(false)
     const [signupLoading, setSignupLoading] = useState(false)
     const loginHandle = useMutation(userService.login, {
@@ -33,8 +29,7 @@ export default function useUser(
             Message.success(msg)
             globalStorage.set(appEnv.VITE_APP_TOKEN_KEY, token)
             globalStorage.set(appEnv.VITE_APP_REFRESH_TOKEN_KEY, refresh_token)
-            setToken(token)
-            setRefreshToken(refresh_token)
+            userStore.setTokens(token, refresh_token)
             if (loginSuccess) {
                 loginSuccess(data)
             }
@@ -62,9 +57,8 @@ export default function useUser(
     })
     // TODO:请求接口登出,将token和refreshToken加入黑名单
     const logout = () => {
-        setUserInfo(null)
-        setToken(null)
-        setRefreshToken(null)
+        userStore.clearUserInfo()
+        userStore.clearTokens()
         if (logoutSuccess) {
             logoutSuccess()
         }

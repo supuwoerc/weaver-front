@@ -1,9 +1,9 @@
 import { Grid } from "@arco-design/web-react"
-import BasicCard from "@/components/basic-card"
-import ProfileContainer from "./profile-container"
-import UserInfo from "./components/user-info/user-info"
-import InfoEditor from "./components/info-editor/info-editor"
-import ReadonlyInfo from "./components/readonly-info/readonly-info"
+import BasicCard from "@/components/basicCard"
+import ProfileContainer from "./profileContainer"
+import UserInfo from "./components/userInfo/userInfo"
+import InfoEditor from "./components/infoEditor/infoEditor"
+import ReadonlyInfo from "./components/readonlyInfo/readonlyInfo"
 
 interface UserProfileProps {}
 

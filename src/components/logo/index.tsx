@@ -1,7 +1,7 @@
 import { css } from "@emotion/react"
 import { CSSProperties, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import LogoContainer from "./logo-container"
+import LogoContainer from "./logoContainer"
 import { appEnv } from "@/constant/system"
 import Favicon from "@/assets/logo.svg?react"
 import { useRef } from "react"

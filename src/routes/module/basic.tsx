@@ -6,7 +6,7 @@ import lazyload from "@/components/lazyload/index"
 
 const Login = lazy(() => import("@/pages/login"))
 const ServerError = lazy(() => import("@/pages/500/index"))
-const ResetPassword = lazy(() => import("@/pages/reset-password/index"))
+const ResetPassword = lazy(() => import("@/pages/resetPassword/index"))
 const basicRoutes: CustomRouteObject[] = [
     {
         path: "/",

@@ -2,7 +2,7 @@
 import NotFoundSVG from "@/assets/404/not-found.svg?react"
 import { Button } from "@arco-design/web-react"
 import { useNavigate } from "react-router-dom"
-import Exception from "@/components/exception-container"
+import Exception from "@/components/exceptionContainer"
 
 const NotFound: React.FC = () => {
     const navigate = useNavigate()

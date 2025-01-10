@@ -1,17 +1,16 @@
 import { user } from "@/store"
 import { PropsWithChildren, useEffect } from "react"
 import { matchRoutes, useLocation, useNavigate } from "react-router-dom"
-import { useRecoilState, useRecoilValue } from "recoil"
 import routes from "./config"
 import { useQuery } from "@tanstack/react-query"
 import userService from "@/service/user"
-import { isNull, isString } from "@supuwoerc/utils"
+import { isString } from "@supuwoerc/utils"
 
 interface InitAppStateProps {}
 
 const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }) => {
-    const token = useRecoilValue(user.token)
-    const [userInfo, setUserInfo] = useRecoilState(user.userInfo)
+    const token = user.useToken((state) => state?.token)
+    const userId = user.useUserInfo((state) => state?.id ?? 0)
     const navigate = useNavigate()
     const location = useLocation()
     const ret = matchRoutes(routes, location)
@@ -33,12 +32,12 @@ const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }
         },
         {
             cacheTime: 0,
-            enabled: isString(token) && token !== "" && (isNull(userInfo) || userInfo.id === 0),
+            enabled: isString(token) && token !== "" && userId == 0,
         },
     )
     useEffect(() => {
-        data && setUserInfo(data)
-    }, [data, setUserInfo])
+        data && user.setUserInfo(data)
+    }, [data])
     return <>{children}</>
 }
 

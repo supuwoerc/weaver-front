@@ -3,10 +3,9 @@ import { css } from "@emotion/react"
 import { useMemo, useRef } from "react"
 import { useLocation, useOutlet } from "react-router-dom"
 import { SwitchTransition, CSSTransition } from "react-transition-group"
-import { transitionCss } from "../router-transition"
+import { transitionCss } from "../routerTransition"
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
-import { useRecoilValue } from "recoil"
 import { routes, system } from "@/store"
 import { getParents } from "@supuwoerc/utils"
 
@@ -15,8 +14,8 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const location = useLocation()
     const nodeRef = useRef(null)
     const currentOutlet = useOutlet()
-    const menuRoutes = useRecoilValue(routes.menuRoutes)
-    const sidebarCollapsed = useRecoilValue(system.sidebarCollapsed)
+    const menuRoutes = routes.useSystemRoute((state) => state.menuRoutes)
+    const sidebarCollapsed = system.useSystemConfig((state) => state.sidebarCollapsed)
     const routePath = useMemo(() => {
         return getParents(menuRoutes, location.pathname, "path")
     }, [location.pathname, menuRoutes])

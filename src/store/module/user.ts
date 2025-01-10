@@ -1,69 +1,51 @@
-import { atom } from "recoil"
 import { UserInfo } from "@/types/user"
 import { UserGender } from "@/constant/user"
 import { globalStorage } from "@/constant/storage"
 import { appEnv } from "@/constant/system"
+import { create } from "zustand"
 import { StorageState } from "@/types/storage"
 
-export const defaultUserInfo = (): UserInfo => {
-    return {
-        id: 0,
-        roles: [],
-        avatar: "",
-        email: "",
-        nickname: "",
-        gender: UserGender.GENDER_UNKNOWN,
-        about: "",
-        birthday: "",
-    }
+export const initialUserInfo: UserInfo = {
+    id: 0,
+    email: "",
+    nickname: null,
+    avatar: null,
+    gender: UserGender.GENDER_UNKNOWN,
+    birthday: null,
+    about: null,
+    permissions: [],
 }
 
-export const userInfo = atom<UserInfo | null>({
-    key: "userInfo",
-    default: defaultUserInfo(),
-    effects: [
-        ({ onSet }) => {
-            onSet((value) => {
-                if (!value || value.email === "") {
-                    globalStorage.remove(appEnv.VITE_APP_TOKEN_KEY)
-                }
-            })
-        },
-    ],
-})
+export const useUserInfo = create<UserInfo | null>()(() => initialUserInfo)
 
-const defaultToken = globalStorage.get(appEnv.VITE_APP_TOKEN_KEY) || ""
+export const setUserInfo = (userInfo: UserInfo) => {
+    useUserInfo.setState(userInfo)
+}
 
-export const token = atom<StorageState["token"] | null>({
-    key: "token",
-    default: defaultToken,
-    effects: [
-        ({ onSet }) => {
-            onSet((value) => {
-                if (value) {
-                    globalStorage.set(appEnv.VITE_APP_TOKEN_KEY, value)
-                } else {
-                    globalStorage.remove(appEnv.VITE_APP_TOKEN_KEY)
-                }
-            })
-        },
-    ],
-})
+export const clearUserInfo = () => {
+    useUserInfo.setState(null)
+}
 
-const defaultRefreshToken = globalStorage.get(appEnv.VITE_APP_REFRESH_TOKEN_KEY) || ""
+type TokenStoreState = {
+    token: StorageState["token"]
+    refreshToken: StorageState["refreshToken"]
+}
 
-export const refreshToken = atom<StorageState["refreshToken"] | null>({
-    key: "refreshToken",
-    default: defaultRefreshToken,
-    effects: [
-        ({ onSet }) => {
-            onSet((value) => {
-                if (value) {
-                    globalStorage.set(appEnv.VITE_APP_REFRESH_TOKEN_KEY, value)
-                } else {
-                    globalStorage.remove(appEnv.VITE_APP_REFRESH_TOKEN_KEY)
-                }
-            })
-        },
-    ],
-})
+const initialToken: TokenStoreState = {
+    token: globalStorage.get(appEnv.VITE_APP_TOKEN_KEY) || "",
+    refreshToken: globalStorage.get(appEnv.VITE_APP_REFRESH_TOKEN_KEY) || "",
+}
+
+export const useToken = create<TokenStoreState | null>(() => initialToken)
+
+export const setTokens = (
+    token: StorageState["token"],
+    refreshToken: StorageState["refreshToken"],
+) => {
+    useToken.setState({ token, refreshToken })
+}
+
+// 清理token
+export const clearTokens = () => {
+    useToken.setState(null)
+}

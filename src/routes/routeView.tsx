@@ -1,10 +1,9 @@
 import { routes } from "@/store"
 import { useRoutes } from "react-router-dom"
-import { useRecoilValue } from "recoil"
 
-// TODO:当前展示的角色内的路由
+// TODO:当前展示的权限内的路由
 const RouteView = () => {
-    const syncRoutes = useRecoilValue(routes.syncPermissionRoutes)
+    const syncRoutes = routes.useSystemRoute((state) => state.syncPermissionRoutes)
     const element = useRoutes(syncRoutes)
     return element
 }

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom"
-import BeforeEach from "./before-each"
-import CheckLogin from "./check-login"
-import RouteView from "./route-view"
+import BeforeEach from "./beforeEach"
+import CheckLogin from "./checkLogin"
+import RouteView from "./routeView"
 import { globalRouter } from "@/constant/system"
 
 const AppRoutes = () => {

@@ -2,7 +2,7 @@
 import ServerErrorSVG from "@/assets/500/server-error.svg?react"
 import { Button } from "@arco-design/web-react"
 import { useNavigate } from "react-router-dom"
-import Exception from "@/components/exception-container"
+import Exception from "@/components/exceptionContainer"
 
 const ServerError: React.FC = () => {
     const navigate = useNavigate()

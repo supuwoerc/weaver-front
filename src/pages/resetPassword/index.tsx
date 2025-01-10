@@ -5,7 +5,7 @@ import Step from "@arco-design/web-react/es/Steps/step"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import { useEffect, useMemo } from "react"
 import useForm from "@arco-design/web-react/es/Form/useForm"
-import { VerifyEmailRequest } from "@/service/reset-password"
+import { VerifyEmailRequest } from "@/service/resetPassword"
 import { Link, useSearchParams } from "react-router-dom"
 import { emailRegexp } from "@/constant/user"
 
