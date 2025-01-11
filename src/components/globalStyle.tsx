@@ -37,7 +37,7 @@ const appCommon = css`
         overflow-x: hidden;
     }
     body {
-        background-color: var(--color-bg-1);
+        background-color: var(--color-neutral-2);
         color: var(--color-text-1);
         color-scheme: dark; // 这个属性设置后，滚动条也能表现为暗色模式
     }
@@ -66,6 +66,9 @@ const variables = css`
     .arco-theme[arco-theme="dark"] {
         --reset-password-form-shadow: rgba(255, 255, 255, 0.2) 0px 7px 59px 0px;
         --theme-color: #4070ff;
+    }
+    .arco-table-th {
+        background-color: var(--color-neutral-3);
     }
 `
 

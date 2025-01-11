@@ -42,7 +42,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                 <Layout.Content
                     css={css`
                         flex: 1;
-                        background: var(--color-fill-2);
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
