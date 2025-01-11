@@ -1,5 +1,5 @@
 import { Alert, Button, Divider, Form, Input, Result, Space, Steps } from "@arco-design/web-react"
-import ResetPasswordContainer from "./reset-password-container"
+import ResetPasswordContainer from "./resetPasswordContainer"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import Step from "@arco-design/web-react/es/Steps/step"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"

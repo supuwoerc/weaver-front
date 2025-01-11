@@ -5,7 +5,8 @@ import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
 
-const Role = lazy(() => import("@/pages/dashboard/todo/index"))
+const RoleSetting = lazy(() => import("@/pages/setting/role/index"))
+const PermissionSetting = lazy(() => import("@/pages/setting/permission/index"))
 
 const settingRoutes: CustomRouteObject[] = [
     {
@@ -20,12 +21,12 @@ const settingRoutes: CustomRouteObject[] = [
             {
                 path: "role",
                 meta: { title: "router.setting.role", auth: true },
-                element: lazyload(Role),
+                element: lazyload(RoleSetting),
             },
             {
                 path: "permission",
                 meta: { title: "router.setting.permission", auth: true },
-                element: lazyload(Role),
+                element: lazyload(PermissionSetting),
             },
             {
                 path: "",
