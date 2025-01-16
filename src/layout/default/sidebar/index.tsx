@@ -5,8 +5,6 @@ import { FormattedMessage } from "react-intl"
 import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
-import Logo from "@/components/logo"
-import { system } from "@/store"
 const MenuItem = Menu.Item
 const SubMenu = Menu.SubMenu
 interface SidebarProps {
@@ -15,7 +13,7 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
-    const sidebarCollapsed = system.useSystemConfigStore((state) => state.sidebarCollapsed)
+
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
         return keys
@@ -29,13 +27,8 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     }
     return (
         <SidebarContainer>
-            <Logo
-                color={"var(--color-text-1)"}
-                style={{ height: 60, width: "100%", justifyContent: "center" }}
-                onlyLogo={sidebarCollapsed}
-            />
             <Menu
-                style={{ height: "calc(100% - 60px)" }}
+                style={{ height: "100%" }}
                 openKeys={openKeys}
                 selectedKeys={selectedKeys}
                 onClickMenuItem={onClickMenuItemHandle}

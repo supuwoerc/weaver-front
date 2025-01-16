@@ -37,7 +37,7 @@ const appCommon = css`
         overflow-x: hidden;
     }
     body {
-        background-color: var(--color-neutral-2);
+        background-color: var(--color-bg-1);
         color: var(--color-text-1);
         color-scheme: dark; // 这个属性设置后，滚动条也能表现为暗色模式
     }
@@ -60,11 +60,11 @@ const variables = css`
         --main-padding: 14px;
     }
     .arco-theme {
-        --reset-password-form-shadow: rgba(0, 0, 0, 0.2) 0px 7px 59px 0px;
+        --common-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         --theme-color: #4070ff;
     }
     .arco-theme[arco-theme="dark"] {
-        --reset-password-form-shadow: rgba(255, 255, 255, 0.2) 0px 7px 59px 0px;
+        --common-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
         --theme-color: #4070ff;
     }
     .arco-table-th {

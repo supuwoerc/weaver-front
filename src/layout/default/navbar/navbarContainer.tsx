@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 const NavbarContainer = styled.div`
     height: 60px;
     background-color: var(--color-bg-2);
+    box-shadow: var(--common-shadow);
     display: flex;
     align-items: center;
     justify-content: space-between;

@@ -6,7 +6,12 @@ declare module "*.svg" {
 }
 type ThenType<T> = T extends Promise<infer U> ? U : never
 
-type PageData<T> = {
+type PageResponse<T> = {
     total: number
     list: Array<T>
+}
+
+type PageRequest = {
+    limit: number
+    offset: number
 }

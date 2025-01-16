@@ -15,6 +15,11 @@ import FormItem from "@arco-design/web-react/es/Form/form-item"
 import { FormattedMessage, IntlShape, useIntl } from "react-intl"
 import { useQuery } from "@tanstack/react-query"
 import roleService from "@/service/role"
+import { Grid } from "@arco-design/web-react"
+
+const Row = Grid.Row
+const Col = Grid.Col
+const InputSearch = Input.Search
 
 const getIntlMapping = (intl: IntlShape) => {
     return {
@@ -76,8 +81,20 @@ const RoleSetting: React.FC = () => {
             ),
         },
     ]
+    const [pagination, setPagination] = useState({
+        sizeCanChange: true,
+        showTotal: true,
+        total: 96,
+        pageSize: 10,
+        current: 1,
+        pageSizeChangeResetCurrent: true,
+    })
     const { data, isFetching } = useQuery(queryKey, () => {
-        return roleService.getRoleList()
+        return roleService.getRoleList({
+            name: "",
+            limit: pagination.pageSize,
+            offset: (pagination.current - 1) * pagination.pageSize,
+        })
     })
     const onOk = () => {
         form.validate().then((res) => {
@@ -92,10 +109,26 @@ const RoleSetting: React.FC = () => {
     return (
         <RoleSettingContainer>
             <Space direction="vertical" style={{ width: "100%" }}>
-                <Button type="primary" icon={<IconPlus />} onClick={() => setVisible(true)}>
-                    <FormattedMessage id="role.btn.add" />
-                </Button>
-                <Table columns={columns} data={data?.list} loading={isFetching} />
+                <Row justify="space-between">
+                    <Col flex={"auto"}>
+                        <InputSearch
+                            placeholder="Enter something"
+                            style={{ width: 350, margin: 12 }}
+                            searchButton={true}
+                        />
+                    </Col>
+                    <Col flex={"0"}>
+                        <Button type="primary" icon={<IconPlus />} onClick={() => setVisible(true)}>
+                            <FormattedMessage id="role.btn.add" />
+                        </Button>
+                    </Col>
+                </Row>
+                <Table
+                    columns={columns}
+                    data={data?.list}
+                    loading={isFetching}
+                    pagination={pagination}
+                />
             </Space>
             <Modal
                 title={intlMapping.modalTitle}

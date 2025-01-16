@@ -1,6 +1,9 @@
 import defaultClient from "@/constant/axios"
 
-interface RoleListRow {
+export interface GetRoleListRequest extends PageRequest {
+    name?: string
+}
+export interface RoleListRow {
     id: number
     name: string
     // FIXME:类型修复
@@ -9,7 +12,8 @@ interface RoleListRow {
     permissions: Array<any>
 }
 
-const getRoleList = () => defaultClient.get<PageData<RoleListRow>>("/captcha/generate")
+const getRoleList = (params: GetRoleListRequest) =>
+    defaultClient.get<PageResponse<RoleListRow>>("/role/list", { params })
 
 export default {
     getRoleList,

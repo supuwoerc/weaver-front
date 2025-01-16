@@ -4,7 +4,7 @@ export const transitionCss = css`
     height: 100%;
     .fade-slide-enter {
         opacity: 0;
-        transform: translateX(100%);
+        transform: translateX(60px);
     }
     .fade-slide-enter-active {
         opacity: 1;
@@ -18,7 +18,7 @@ export const transitionCss = css`
     }
     .fade-slide-exit-active {
         opacity: 0;
-        transform: translateX(-100%);
+        transform: translateX(-60px);
         transition: opacity 0.5s, transform 0.5s;
     }
 `

@@ -11,7 +11,8 @@ const ResetPasswordContainer = styled.div`
         padding: 20px;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: var(--reset-password-form-shadow);
+        background-color: var(--color-bg-2);
+        box-shadow: var(--common-shadow);
         .left {
             padding: 10px 0;
             flex-shrink: 0;

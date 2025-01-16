@@ -8,6 +8,7 @@ import Navbar from "./navbar"
 import Sidebar from "./sidebar"
 import { routes, system } from "@/store"
 import { getParents } from "@supuwoerc/utils"
+import Logo from "@/components/logo"
 
 interface DefaultLayoutProps {}
 const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
@@ -24,14 +25,33 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
         <Layout
             css={css`
                 height: 100%;
+                position: relative;
                 ${transitionCss}
             `}
         >
+            <Logo
+                color={"var(--color-text-1)"}
+                style={{
+                    height: 62, // 多设置2px来遮挡菜单的阴影
+                    justifyContent: "center",
+                    position: "fixed",
+                    left: 0,
+                    top: 0,
+                    background: "var(--color-bg-2)",
+                    width: sidebarCollapsed ? "48px" : "200px",
+                    zIndex: 2,
+                }}
+                onlyLogo={sidebarCollapsed}
+            />
             <Layout.Sider
                 collapsible
                 collapsed={sidebarCollapsed}
                 trigger={null}
-                style={{ boxShadow: "none" }}
+                style={{
+                    boxShadow: "var(--common-shadow)",
+                    height: "calc(100% - 60px)",
+                    marginTop: 60,
+                }}
             >
                 <Sidebar menuRoutes={menuRoutes} routePath={routePath} />
             </Layout.Sider>
