@@ -1,27 +1,19 @@
 import { Card } from "@arco-design/web-react"
-import { IntlShape, useIntl } from "react-intl"
 import ReadonlyInfoContainer from "./readonlyInfoContainer"
 import { useMemo } from "react"
 import RolesSvg from "@/assets/user/profile/readonly-info/role.svg?react"
 import PasswordSvg from "@/assets/user/profile/readonly-info/password.svg?react"
+import { useTranslator } from "@/hooks/useTranslator"
 
 interface InfoEditorProps {}
 
-const getIntlMapping = (intl: IntlShape) => {
-    return {
-        title: intl.formatMessage({
-            id: "user.infoEditor.readonlyInfo.title",
-        }),
-        roles: intl.formatMessage({
-            id: "user.infoEditor.readonlyInfo.roles",
-        }),
-        password: intl.formatMessage({
-            id: "user.infoEditor.readonlyInfo.password",
-        }),
-    }
-}
+const intlMap = {
+    title: "user.infoEditor.readonlyInfo.title",
+    roles: "user.infoEditor.readonlyInfo.roles",
+    password: "user.infoEditor.readonlyInfo.password",
+} as const
 
-const getFormItems = (intlMapping: ReturnType<typeof getIntlMapping>) => {
+const getFormItems = (intlMapping: Record<keyof typeof intlMap, string>) => {
     // TODO:定义跳转页面
     return [
         { label: intlMapping.roles, icon: RolesSvg },
@@ -30,10 +22,7 @@ const getFormItems = (intlMapping: ReturnType<typeof getIntlMapping>) => {
 }
 
 const InfoEditor: React.FC<InfoEditorProps> = () => {
-    const intl = useIntl()
-    const intlMapping = useMemo(() => {
-        return getIntlMapping(intl)
-    }, [intl])
+    const intlMapping = useTranslator(intlMap)
     const formItems = useMemo(() => {
         return getFormItems(intlMapping)
     }, [intlMapping])

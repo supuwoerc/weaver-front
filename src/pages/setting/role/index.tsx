@@ -4,64 +4,42 @@ import {
     Input,
     Message,
     Modal,
+    PaginationProps,
     Space,
     Table,
     TableColumnProps,
 } from "@arco-design/web-react"
 import RoleSettingContainer from "./roleContainer"
 import { IconPlus } from "@arco-design/web-react/icon"
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
-import { FormattedMessage, IntlShape, useIntl } from "react-intl"
-import { useQuery } from "@tanstack/react-query"
-import roleService from "@/service/role"
+import { FormattedMessage } from "react-intl"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import roleService, { GetRoleListRequest } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
+import { produce } from "immer"
+import { getArrayItem } from "@supuwoerc/utils"
+import { useTranslator } from "@/hooks/useTranslator"
 
 const Row = Grid.Row
 const Col = Grid.Col
 const InputSearch = Input.Search
 
-const getIntlMapping = (intl: IntlShape) => {
-    return {
-        columnId: intl.formatMessage({
-            id: "role.table.column.id",
-        }),
-        columnName: intl.formatMessage({
-            id: "role.table.column.name",
-        }),
-        columnOperation: intl.formatMessage({
-            id: "role.table.column.operation",
-        }),
-        modalTitle: intl.formatMessage({
-            id: "role.model.title",
-        }),
-        modalLabelName: intl.formatMessage({
-            id: "role.model.label.name",
-        }),
-        modalPlaceholerName: intl.formatMessage({
-            id: "role.model.placeholer.name",
-        }),
-        modalLabelPermission: intl.formatMessage({
-            id: "role.model.label.permission",
-        }),
-        modalPlaceholerPermission: intl.formatMessage({
-            id: "role.model.placeholer.permission",
-        }),
-        ruleRequired: intl.formatMessage({
-            id: "role.model.rule.required",
-        }),
-    }
-}
-
 const RoleSetting: React.FC = () => {
     const [visible, setVisible] = useState(false)
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm()
-    const intl = useIntl()
-    const intlMapping = useMemo(() => {
-        return getIntlMapping(intl)
-    }, [intl])
-    const queryKey = ["setting", "role", "list"]
+    const intlMapping = useTranslator({
+        columnId: "role.table.column.id",
+        columnName: "role.table.column.name",
+        columnOperation: "role.table.column.operation",
+        modalTitle: "role.model.title",
+        modalLabelName: "role.model.label.name",
+        modalPlaceholerName: "role.model.placeholer.name",
+        modalLabelPermission: "role.model.label.permission",
+        modalPlaceholerPermission: "role.model.placeholer.permission",
+        ruleRequired: "role.model.rule.required",
+    })
     const columns: TableColumnProps[] = [
         {
             title: intlMapping.columnId,
@@ -81,7 +59,7 @@ const RoleSetting: React.FC = () => {
             ),
         },
     ]
-    const [pagination, setPagination] = useState({
+    const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,
         total: 96,
@@ -89,13 +67,46 @@ const RoleSetting: React.FC = () => {
         current: 1,
         pageSizeChangeResetCurrent: true,
     })
-    const { data, isFetching } = useQuery(queryKey, () => {
-        return roleService.getRoleList({
-            name: "",
-            limit: pagination.pageSize,
-            offset: (pagination.current - 1) * pagination.pageSize,
-        })
+    const [keyword, setKeyword] = useState<string>("")
+    const { current, pageSize } = pagination
+    const [queryParams, setQueryParams] = useState<GetRoleListRequest>({
+        name: keyword,
+        limit: pageSize!,
+        offset: (current! - 1) * pageSize!,
     })
+    const generateQueryKey = (patch?: GetRoleListRequest) => {
+        return [
+            "setting",
+            "role",
+            "list",
+            {
+                ...queryParams,
+                ...patch,
+            },
+        ]
+    }
+    const queryKey = generateQueryKey()
+    const { data, isFetching } = useQuery(queryKey, ({ queryKey }) => {
+        const params = getArrayItem(queryKey, -1) as GetRoleListRequest
+        return roleService.getRoleList(params)
+    })
+    useEffect(() => {
+        if (data) {
+            setPagination(
+                produce((draft) => {
+                    draft.total = data.total ?? 0
+                }),
+            )
+        }
+    }, [data])
+    const client = useQueryClient()
+    const handleSearch = () => {
+        const nextQueryParams = produce(queryParams, (draft) => {
+            draft.name = keyword
+        })
+        setQueryParams(nextQueryParams)
+        client.invalidateQueries(generateQueryKey(nextQueryParams))
+    }
     const onOk = () => {
         form.validate().then((res) => {
             setConfirmLoading(true)
@@ -113,7 +124,11 @@ const RoleSetting: React.FC = () => {
                     <Col flex={"auto"}>
                         <InputSearch
                             placeholder="Enter something"
-                            style={{ width: 350, margin: 12 }}
+                            style={{ width: 350, margin: 0 }}
+                            value={keyword}
+                            onChange={setKeyword}
+                            onSearch={handleSearch}
+                            allowClear
                             searchButton={true}
                         />
                     </Col>

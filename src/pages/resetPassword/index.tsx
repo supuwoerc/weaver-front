@@ -2,38 +2,24 @@ import { Alert, Button, Divider, Form, Input, Result, Space, Steps } from "@arco
 import ResetPasswordContainer from "./resetPasswordContainer"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import Step from "@arco-design/web-react/es/Steps/step"
-import { FormattedMessage, IntlShape, useIntl } from "react-intl"
+import { FormattedMessage } from "react-intl"
 import { useEffect, useMemo } from "react"
 import useForm from "@arco-design/web-react/es/Form/useForm"
 import { VerifyEmailRequest } from "@/service/resetPassword"
 import { Link, useSearchParams } from "react-router-dom"
 import { emailRegexp } from "@/constant/user"
+import { useTranslator } from "@/hooks/useTranslator"
 
 interface ResetPasswordProps {}
-const getIntlMapping = (intl: IntlShape) => {
-    return {
-        step1: intl.formatMessage({
-            id: "resetPassword.step1",
-        }),
-        step2: intl.formatMessage({
-            id: "resetPassword.step2",
-        }),
-        step3: intl.formatMessage({
-            id: "resetPassword.step3",
-        }),
-        emailPlaceholder: intl.formatMessage({
-            id: "resetPassword.step1.email.placeholder",
-        }),
-        emailError: intl.formatMessage({
-            id: "login.error.email",
-        }),
-    }
-}
+
 const ResetPassword: React.FC<ResetPasswordProps> = () => {
-    const intl = useIntl()
-    const intlMapping = useMemo(() => {
-        return getIntlMapping(intl)
-    }, [intl])
+    const intlMapping = useTranslator({
+        step1: "resetPassword.step1",
+        step2: "resetPassword.step2",
+        step3: "resetPassword.step3",
+        emailPlaceholder: "resetPassword.step1.email.placeholder",
+        emailError: "login.error.email",
+    })
     const [searchParams, setSearchParams] = useSearchParams()
     const current = useMemo(() => {
         const cur = Number(searchParams.get("current"))

@@ -1,52 +1,28 @@
 import { Card, Form, Input, Link } from "@arco-design/web-react"
 import InfoEditorContainer from "./infoEditorContainer"
 import { useMemo, useState } from "react"
-import { IntlShape, useIntl } from "react-intl"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import Row from "@arco-design/web-react/es/Grid/row"
 import Col from "@arco-design/web-react/es/Grid/col"
+import { useTranslator } from "@/hooks/useTranslator"
 
 interface InfoEditorProps {}
 
-const getIntlMapping = (intl: IntlShape) => {
-    return {
-        save: intl.formatMessage({
-            id: "user.infoEditor.info.sava",
-        }),
-        edit: intl.formatMessage({
-            id: "user.infoEditor.info.edit",
-        }),
-        title: intl.formatMessage({
-            id: "user.infoEditor.info.title",
-        }),
-        formEmail: intl.formatMessage({
-            id: "user.infoEditor.form.email",
-        }),
-        formPassword: intl.formatMessage({
-            id: "user.infoEditor.form.password",
-        }),
-        formNickname: intl.formatMessage({
-            id: "user.infoEditor.form.nickname",
-        }),
-        formGender: intl.formatMessage({
-            id: "user.infoEditor.form.gender",
-        }),
-        formAbout: intl.formatMessage({
-            id: "user.infoEditor.form.about",
-        }),
-        formBirthday: intl.formatMessage({
-            id: "user.infoEditor.form.birthday",
-        }),
-        formRoles: intl.formatMessage({
-            id: "user.infoEditor.form.roles",
-        }),
-        formRule: intl.formatMessage({
-            id: "user.infoEditor.form.rule",
-        }),
-    }
-}
+const intlMap = {
+    save: "user.infoEditor.info.sava",
+    edit: "user.infoEditor.info.edit",
+    title: "user.infoEditor.info.title",
+    formEmail: "user.infoEditor.form.email",
+    formPassword: "user.infoEditor.form.password",
+    formNickname: "user.infoEditor.form.nickname",
+    formGender: "user.infoEditor.form.gender",
+    formAbout: "user.infoEditor.form.about",
+    formBirthday: "user.infoEditor.form.birthday",
+    formRoles: "user.infoEditor.form.roles",
+    formRule: "user.infoEditor.form.rule",
+} as const
 
-const getFormItems = (intlMapping: ReturnType<typeof getIntlMapping>) => {
+const getFormItems = (intlMapping: Record<keyof typeof intlMap, string>) => {
     return [
         { label: intlMapping.formNickname, required: true },
         { label: intlMapping.formEmail, required: true },
@@ -59,10 +35,7 @@ const getFormItems = (intlMapping: ReturnType<typeof getIntlMapping>) => {
 
 const InfoEditor: React.FC<InfoEditorProps> = () => {
     const [isEdit, setIsEdit] = useState(false)
-    const intl = useIntl()
-    const intlMapping = useMemo(() => {
-        return getIntlMapping(intl)
-    }, [intl])
+    const intlMapping = useTranslator(intlMap)
     const formItems = useMemo(() => {
         return getFormItems(intlMapping)
     }, [intlMapping])

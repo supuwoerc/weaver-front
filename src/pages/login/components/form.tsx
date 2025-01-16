@@ -1,6 +1,6 @@
 import { Button, Form, Input, Space } from "@arco-design/web-react"
 import classNames from "classnames"
-import { FormattedMessage, IntlShape, useIntl } from "react-intl"
+import { FormattedMessage } from "react-intl"
 import FormContainer from "./formContainer"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
 import { useEffect, useMemo, useState } from "react"
@@ -11,46 +11,14 @@ import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
 import { appEnv } from "@/constant/system"
 import VerificationModal from "@/components/verificationModal"
+import { useTranslator } from "@/hooks/useTranslator"
 
 const FormItem = Form.Item
 
 interface LoginOrSignupFormProps {
     type: "login" | "signup"
 }
-const getIntlMapping = (intl: IntlShape) => {
-    return {
-        loginPrimaryBtn: intl.formatMessage({
-            id: "login.login.btn.login",
-        }),
-        loginTextBtn: intl.formatMessage({
-            id: "login.login.btn.signup",
-        }),
-        loginEmailPlaceholder: intl.formatMessage({
-            id: "login.login.placeholder.email",
-        }),
-        loginPasswordPlaceholder: intl.formatMessage({
-            id: "login.login.placeholder.password",
-        }),
-        loginForgetPassword: intl.formatMessage({
-            id: "login.login.forget",
-        }),
-        signupEmailPlaceholder: intl.formatMessage({
-            id: "login.signup.placeholder.email",
-        }),
-        signupPasswordPlaceholder: intl.formatMessage({
-            id: "login.signup.placeholder.password",
-        }),
-        signupConfirmPasswordPlaceholder: intl.formatMessage({
-            id: "login.signup.placeholder.confirmPassword",
-        }),
-        emailError: intl.formatMessage({
-            id: "login.error.email",
-        }),
-        passwordError: intl.formatMessage({
-            id: "login.error.password",
-        }),
-    }
-}
+
 const enum TabType {
     login = "login",
     signup = "signup",
@@ -68,10 +36,18 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const isLogin = useMemo(() => {
         return tab === TabType.login || (pathnameIsLogin && !TabArr.includes(tab as TabType))
     }, [tab, pathnameIsLogin])
-    const intl = useIntl()
-    const intlMapping = useMemo(() => {
-        return getIntlMapping(intl)
-    }, [intl])
+    const intlMapping = useTranslator({
+        loginPrimaryBtn: "login.login.btn.login",
+        loginTextBtn: "login.login.btn.signup",
+        loginEmailPlaceholder: "login.login.placeholder.email",
+        loginPasswordPlaceholder: "login.login.placeholder.password",
+        loginForgetPassword: "login.login.forget",
+        signupEmailPlaceholder: "login.signup.placeholder.email",
+        signupPasswordPlaceholder: "login.signup.placeholder.password",
+        signupConfirmPasswordPlaceholder: "login.signup.placeholder.confirmPassword",
+        emailError: "login.error.email",
+        passwordError: "login.error.password",
+    })
     const { login, signup, loginLoading, signupLoading } = useUser(null, () => {
         setSearchParams({ [TabKey]: TabType.login })
     })

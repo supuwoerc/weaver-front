@@ -6,6 +6,7 @@ import ErrorFallback from "./components/errorFallback"
 import { GlobalStyle } from "@/components/globalStyle"
 import Underlay from "./underlay"
 import { Message } from "@arco-design/web-react"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 interface AppProviderProps {}
 
@@ -18,6 +19,7 @@ const AppProvider: FC<PropsWithChildren<AppProviderProps>> = ({ children }) => {
         <ErrorBoundary FallbackComponent={ErrorFallback}>
             <GlobalStyle />
             <QueryClientProvider client={qc}>
+                <ReactQueryDevtools initialIsOpen={false} />
                 <Underlay>{children}</Underlay>
             </QueryClientProvider>
         </ErrorBoundary>
