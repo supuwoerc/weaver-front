@@ -1,15 +1,13 @@
 import defaultClient from "@/constant/axios"
 
 export interface GetRoleListRequest extends PageRequest {
-    name?: string
+    keyword?: string
 }
 export interface RoleListRow {
     id: number
     name: string
-    // FIXME:类型修复
-    users: Array<any>
-    // FIXME:类型修复
-    permissions: Array<any>
+    users: Array<number>
+    permissions: Array<number>
 }
 
 const getRoleList = (params: GetRoleListRequest) =>

@@ -10,6 +10,8 @@ const zhCN: SystemLocaleMapping = {
     "role.model.label.name": "角色名称",
     "role.model.placeholer.name": "请输入角色名称",
     "role.model.label.permission": "角色权限",
+    "role.model.label.users": "角色用户",
+    "role.model.placeholer.users": "请选择角色用户",
     "role.model.placeholer.permission": "请配置角色权限",
     "role.model.rule.required": "必填",
 }

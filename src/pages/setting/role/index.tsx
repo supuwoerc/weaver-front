@@ -2,17 +2,14 @@ import {
     Button,
     Form,
     Input,
-    Message,
-    Modal,
     PaginationProps,
     Space,
     Table,
     TableColumnProps,
 } from "@arco-design/web-react"
-import RoleSettingContainer from "./roleContainer"
+import CommonSettingContainer from "@/components/commonSettingContainer"
 import { IconPlus } from "@arco-design/web-react/icon"
-import { useEffect, useState } from "react"
-import FormItem from "@arco-design/web-react/es/Form/form-item"
+import { useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import roleService, { GetRoleListRequest } from "@/service/role"
@@ -20,14 +17,18 @@ import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/useTranslator"
+import RoleEditor from "./roleEditor"
 
 const Row = Grid.Row
 const Col = Grid.Col
 const InputSearch = Input.Search
 
-const RoleSetting: React.FC = () => {
+export interface RoleSettingProps {
+    simple?: boolean
+}
+
+const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false }) => {
     const [visible, setVisible] = useState(false)
-    const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm()
     const intlMapping = useTranslator({
         columnId: "role.table.column.id",
@@ -39,26 +40,33 @@ const RoleSetting: React.FC = () => {
         modalLabelPermission: "role.model.label.permission",
         modalPlaceholerPermission: "role.model.placeholer.permission",
         ruleRequired: "role.model.rule.required",
+        searchPlaceholer: "common.placeholer.search",
     })
-    const columns: TableColumnProps[] = [
-        {
-            title: intlMapping.columnId,
-            dataIndex: "id",
-        },
-        {
-            title: intlMapping.columnName,
-            dataIndex: "name",
-        },
-        {
-            title: intlMapping.columnOperation,
-            dataIndex: "operation",
-            render: () => (
-                <Button type="primary" size="mini">
-                    Confirm
-                </Button>
-            ),
-        },
-    ]
+    const columns = useMemo<TableColumnProps[]>(() => {
+        const result: TableColumnProps[] = [
+            {
+                title: intlMapping.columnId,
+                dataIndex: "id",
+            },
+            {
+                title: intlMapping.columnName,
+                dataIndex: "name",
+            },
+        ]
+        if (!simple) {
+            result.push({
+                title: intlMapping.columnOperation,
+                dataIndex: "operation",
+                render: () => (
+                    <Button type="primary" size="mini">
+                        Confirm
+                    </Button>
+                ),
+            })
+        }
+        return result
+    }, [simple, intlMapping])
+
     const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,
@@ -70,7 +78,7 @@ const RoleSetting: React.FC = () => {
     const [keyword, setKeyword] = useState<string>("")
     const { current, pageSize } = pagination
     const [queryParams, setQueryParams] = useState<GetRoleListRequest>({
-        name: keyword,
+        keyword: keyword,
         limit: pageSize!,
         offset: (current! - 1) * pageSize!,
     })
@@ -102,29 +110,25 @@ const RoleSetting: React.FC = () => {
     const client = useQueryClient()
     const handleSearch = () => {
         const nextQueryParams = produce(queryParams, (draft) => {
-            draft.name = keyword
+            draft.keyword = keyword
         })
         setQueryParams(nextQueryParams)
         client.invalidateQueries(generateQueryKey(nextQueryParams))
     }
     const onOk = () => {
         form.validate().then((res) => {
-            setConfirmLoading(true)
-            setTimeout(() => {
-                Message.success("Success !")
-                setVisible(false)
-                setConfirmLoading(false)
-            }, 1500)
+            // console.log(res)
+            return res
         })
     }
     return (
-        <RoleSettingContainer>
+        <CommonSettingContainer noPadding={simple}>
             <Space direction="vertical" style={{ width: "100%" }}>
                 <Row justify="space-between">
                     <Col flex={"auto"}>
                         <InputSearch
-                            placeholder="Enter something"
-                            style={{ width: 350, margin: 0 }}
+                            placeholder={intlMapping.searchPlaceholer}
+                            style={{ width: simple ? "100%" : 350, margin: 0 }}
                             value={keyword}
                             onChange={setKeyword}
                             onSearch={handleSearch}
@@ -132,11 +136,17 @@ const RoleSetting: React.FC = () => {
                             searchButton={true}
                         />
                     </Col>
-                    <Col flex={"0"}>
-                        <Button type="primary" icon={<IconPlus />} onClick={() => setVisible(true)}>
-                            <FormattedMessage id="role.btn.add" />
-                        </Button>
-                    </Col>
+                    {!simple && (
+                        <Col flex={"0"}>
+                            <Button
+                                type="primary"
+                                icon={<IconPlus />}
+                                onClick={() => setVisible(true)}
+                            >
+                                <FormattedMessage id="role.btn.add" />
+                            </Button>
+                        </Col>
+                    )}
                 </Row>
                 <Table
                     columns={columns}
@@ -145,40 +155,8 @@ const RoleSetting: React.FC = () => {
                     pagination={pagination}
                 />
             </Space>
-            <Modal
-                title={intlMapping.modalTitle}
-                visible={visible}
-                onOk={onOk}
-                confirmLoading={confirmLoading}
-                onCancel={() => setVisible(false)}
-            >
-                <Form
-                    form={form}
-                    labelCol={{
-                        style: { flexBasis: 120 },
-                    }}
-                    wrapperCol={{
-                        style: { flexBasis: "calc(100% - 120px)" },
-                    }}
-                >
-                    <FormItem
-                        label={intlMapping.modalLabelName}
-                        field="name"
-                        rules={[
-                            {
-                                required: true,
-                                message: intlMapping.ruleRequired,
-                            },
-                        ]}
-                    >
-                        <Input placeholder={intlMapping.modalPlaceholerName} />
-                    </FormItem>
-                    <FormItem label={intlMapping.modalLabelPermission} field="permissions">
-                        <Input placeholder={intlMapping.modalPlaceholerPermission} />
-                    </FormItem>
-                </Form>
-            </Modal>
-        </RoleSettingContainer>
+            <RoleEditor visible={visible} onCancel={() => setVisible(false)} />
+        </CommonSettingContainer>
     )
 }
 export default RoleSetting

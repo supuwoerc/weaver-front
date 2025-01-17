@@ -5,7 +5,7 @@ import { Carousel } from "@arco-design/web-react"
 import ufo from "@/assets/login/ufo.png"
 import write from "@/assets/login/write.png"
 import stockpile from "@/assets/login/stockpile.png"
-import LoginOrSignupForm from "./components/form"
+import LoginOrSignupForm from "./form/index"
 
 interface LoginProps {}
 

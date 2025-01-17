@@ -4,7 +4,7 @@ import captchaService from "@/service/captcha"
 import { FormattedMessage } from "react-intl"
 import Meta from "@arco-design/web-react/es/Card/meta"
 import { IconRefresh } from "@arco-design/web-react/icon"
-import VerificationCard from "./verificationCard"
+import VerificationCard from "./verificationCardContainer"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { isDefined, isNull } from "@supuwoerc/utils"
 

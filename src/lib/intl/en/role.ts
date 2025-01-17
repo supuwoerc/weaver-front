@@ -10,6 +10,8 @@ const enUS: SystemLocaleMapping = {
     "role.model.label.name": "Name",
     "role.model.placeholer.name": "Please enter a role name",
     "role.model.label.permission": "Permissions",
+    "role.model.label.users": "Users",
+    "role.model.placeholer.users": "Please select users",
     "role.model.placeholer.permission": "Please configure role permissions",
     "role.model.rule.required": "Required",
 }
