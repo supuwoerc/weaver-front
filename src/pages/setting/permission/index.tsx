@@ -1,6 +1,5 @@
 import {
     Button,
-    Form,
     Input,
     PaginationProps,
     Space,
@@ -11,13 +10,13 @@ import { IconPlus } from "@arco-design/web-react/icon"
 import { useEffect, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import roleService, { GetRoleListRequest } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/useTranslator"
 import CommonSettingContainer from "@/components/commonSettingContainer"
 import PermissionEditor from "./permissionEditor"
+import permissionService, { GetPermissionListRequest } from "@/service/permission"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -25,7 +24,8 @@ const InputSearch = Input.Search
 
 const PermissionSetting: React.FC = () => {
     const [visible, setVisible] = useState(false)
-    const [form] = Form.useForm()
+    const [readonly, setReadonly] = useState(false)
+    const [permissionId, setPermissionId] = useState<number>()
     const intlMapping = useTranslator({
         columnId: "permission.table.column.id",
         columnName: "permission.table.column.name",
@@ -46,15 +46,40 @@ const PermissionSetting: React.FC = () => {
             dataIndex: "name",
         },
         {
+            title: intlMapping.columnCreatedAt,
+            dataIndex: "created_at",
+        },
+        {
+            title: intlMapping.columnUpdatedAt,
+            dataIndex: "updated_at",
+        },
+        {
             title: intlMapping.columnOperation,
             dataIndex: "operation",
-            render: () => (
-                <Button type="primary" size="mini">
-                    Custom
-                </Button>
+            render: (_, item) => (
+                <Space>
+                    <Button type="primary" size="mini" onClick={() => detailHandle(item.id)}>
+                        <FormattedMessage id="common.detail" />
+                    </Button>
+                    <Button type="primary" size="mini" onClick={() => editHandle(item.id)}>
+                        <FormattedMessage id="common.edit" />
+                    </Button>
+                    <Button type="primary" status="danger" size="mini">
+                        <FormattedMessage id="common.delete" />
+                    </Button>
+                </Space>
             ),
         },
     ]
+    const detailHandle = (id: number) => {
+        setPermissionId(id)
+        setReadonly(true)
+        setVisible(true)
+    }
+    const editHandle = (id: number) => {
+        setPermissionId(id)
+        setVisible(true)
+    }
     const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,
@@ -65,15 +90,15 @@ const PermissionSetting: React.FC = () => {
     })
     const [keyword, setKeyword] = useState<string>("")
     const { current, pageSize } = pagination
-    const [queryParams, setQueryParams] = useState<GetRoleListRequest>({
+    const [queryParams, setQueryParams] = useState<GetPermissionListRequest>({
         keyword: keyword,
         limit: pageSize!,
         offset: (current! - 1) * pageSize!,
     })
-    const generateQueryKey = (patch?: GetRoleListRequest) => {
+    const generateQueryKey = (patch?: GetPermissionListRequest) => {
         return [
             "setting",
-            "role",
+            "permission",
             "list",
             {
                 ...queryParams,
@@ -81,10 +106,25 @@ const PermissionSetting: React.FC = () => {
             },
         ]
     }
+    const tableChangeHandle = (pagination: PaginationProps) => {
+        const { current, pageSize } = pagination
+        setPagination(
+            produce((draft) => {
+                draft.current = current
+                draft.pageSize = pageSize
+            }),
+        )
+        setQueryParams(
+            produce((draft) => {
+                draft.limit = pageSize!
+                draft.offset = (current! - 1) * pageSize!
+            }),
+        )
+    }
     const queryKey = generateQueryKey()
     const { data, isFetching } = useQuery(queryKey, ({ queryKey }) => {
-        const params = getArrayItem(queryKey, -1) as GetRoleListRequest
-        return roleService.getRoleList(params)
+        const params = getArrayItem(queryKey, -1) as GetPermissionListRequest
+        return permissionService.getPermissionList(params)
     })
     useEffect(() => {
         if (data) {
@@ -96,18 +136,19 @@ const PermissionSetting: React.FC = () => {
         }
     }, [data])
     const client = useQueryClient()
-    const handleSearch = () => {
+    const handleSearch = (resetPage = false) => {
+        if (resetPage) {
+            setPagination(
+                produce((draft) => {
+                    draft.current = 1
+                }),
+            )
+        }
         const nextQueryParams = produce(queryParams, (draft) => {
             draft.keyword = keyword
         })
         setQueryParams(nextQueryParams)
         client.invalidateQueries(generateQueryKey(nextQueryParams))
-    }
-    const onOk = () => {
-        form.validate().then((res) => {
-            return res
-            // console.log(res)
-        })
     }
     return (
         <CommonSettingContainer>
@@ -119,7 +160,7 @@ const PermissionSetting: React.FC = () => {
                             style={{ width: 350, margin: 0 }}
                             value={keyword}
                             onChange={setKeyword}
-                            onSearch={handleSearch}
+                            onSearch={() => handleSearch()}
                             allowClear
                             searchButton={true}
                         />
@@ -133,11 +174,28 @@ const PermissionSetting: React.FC = () => {
                 <Table
                     columns={columns}
                     data={data?.list}
+                    rowKey={"id"}
                     loading={isFetching}
                     pagination={pagination}
+                    onChange={tableChangeHandle}
                 />
             </Space>
-            <PermissionEditor visible={visible} onCancel={() => setVisible(false)} />
+            <PermissionEditor
+                visible={visible}
+                readonly={readonly}
+                permissionId={permissionId}
+                onOk={() => {
+                    setPermissionId(undefined)
+                    setReadonly(false)
+                    setVisible(false)
+                    handleSearch(true)
+                }}
+                onCancel={() => {
+                    setPermissionId(undefined)
+                    setReadonly(false)
+                    setVisible(false)
+                }}
+            />
         </CommonSettingContainer>
     )
 }

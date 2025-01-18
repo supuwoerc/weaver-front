@@ -6,8 +6,6 @@ export interface GetRoleListRequest extends PageRequest {
 export interface RoleListRow {
     id: number
     name: string
-    users: Array<number>
-    permissions: Array<number>
 }
 
 const getRoleList = (params: GetRoleListRequest) =>

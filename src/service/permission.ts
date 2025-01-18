@@ -3,16 +3,38 @@ import defaultClient from "@/constant/axios"
 export interface GetPermissionListRequest extends PageRequest {
     keyword?: string
 }
-export interface RoleListRow {
+export interface PermissionListRow {
     id: number
     name: string
-    users: Array<number>
-    permissions: Array<number>
 }
 
 const getPermissionList = (params: GetPermissionListRequest) =>
-    defaultClient.get<PageResponse<RoleListRow>>("/permission/list", { params })
+    defaultClient.get<PageResponse<PermissionListRow>>("/permission/list", { params })
+
+export interface CreatePermissionRequest {
+    name: string
+    resource: string
+    roles: Array<number>
+}
+
+const createPermission = (params: CreatePermissionRequest) =>
+    defaultClient.post<boolean>("/permission/create", params)
+
+export interface PermissionDetail {
+    id: number
+    created_at: string
+    updated_at: string
+    deleted_at: string | null
+    name: string
+    resource: string
+    roles: Array<any>
+}
+
+const getPermisisonDetail = (params: { id: number }) =>
+    defaultClient.get<PermissionDetail>("/permission/detail", { params })
 
 export default {
     getPermissionList,
+    createPermission,
+    getPermisisonDetail,
 }

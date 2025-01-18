@@ -10,6 +10,7 @@ const zhCN: SystemLocaleMapping = {
     "permission.table.column.created_at": "创建时间",
     "permission.table.column.updated_at": "更新时间",
     "permission.table.column.operation": "操作",
+    "permission.modal.title.detail": "权限详情",
     "permission.modal.title.add": "添加权限",
     "permission.modal.title.edit": "编辑权限",
     "permission.modal.label.name": "权限名称",

@@ -10,6 +10,7 @@ const enUS: SystemLocaleMapping = {
     "permission.table.column.created_at": "Created at",
     "permission.table.column.updated_at": "Updated at",
     "permission.table.column.operation": "Operation",
+    "permission.modal.title.detail": "Permission detail",
     "permission.modal.title.add": "Add permission",
     "permission.modal.title.edit": "Edit permission",
     "permission.modal.label.name": "Permission name",

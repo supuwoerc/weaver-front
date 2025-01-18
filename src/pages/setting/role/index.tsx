@@ -12,7 +12,7 @@ import { IconPlus } from "@arco-design/web-react/icon"
 import { useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import roleService, { GetRoleListRequest } from "@/service/role"
+import roleService, { GetRoleListRequest, RoleListRow } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
@@ -25,11 +25,14 @@ const InputSearch = Input.Search
 
 export interface RoleSettingProps {
     simple?: boolean
+    initialCheckedIds?: Array<number>
 }
 
-const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false }) => {
+const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false, initialCheckedIds = [] }) => {
     const [visible, setVisible] = useState(false)
     const [form] = Form.useForm()
+    const [selectedRows, setSelectedRows] = useState<Array<RoleListRow>>([])
+    const [selectedRowKeys, setSelectedRowKeys] = useState<Array<number>>(initialCheckedIds)
     const intlMapping = useTranslator({
         columnId: "role.table.column.id",
         columnName: "role.table.column.name",
@@ -149,10 +152,19 @@ const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false }) => {
                     )}
                 </Row>
                 <Table
+                    rowKey={"id"}
                     columns={columns}
                     data={data?.list}
                     loading={isFetching}
                     pagination={pagination}
+                    rowSelection={{
+                        type: simple ? "checkbox" : undefined,
+                        selectedRowKeys,
+                        onChange: (seletedRowKeys, selectedRows) => {
+                            setSelectedRowKeys(seletedRowKeys as Array<number>)
+                            setSelectedRows(selectedRows)
+                        },
+                    }}
                 />
             </Space>
             <RoleEditor visible={visible} onCancel={() => setVisible(false)} />
