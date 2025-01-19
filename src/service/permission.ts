@@ -18,7 +18,7 @@ export interface CreatePermissionRequest {
 }
 
 const createPermission = (params: CreatePermissionRequest) =>
-    defaultClient.post<boolean>("/permission/create", params)
+    defaultClient.post<null>("/permission/create", params)
 
 export interface PermissionDetail {
     id: number
@@ -33,8 +33,12 @@ export interface PermissionDetail {
 const getPermisisonDetail = (params: { id: number }) =>
     defaultClient.get<PermissionDetail>("/permission/detail", { params })
 
+const deletePermission = (params: { id: number }) =>
+    defaultClient.post<null>("/permission/delete", params)
+
 export default {
     getPermissionList,
     createPermission,
     getPermisisonDetail,
+    deletePermission,
 }

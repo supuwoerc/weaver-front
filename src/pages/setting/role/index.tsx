@@ -1,6 +1,5 @@
 import {
     Button,
-    Form,
     Input,
     PaginationProps,
     Space,
@@ -9,7 +8,7 @@ import {
 } from "@arco-design/web-react"
 import CommonSettingContainer from "@/components/commonSettingContainer"
 import { IconPlus } from "@arco-design/web-react/icon"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import roleService, { GetRoleListRequest, RoleListRow } from "@/service/role"
@@ -25,14 +24,16 @@ const InputSearch = Input.Search
 
 export interface RoleSettingProps {
     simple?: boolean
-    initialCheckedIds?: Array<number>
+    selectedRowKeys?: Array<number>
+    onSelectedChange?: (ids: Array<number>, rows: Array<RoleListRow>) => void
 }
 
-const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false, initialCheckedIds = [] }) => {
+const RoleSetting: React.FC<RoleSettingProps> = ({
+    simple = false,
+    selectedRowKeys = [],
+    onSelectedChange,
+}) => {
     const [visible, setVisible] = useState(false)
-    const [form] = Form.useForm()
-    const [selectedRows, setSelectedRows] = useState<Array<RoleListRow>>([])
-    const [selectedRowKeys, setSelectedRowKeys] = useState<Array<number>>(initialCheckedIds)
     const intlMapping = useTranslator({
         columnId: "role.table.column.id",
         columnName: "role.table.column.name",
@@ -85,18 +86,23 @@ const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false, initialChecke
         limit: pageSize!,
         offset: (current! - 1) * pageSize!,
     })
-    const generateQueryKey = (patch?: GetRoleListRequest) => {
-        return [
-            "setting",
-            "role",
-            "list",
-            {
-                ...queryParams,
-                ...patch,
-            },
-        ]
-    }
-    const queryKey = generateQueryKey()
+    const generateQueryKey = useCallback(
+        (patch?: GetRoleListRequest) => {
+            return [
+                "setting",
+                "role",
+                "list",
+                {
+                    ...queryParams,
+                    ...patch,
+                },
+            ]
+        },
+        [queryParams],
+    )
+    const queryKey = useMemo(() => {
+        return generateQueryKey()
+    }, [generateQueryKey])
     const { data, isFetching } = useQuery(queryKey, ({ queryKey }) => {
         const params = getArrayItem(queryKey, -1) as GetRoleListRequest
         return roleService.getRoleList(params)
@@ -117,12 +123,6 @@ const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false, initialChecke
         })
         setQueryParams(nextQueryParams)
         client.invalidateQueries(generateQueryKey(nextQueryParams))
-    }
-    const onOk = () => {
-        form.validate().then((res) => {
-            // console.log(res)
-            return res
-        })
     }
     return (
         <CommonSettingContainer noPadding={simple}>
@@ -160,9 +160,8 @@ const RoleSetting: React.FC<RoleSettingProps> = ({ simple = false, initialChecke
                     rowSelection={{
                         type: simple ? "checkbox" : undefined,
                         selectedRowKeys,
-                        onChange: (seletedRowKeys, selectedRows) => {
-                            setSelectedRowKeys(seletedRowKeys as Array<number>)
-                            setSelectedRows(selectedRows)
+                        onChange: (seletedRowKeys, seletedRows) => {
+                            onSelectedChange?.(seletedRowKeys as Array<number>, seletedRows)
                         },
                     }}
                 />

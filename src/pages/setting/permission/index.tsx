@@ -1,6 +1,7 @@
 import {
     Button,
     Input,
+    Message,
     PaginationProps,
     Space,
     Table,
@@ -9,14 +10,17 @@ import {
 import { IconPlus } from "@arco-design/web-react/icon"
 import { useEffect, useState } from "react"
 import { FormattedMessage } from "react-intl"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/useTranslator"
 import CommonSettingContainer from "@/components/commonSettingContainer"
 import PermissionEditor from "./permissionEditor"
-import permissionService, { GetPermissionListRequest } from "@/service/permission"
+import permissionService, {
+    GetPermissionListRequest,
+    PermissionListRow,
+} from "@/service/permission"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -24,6 +28,7 @@ const InputSearch = Input.Search
 
 const PermissionSetting: React.FC = () => {
     const [visible, setVisible] = useState(false)
+    const [tableLoading, setTableLoading] = useState(false)
     const [readonly, setReadonly] = useState(false)
     const [permissionId, setPermissionId] = useState<number>()
     const intlMapping = useTranslator({
@@ -35,6 +40,7 @@ const PermissionSetting: React.FC = () => {
         columnUpdatedAt: "permission.table.column.updated_at",
         columnOperation: "permission.table.column.operation",
         searchPlaceholer: "common.placeholer.search",
+        deleteSuccess: "common.delete.success",
     })
     const columns: TableColumnProps[] = [
         {
@@ -56,7 +62,7 @@ const PermissionSetting: React.FC = () => {
         {
             title: intlMapping.columnOperation,
             dataIndex: "operation",
-            render: (_, item) => (
+            render: (_, item: PermissionListRow) => (
                 <Space>
                     <Button type="primary" size="mini" onClick={() => detailHandle(item.id)}>
                         <FormattedMessage id="common.detail" />
@@ -64,7 +70,12 @@ const PermissionSetting: React.FC = () => {
                     <Button type="primary" size="mini" onClick={() => editHandle(item.id)}>
                         <FormattedMessage id="common.edit" />
                     </Button>
-                    <Button type="primary" status="danger" size="mini">
+                    <Button
+                        type="primary"
+                        status="danger"
+                        size="mini"
+                        onClick={() => deleteHandle.mutate({ id: item.id })}
+                    >
                         <FormattedMessage id="common.delete" />
                     </Button>
                 </Space>
@@ -150,6 +161,18 @@ const PermissionSetting: React.FC = () => {
         setQueryParams(nextQueryParams)
         client.invalidateQueries(generateQueryKey(nextQueryParams))
     }
+    const deleteHandle = useMutation(permissionService.deletePermission, {
+        onMutate() {
+            setTableLoading(true)
+        },
+        onSuccess() {
+            handleSearch(true)
+            Message.success(intlMapping.deleteSuccess)
+        },
+        onSettled() {
+            setTableLoading(false)
+        },
+    })
     return (
         <CommonSettingContainer>
             <Space direction="vertical" style={{ width: "100%" }}>
@@ -175,7 +198,7 @@ const PermissionSetting: React.FC = () => {
                     columns={columns}
                     data={data?.list}
                     rowKey={"id"}
-                    loading={isFetching}
+                    loading={isFetching || tableLoading}
                     pagination={pagination}
                     onChange={tableChangeHandle}
                 />
