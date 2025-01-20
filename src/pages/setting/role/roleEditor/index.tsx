@@ -11,14 +11,14 @@ interface RoleEditorProps {
 }
 const RoleEditor: React.FC<RoleEditorProps> = ({ visible, onOk, onCancel }) => {
     const intlMapping = useTranslator({
-        modalTitle: "role.model.title",
-        modalLabelName: "role.model.label.name",
-        modalPlaceholerName: "role.model.placeholer.name",
-        modalLabelPermission: "role.model.label.permission",
-        modalLabelUsers: "role.model.label.users",
-        modalPlaceholerPermission: "role.model.placeholer.permission",
-        modalPlaceholerUsers: "role.model.placeholer.users",
-        ruleRequired: "role.model.rule.required",
+        modalTitle: "role.modal.title",
+        modalLabelName: "role.modal.label.name",
+        modalPlaceholerName: "role.modal.placeholer.name",
+        modalLabelPermission: "role.modal.label.permission",
+        modalLabelUsers: "role.modal.label.users",
+        modalPlaceholerPermission: "role.modal.placeholer.permission",
+        modalPlaceholerUsers: "role.modal.placeholer.users",
+        ruleRequired: "role.modal.rule.required",
     })
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm()

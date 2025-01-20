@@ -107,7 +107,7 @@
         "less": "^4.2.0",
         "lint-staged": "^13.2.2",
         "prettier": "^2.8.8",
-        "react-scan": "^0.1.0",
+        "react-scan": "^0.0.54",
         "release-it": "^17.6.0",
         "terser": "^5.17.7",
         "type-fest": "^3.11.1",

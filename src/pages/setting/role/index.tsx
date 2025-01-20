@@ -38,12 +38,12 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         columnId: "role.table.column.id",
         columnName: "role.table.column.name",
         columnOperation: "role.table.column.operation",
-        modalTitle: "role.model.title",
-        modalLabelName: "role.model.label.name",
-        modalPlaceholerName: "role.model.placeholer.name",
-        modalLabelPermission: "role.model.label.permission",
-        modalPlaceholerPermission: "role.model.placeholer.permission",
-        ruleRequired: "role.model.rule.required",
+        modalTitle: "role.modal.title",
+        modalLabelName: "role.modal.label.name",
+        modalPlaceholerName: "role.modal.placeholer.name",
+        modalLabelPermission: "role.modal.label.permission",
+        modalPlaceholerPermission: "role.modal.placeholer.permission",
+        ruleRequired: "role.modal.rule.required",
         searchPlaceholer: "common.placeholer.search",
     })
     const columns = useMemo<TableColumnProps[]>(() => {

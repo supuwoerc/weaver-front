@@ -6,14 +6,14 @@ const zhCN: SystemLocaleMapping = {
     "role.table.column.id": "角色ID",
     "role.table.column.name": "角色名称",
     "role.table.column.operation": "操作",
-    "role.model.title": "添加角色",
-    "role.model.label.name": "角色名称",
-    "role.model.placeholer.name": "请输入角色名称",
-    "role.model.label.permission": "角色权限",
-    "role.model.label.users": "角色用户",
-    "role.model.placeholer.users": "请选择角色用户",
-    "role.model.placeholer.permission": "请配置角色权限",
-    "role.model.rule.required": "必填",
+    "role.modal.title": "添加角色",
+    "role.modal.label.name": "角色名称",
+    "role.modal.placeholer.name": "请输入角色名称",
+    "role.modal.label.permission": "角色权限",
+    "role.modal.label.users": "角色用户",
+    "role.modal.placeholer.users": "请选择角色用户",
+    "role.modal.placeholer.permission": "请配置角色权限",
+    "role.modal.rule.required": "必填",
 }
 
 export default zhCN

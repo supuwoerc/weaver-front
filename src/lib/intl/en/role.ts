@@ -6,14 +6,14 @@ const enUS: SystemLocaleMapping = {
     "role.table.column.id": "ID",
     "role.table.column.name": "Role name",
     "role.table.column.operation": "Operation",
-    "role.model.title": "Add role",
-    "role.model.label.name": "Name",
-    "role.model.placeholer.name": "Please enter a role name",
-    "role.model.label.permission": "Permissions",
-    "role.model.label.users": "Users",
-    "role.model.placeholer.users": "Please select users",
-    "role.model.placeholer.permission": "Please configure role permissions",
-    "role.model.rule.required": "Required",
+    "role.modal.title": "Add role",
+    "role.modal.label.name": "Name",
+    "role.modal.placeholer.name": "Please enter a role name",
+    "role.modal.label.permission": "Permissions",
+    "role.modal.label.users": "Users",
+    "role.modal.placeholer.users": "Please select users",
+    "role.modal.placeholer.permission": "Please configure role permissions",
+    "role.modal.rule.required": "Required",
 }
 
 export default enUS

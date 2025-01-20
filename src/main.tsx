@@ -5,7 +5,7 @@ import { scan } from "react-scan"
 
 scan({
     enabled: false,
-    log: true,
+    log: false,
     showToolbar: false,
 })
 
