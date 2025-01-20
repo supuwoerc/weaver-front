@@ -36,9 +36,17 @@ const getPermisisonDetail = (params: { id: number }) =>
 const deletePermission = (params: { id: number }) =>
     defaultClient.post<null>("/permission/delete", params)
 
+export interface UpdatePermissionRequest extends CreatePermissionRequest {
+    id: number
+}
+
+const updatePermission = (params: UpdatePermissionRequest) =>
+    defaultClient.post<null>("/permission/update", params)
+
 export default {
     getPermissionList,
     createPermission,
     getPermisisonDetail,
     deletePermission,
+    updatePermission,
 }

@@ -20,7 +20,8 @@ const RoleEditor: React.FC<RoleEditorProps> = ({ visible, onOk, onCancel }) => {
         modalPlaceholerUsers: "role.modal.placeholer.users",
         ruleRequired: "role.modal.rule.required",
     })
-    const [confirmLoading, setConfirmLoading] = useState(false)
+    const [confirmLoading, _] = useState(false)
+    // const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm()
     return (
         <Drawer

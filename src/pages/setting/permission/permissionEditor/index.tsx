@@ -14,7 +14,11 @@ import FormItem from "@arco-design/web-react/es/Form/form-item"
 import { useEffect, useState } from "react"
 import RoleSetting from "../../role"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import permissionService, { PermissionDetail } from "@/service/permission"
+import permissionService, {
+    CreatePermissionRequest,
+    PermissionDetail,
+    UpdatePermissionRequest,
+} from "@/service/permission"
 import { RoleListRow } from "@/service/role"
 import { FormattedMessage } from "react-intl"
 
@@ -44,28 +48,43 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         modalPlaceholerRoles: "permission.modal.placeholer.roles",
         ruleRequired: "permission.modal.rule.required",
         addSuccess: "common.add.success",
+        updateSuccess: "common.update.success",
         validateError: "common.validate.error",
         warning: "common.warning",
     })
     const [confirmLoading, setConfirmLoading] = useState(false)
-    const [form] = Form.useForm()
-    const upsertHandle = useMutation(permissionService.createPermission, {
-        onMutate() {
-            setConfirmLoading(true)
+    const [form] = Form.useForm<CreatePermissionRequest | UpdatePermissionRequest>()
+    const upsertHandle = useMutation(
+        (params: CreatePermissionRequest | UpdatePermissionRequest) => {
+            if ("id" in params) {
+                return permissionService.updatePermission(params)
+            }
+            return permissionService.createPermission(params)
         },
-        onSuccess() {
-            onOk?.()
-            form.clearFields()
-            Message.success(intlMapping.addSuccess)
+        {
+            onMutate() {
+                setConfirmLoading(true)
+            },
+            onSuccess(data, variables) {
+                onOk?.()
+                form.clearFields()
+                if ("id" in variables) {
+                    Message.success(intlMapping.updateSuccess)
+                } else {
+                    Message.success(intlMapping.addSuccess)
+                }
+            },
+            onSettled() {
+                setConfirmLoading(false)
+            },
         },
-        onSettled() {
-            setConfirmLoading(false)
-        },
-    })
+    )
     const upsertConfirm = () => {
         form.validate()
             .then((val) => {
-                upsertHandle.mutate(val)
+                upsertHandle.mutate({
+                    ...val,
+                })
             })
             .catch(() => {
                 Message.warning(intlMapping.validateError)
@@ -83,8 +102,9 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
     const [roles, setRoles] = useState<Array<any>>(data?.roles ?? [])
     useEffect(() => {
         if (data) {
-            const { name, resource, roles } = data
+            const { id, name, resource, roles } = data
             form.setFieldsValue({
+                id,
                 name,
                 resource,
                 roles: roles.map((item) => item.id),
