@@ -17,6 +17,9 @@ const zhCN: SystemLocaleMapping = {
     "common.detail": "详情",
     "common.edit": "编辑",
     "common.delete": "删除",
+
+    "common.tips": "提示",
+    "common.delete.tips": "删除后不可恢复，确认删除吗？",
 }
 
 export default zhCN

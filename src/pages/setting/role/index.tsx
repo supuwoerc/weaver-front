@@ -34,6 +34,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
     onSelectedChange,
 }) => {
     const [visible, setVisible] = useState(false)
+    const [tableLoading, _] = useState(false)
     const intlMapping = useTranslator({
         columnId: "role.table.column.id",
         columnName: "role.table.column.name",
@@ -70,11 +71,10 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         }
         return result
     }, [simple, intlMapping])
-
     const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,
-        total: 96,
+        total: 0,
         pageSize: 10,
         current: 1,
         pageSizeChangeResetCurrent: true,
@@ -100,10 +100,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         },
         [queryParams],
     )
-    const queryKey = useMemo(() => {
-        return generateQueryKey()
-    }, [generateQueryKey])
-    const { data, isFetching } = useQuery(queryKey, ({ queryKey }) => {
+    const { data, isFetching } = useQuery(generateQueryKey(), ({ queryKey }) => {
         const params = getArrayItem(queryKey, -1) as GetRoleListRequest
         return roleService.getRoleList(params)
     })
@@ -116,13 +113,44 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
             )
         }
     }, [data])
+
+    const tableChangeHandle = (pagination: PaginationProps) => {
+        const { current, pageSize } = pagination
+        setPagination(
+            produce((draft) => {
+                draft.current = current
+                draft.pageSize = pageSize
+            }),
+        )
+        setQueryParams(
+            produce((draft) => {
+                draft.limit = pageSize!
+                draft.offset = (current! - 1) * pageSize!
+            }),
+        )
+    }
     const client = useQueryClient()
-    const handleSearch = () => {
-        const nextQueryParams = produce(queryParams, (draft) => {
-            draft.keyword = keyword
-        })
-        setQueryParams(nextQueryParams)
-        client.invalidateQueries(generateQueryKey(nextQueryParams))
+    const handleSearch = useCallback(
+        (s = keyword) => {
+            const nextPagination = produce(pagination, (draft) => {
+                draft.current = 1
+            })
+            const nextQueryParams = produce(queryParams, (draft) => {
+                const { current, pageSize } = nextPagination
+                draft.keyword = s
+                draft.offset = (current! - 1) * pageSize!
+            })
+            setPagination(nextPagination)
+            setQueryParams(nextQueryParams)
+            client.invalidateQueries(generateQueryKey(nextQueryParams))
+        },
+        [client, generateQueryKey, keyword, pagination, queryParams],
+    )
+    const keywordChangeHandle = (v: string) => {
+        setKeyword(v)
+        if (v == "") {
+            handleSearch(v)
+        }
     }
     return (
         <CommonSettingContainer noPadding={simple}>
@@ -133,8 +161,8 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                             placeholder={intlMapping.searchPlaceholer}
                             style={{ width: simple ? "100%" : 350, margin: 0 }}
                             value={keyword}
-                            onChange={setKeyword}
-                            onSearch={handleSearch}
+                            onChange={(v) => keywordChangeHandle(v)}
+                            onSearch={() => handleSearch()}
                             allowClear
                             searchButton={true}
                         />
@@ -155,11 +183,14 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     rowKey={"id"}
                     columns={columns}
                     data={data?.list}
-                    loading={isFetching}
+                    loading={isFetching || tableLoading}
+                    onChange={tableChangeHandle}
                     pagination={pagination}
                     rowSelection={{
                         type: simple ? "checkbox" : undefined,
                         selectedRowKeys,
+                        checkCrossPage: true,
+                        preserveSelectedRowKeys: true,
                         onChange: (seletedRowKeys, seletedRows) => {
                             onSelectedChange?.(seletedRowKeys as Array<number>, seletedRows)
                         },

@@ -6,7 +6,6 @@ const zhCN: SystemLocaleMapping = {
     "permission.table.column.id": "权限ID",
     "permission.table.column.name": "权限名称",
     "permission.table.column.resource": "资源名称",
-    "permission.table.column.role_count": "角色数量",
     "permission.table.column.created_at": "创建时间",
     "permission.table.column.updated_at": "更新时间",
     "permission.table.column.operation": "操作",

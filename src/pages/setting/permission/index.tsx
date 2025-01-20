@@ -2,13 +2,14 @@ import {
     Button,
     Input,
     Message,
+    Modal,
     PaginationProps,
     Space,
     Table,
     TableColumnProps,
 } from "@arco-design/web-react"
 import { IconPlus } from "@arco-design/web-react/icon"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Grid } from "@arco-design/web-react"
@@ -35,12 +36,13 @@ const PermissionSetting: React.FC = () => {
         columnId: "permission.table.column.id",
         columnName: "permission.table.column.name",
         columnResource: "permission.table.column.resource",
-        columnCount: "permission.table.column.role_count",
         columnCreatedAt: "permission.table.column.created_at",
         columnUpdatedAt: "permission.table.column.updated_at",
         columnOperation: "permission.table.column.operation",
         searchPlaceholer: "common.placeholer.search",
         deleteSuccess: "common.delete.success",
+        tips: "common.tips",
+        deleteTips: "common.delete.tips",
     })
     const columns: TableColumnProps[] = [
         {
@@ -50,6 +52,10 @@ const PermissionSetting: React.FC = () => {
         {
             title: intlMapping.columnName,
             dataIndex: "name",
+        },
+        {
+            title: intlMapping.columnResource,
+            dataIndex: "resource",
         },
         {
             title: intlMapping.columnCreatedAt,
@@ -64,17 +70,39 @@ const PermissionSetting: React.FC = () => {
             dataIndex: "operation",
             render: (_, item: PermissionListRow) => (
                 <Space>
-                    <Button type="primary" size="mini" onClick={() => detailHandle(item.id)}>
+                    <Button
+                        type="primary"
+                        shape="round"
+                        size="mini"
+                        onClick={() => detailHandle(item.id)}
+                    >
                         <FormattedMessage id="common.detail" />
                     </Button>
-                    <Button type="primary" size="mini" onClick={() => editHandle(item.id)}>
+                    <Button
+                        type="outline"
+                        shape="round"
+                        size="mini"
+                        onClick={() => editHandle(item.id)}
+                    >
                         <FormattedMessage id="common.edit" />
                     </Button>
                     <Button
-                        type="primary"
+                        type="outline"
                         status="danger"
+                        shape="round"
                         size="mini"
-                        onClick={() => deleteHandle.mutate({ id: item.id })}
+                        onClick={() =>
+                            Modal.confirm({
+                                title: intlMapping.tips,
+                                content: intlMapping.deleteTips,
+                                okButtonProps: {
+                                    status: "danger",
+                                },
+                                onOk: () => {
+                                    return deleteHandle.mutateAsync({ id: item.id })
+                                },
+                            })
+                        }
                     >
                         <FormattedMessage id="common.delete" />
                     </Button>
@@ -94,7 +122,7 @@ const PermissionSetting: React.FC = () => {
     const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,
-        total: 96,
+        total: 0,
         pageSize: 10,
         current: 1,
         pageSizeChangeResetCurrent: true,
@@ -106,17 +134,20 @@ const PermissionSetting: React.FC = () => {
         limit: pageSize!,
         offset: (current! - 1) * pageSize!,
     })
-    const generateQueryKey = (patch?: GetPermissionListRequest) => {
-        return [
-            "setting",
-            "permission",
-            "list",
-            {
-                ...queryParams,
-                ...patch,
-            },
-        ]
-    }
+    const generateQueryKey = useCallback(
+        (patch?: GetPermissionListRequest) => {
+            return [
+                "setting",
+                "permission",
+                "list",
+                {
+                    ...queryParams,
+                    ...patch,
+                },
+            ]
+        },
+        [queryParams],
+    )
     const tableChangeHandle = (pagination: PaginationProps) => {
         const { current, pageSize } = pagination
         setPagination(
@@ -147,26 +178,34 @@ const PermissionSetting: React.FC = () => {
         }
     }, [data])
     const client = useQueryClient()
-    const handleSearch = (resetPage = false) => {
-        if (resetPage) {
-            setPagination(
-                produce((draft) => {
-                    draft.current = 1
-                }),
-            )
+    const handleSearch = useCallback(
+        (s = keyword) => {
+            const nextPagination = produce(pagination, (draft) => {
+                draft.current = 1
+            })
+            const nextQueryParams = produce(queryParams, (draft) => {
+                const { current, pageSize } = nextPagination
+                draft.keyword = s
+                draft.offset = (current! - 1) * pageSize!
+            })
+            setPagination(nextPagination)
+            setQueryParams(nextQueryParams)
+            client.invalidateQueries(generateQueryKey(nextQueryParams))
+        },
+        [client, generateQueryKey, keyword, pagination, queryParams],
+    )
+    const keywordChangeHandle = (v: string) => {
+        setKeyword(v)
+        if (v == "") {
+            handleSearch(v)
         }
-        const nextQueryParams = produce(queryParams, (draft) => {
-            draft.keyword = keyword
-        })
-        setQueryParams(nextQueryParams)
-        client.invalidateQueries(generateQueryKey(nextQueryParams))
     }
     const deleteHandle = useMutation(permissionService.deletePermission, {
         onMutate() {
             setTableLoading(true)
         },
         onSuccess() {
-            handleSearch(true)
+            handleSearch()
             Message.success(intlMapping.deleteSuccess)
         },
         onSettled() {
@@ -182,8 +221,8 @@ const PermissionSetting: React.FC = () => {
                             placeholder={intlMapping.searchPlaceholer}
                             style={{ width: 350, margin: 0 }}
                             value={keyword}
-                            onChange={setKeyword}
                             onSearch={() => handleSearch()}
+                            onChange={(v) => keywordChangeHandle(v)}
                             allowClear
                             searchButton={true}
                         />
@@ -211,7 +250,7 @@ const PermissionSetting: React.FC = () => {
                     setPermissionId(undefined)
                     setReadonly(false)
                     setVisible(false)
-                    handleSearch(true)
+                    handleSearch()
                 }}
                 onCancel={() => {
                     setPermissionId(undefined)

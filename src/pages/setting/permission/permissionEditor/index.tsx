@@ -65,7 +65,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             onMutate() {
                 setConfirmLoading(true)
             },
-            onSuccess(data, variables) {
+            onSuccess(_, variables) {
                 onOk?.()
                 form.clearFields()
                 if ("id" in variables) {
@@ -84,6 +84,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             .then((val) => {
                 upsertHandle.mutate({
                     ...val,
+                    ...(data ? { id: data?.id } : null),
                 })
             })
             .catch(() => {
@@ -102,9 +103,8 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
     const [roles, setRoles] = useState<Array<any>>(data?.roles ?? [])
     useEffect(() => {
         if (data) {
-            const { id, name, resource, roles } = data
+            const { name, resource, roles } = data
             form.setFieldsValue({
-                id,
                 name,
                 resource,
                 roles: roles.map((item) => item.id),
@@ -143,8 +143,8 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
                         <Input
                             placeholder={intlMapping.modalPlaceholerName}
                             maxLength={20}
-                            disabled={readonly}
-                            showWordLimit
+                            readOnly={readonly}
+                            showWordLimit={!readonly}
                         />
                     </FormItem>
                     <FormItem
@@ -160,8 +160,8 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
                         <Input
                             placeholder={intlMapping.modalPlaceholerResource}
                             maxLength={255}
-                            disabled={readonly}
-                            showWordLimit
+                            readOnly={readonly}
+                            showWordLimit={!readonly}
                         />
                     </FormItem>
                     {!isFetching && (
@@ -194,13 +194,13 @@ const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
     onChange,
     onRolesChange,
 }) => {
-    const tabCloseHandle = (e: any) => {
+    const tabCloseHandle = (roleId: number) => {
         const ids = value?.filter((id) => {
-            return id != e.detail
+            return id != roleId
         })
         onChange?.(ids ?? [])
         const r = roles.filter((item) => {
-            return item.id != e.detail
+            return item.id != roleId
         })
         onRolesChange(r)
     }
@@ -211,14 +211,14 @@ const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
             {roles.length > 0 ? (
-                <Space>
+                <Space wrap>
                     {roles.map((item) => {
                         return (
                             <Tag
                                 closable={!readonly}
                                 key={item.id}
                                 color="arcoblue"
-                                onClose={tabCloseHandle}
+                                onClose={() => tabCloseHandle(item.id)}
                             >
                                 {item.name}
                             </Tag>

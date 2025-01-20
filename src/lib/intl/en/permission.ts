@@ -6,7 +6,6 @@ const enUS: SystemLocaleMapping = {
     "permission.table.column.id": "ID",
     "permission.table.column.name": "Permission name",
     "permission.table.column.resource": "Resource name",
-    "permission.table.column.role_count": "Role count",
     "permission.table.column.created_at": "Created at",
     "permission.table.column.updated_at": "Updated at",
     "permission.table.column.operation": "Operation",

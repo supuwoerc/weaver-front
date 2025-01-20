@@ -17,6 +17,9 @@ const enUS: SystemLocaleMapping = {
     "common.detail": "Detail",
     "common.edit": "Edit",
     "common.delete": "Delete",
+
+    "common.tips": "Tips",
+    "common.delete.tips": "Deletion is unrecoverable. Confirm deletion?",
 }
 
 export default enUS
