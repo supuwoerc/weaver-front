@@ -36,9 +36,10 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
     const [visible, setVisible] = useState(false)
     const [tableLoading, _] = useState(false)
     const intlMapping = useTranslator({
-        columnId: "role.table.column.id",
         columnName: "role.table.column.name",
-        columnOperation: "role.table.column.operation",
+        columnCreatedAt: "common.table.created_at",
+        columnUpdatedAt: "common.table.updated_at",
+        columnOperation: "common.table.operation",
         modalTitle: "role.modal.title",
         modalLabelName: "role.modal.label.name",
         modalPlaceholerName: "role.modal.placeholer.name",
@@ -50,24 +51,32 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
     const columns = useMemo<TableColumnProps[]>(() => {
         const result: TableColumnProps[] = [
             {
-                title: intlMapping.columnId,
-                dataIndex: "id",
-            },
-            {
                 title: intlMapping.columnName,
                 dataIndex: "name",
             },
+            {
+                title: intlMapping.columnCreatedAt,
+                dataIndex: "created_at",
+                ellipsis: true,
+            },
         ]
         if (!simple) {
-            result.push({
-                title: intlMapping.columnOperation,
-                dataIndex: "operation",
-                render: () => (
-                    <Button type="primary" size="mini">
-                        Confirm
-                    </Button>
-                ),
-            })
+            result.push(
+                {
+                    title: intlMapping.columnUpdatedAt,
+                    dataIndex: "updated_at",
+                    ellipsis: true,
+                },
+                {
+                    title: intlMapping.columnOperation,
+                    dataIndex: "operation",
+                    render: () => (
+                        <Button type="primary" size="mini">
+                            Confirm
+                        </Button>
+                    ),
+                },
+            )
         }
         return result
     }, [simple, intlMapping])

@@ -20,6 +20,10 @@ const enUS: SystemLocaleMapping = {
 
     "common.tips": "Tips",
     "common.delete.tips": "Deletion is unrecoverable. Confirm deletion?",
+
+    "common.table.created_at": "Created at",
+    "common.table.updated_at": "Updated at",
+    "common.table.operation": "Operation",
 }
 
 export default enUS

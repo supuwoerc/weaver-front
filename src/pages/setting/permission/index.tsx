@@ -33,22 +33,17 @@ const PermissionSetting: React.FC = () => {
     const [readonly, setReadonly] = useState(false)
     const [permissionId, setPermissionId] = useState<number>()
     const intlMapping = useTranslator({
-        columnId: "permission.table.column.id",
         columnName: "permission.table.column.name",
         columnResource: "permission.table.column.resource",
-        columnCreatedAt: "permission.table.column.created_at",
-        columnUpdatedAt: "permission.table.column.updated_at",
-        columnOperation: "permission.table.column.operation",
+        columnCreatedAt: "common.table.created_at",
+        columnUpdatedAt: "common.table.updated_at",
+        columnOperation: "common.table.operation",
         searchPlaceholer: "common.placeholer.search",
         deleteSuccess: "common.delete.success",
         tips: "common.tips",
         deleteTips: "common.delete.tips",
     })
     const columns: TableColumnProps[] = [
-        {
-            title: intlMapping.columnId,
-            dataIndex: "id",
-        },
         {
             title: intlMapping.columnName,
             dataIndex: "name",

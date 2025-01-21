@@ -3,12 +3,8 @@ import { SystemLocaleMapping } from ".."
 // 按照页面路由划分[pathname.var]:value
 const enUS: SystemLocaleMapping = {
     "permission.btn.add": "Add permission",
-    "permission.table.column.id": "ID",
     "permission.table.column.name": "Permission name",
     "permission.table.column.resource": "Resource name",
-    "permission.table.column.created_at": "Created at",
-    "permission.table.column.updated_at": "Updated at",
-    "permission.table.column.operation": "Operation",
     "permission.modal.title.detail": "Permission detail",
     "permission.modal.title.add": "Add permission",
     "permission.modal.title.edit": "Edit permission",

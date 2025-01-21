@@ -3,9 +3,7 @@ import { SystemLocaleMapping } from ".."
 // 按照页面路由划分[pathname.var]:value
 const zhCN: SystemLocaleMapping = {
     "role.btn.add": "添加角色",
-    "role.table.column.id": "角色ID",
     "role.table.column.name": "角色名称",
-    "role.table.column.operation": "操作",
     "role.modal.title": "添加角色",
     "role.modal.label.name": "角色名称",
     "role.modal.placeholer.name": "请输入角色名称",

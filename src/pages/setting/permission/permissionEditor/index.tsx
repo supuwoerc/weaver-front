@@ -110,8 +110,13 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
                 roles: roles.map((item) => item.id),
             })
             setRoles(roles)
+        } else {
+            form.setFieldsValue({
+                roles: [],
+            })
+            setRoles([])
         }
-    }, [data, form])
+    }, [data, form, visible])
     return (
         <Drawer
             width={"max(40%,500px)"}
@@ -124,7 +129,11 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             }
             visible={visible}
             onOk={upsertConfirm}
-            onCancel={onCancel}
+            onCancel={() => {
+                form.resetFields()
+                onCancel?.()
+                setRoles([])
+            }}
             confirmLoading={confirmLoading}
             footer={readonly ? null : undefined}
         >
