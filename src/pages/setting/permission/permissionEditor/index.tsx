@@ -177,6 +177,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
                         <FormItem label={intlMapping.modalLabelRoles} field="roles">
                             <CustomRoleSelector
                                 readonly={readonly}
+                                visible={visible}
                                 roles={roles}
                                 onRolesChange={(val) => setRoles(val)}
                             />
@@ -190,6 +191,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
 
 interface RoleSelectorProps {
     readonly: boolean
+    visible: boolean
     roles?: Array<any> // FIXME:类型完善
     value?: Array<number>
     onChange?: (val: Array<number>) => void
@@ -198,6 +200,7 @@ interface RoleSelectorProps {
 
 const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
     readonly,
+    visible,
     roles = [],
     value,
     onChange,
@@ -215,7 +218,16 @@ const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
     }
     const onSelectedChangeHandle = (ids: Array<number>, rows: Array<any>) => {
         onChange?.(ids)
-        onRolesChange(rows)
+        const temp = roles?.filter((item) => {
+            return ids.includes(item.id)
+        })
+        const tempIds = temp?.map((item) => item.id)
+        rows.forEach((item) => {
+            if (!tempIds.includes(item.id)) {
+                temp.push(item)
+            }
+        })
+        onRolesChange(temp)
     }
     return (
         <Space direction="vertical" style={{ width: "100%" }}>
@@ -242,7 +254,7 @@ const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
                     content={<FormattedMessage id="permission.modal.placeholer.roles" />}
                 />
             )}
-            {!readonly && (
+            {visible && !readonly && (
                 <RoleSetting
                     simple
                     selectedRowKeys={value}
