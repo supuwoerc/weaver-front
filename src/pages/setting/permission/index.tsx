@@ -22,6 +22,7 @@ import permissionService, {
     GetPermissionListRequest,
     PermissionListRow,
 } from "@/service/permission"
+import UserColumn from "@/components/userColumn"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -35,6 +36,8 @@ const PermissionSetting: React.FC = () => {
     const intlMapping = useTranslator({
         columnName: "permission.table.column.name",
         columnResource: "permission.table.column.resource",
+        columnCreator: "common.table.creator",
+        columnUpdater: "common.table.updater",
         columnCreatedAt: "common.table.created_at",
         columnUpdatedAt: "common.table.updated_at",
         columnOperation: "common.table.operation",
@@ -51,6 +54,22 @@ const PermissionSetting: React.FC = () => {
         {
             title: intlMapping.columnResource,
             dataIndex: "resource",
+        },
+        {
+            title: intlMapping.columnCreator,
+            dataIndex: "creator",
+            width: "240px",
+            render: (col) => {
+                return <UserColumn name={col.nickname} avatar={col.avatar} fallback={col.email} />
+            },
+        },
+        {
+            title: intlMapping.columnUpdater,
+            dataIndex: "updater",
+            width: "240px",
+            render: (col) => {
+                return <UserColumn name={col.nickname} avatar={col.avatar} fallback={col.email} />
+            },
         },
         {
             title: intlMapping.columnCreatedAt,

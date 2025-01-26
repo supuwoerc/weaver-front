@@ -28,6 +28,7 @@ const UserInfo: React.FC<UserInfoProps> = () => {
     const showTips = !nickname || !avatar
     return (
         <UserInfoContainer backageImage={backageImage}>
+            {/* TODO:使用https://arco.design/react/components/avatar来重构头像 */}
             <div className="simple-info">
                 <Upload
                     autoUpload={false}

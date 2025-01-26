@@ -11,12 +11,13 @@ import { IconPlus } from "@arco-design/web-react/icon"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import roleService, { GetRoleListRequest, RoleListRow } from "@/service/role"
+import roleService, { GetRoleListRequest } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/useTranslator"
 import RoleEditor from "./roleEditor"
+import { PermissionDetailRole } from "@/service/permission"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -25,7 +26,7 @@ const InputSearch = Input.Search
 export interface RoleSettingProps {
     simple?: boolean
     selectedRowKeys?: Array<number>
-    onSelectedChange?: (ids: Array<number>, rows: Array<RoleListRow>) => void
+    onSelectedChange?: (ids: Array<number>, rows: Array<PermissionDetailRole>) => void
 }
 
 const RoleSetting: React.FC<RoleSettingProps> = ({
@@ -40,7 +41,6 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         columnCreatedAt: "common.table.created_at",
         columnUpdatedAt: "common.table.updated_at",
         columnOperation: "common.table.operation",
-        modalTitle: "role.modal.title",
         modalLabelName: "role.modal.label.name",
         modalPlaceholerName: "role.modal.placeholer.name",
         modalLabelPermission: "role.modal.label.permission",
@@ -206,7 +206,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     }}
                 />
             </Space>
-            <RoleEditor visible={visible} onCancel={() => setVisible(false)} />
+            <RoleEditor visible={visible} readonly={false} onCancel={() => setVisible(false)} />
         </CommonSettingContainer>
     )
 }

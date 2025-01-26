@@ -6,6 +6,11 @@ export interface GetPermissionListRequest extends PageRequest {
 export interface PermissionListRow {
     id: number
     name: string
+    resource: string
+    created_at: string
+    updated_at: string
+    creator: creator
+    updater: updater
 }
 
 const getPermissionList = (params: GetPermissionListRequest) =>
@@ -20,14 +25,20 @@ export interface CreatePermissionRequest {
 const createPermission = (params: CreatePermissionRequest) =>
     defaultClient.post<null>("/permission/create", params)
 
-export interface PermissionDetail {
-    id: number
+export interface PermissionDetailRole {
     created_at: string
     updated_at: string
-    deleted_at: string | null
+    id: number
+    name: string
+}
+
+export interface PermissionDetail {
+    id: number
     name: string
     resource: string
-    roles: Array<any>
+    roles: Array<PermissionDetailRole>
+    created_at: string
+    updated_at: string
 }
 
 const getPermisisonDetail = (params: { id: number }) =>

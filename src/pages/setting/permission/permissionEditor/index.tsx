@@ -17,9 +17,9 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import permissionService, {
     CreatePermissionRequest,
     PermissionDetail,
+    PermissionDetailRole,
     UpdatePermissionRequest,
 } from "@/service/permission"
-import { RoleListRow } from "@/service/role"
 import { FormattedMessage } from "react-intl"
 
 interface PermissionEditorProps {
@@ -79,18 +79,6 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             },
         },
     )
-    const upsertConfirm = () => {
-        form.validate()
-            .then((val) => {
-                upsertHandle.mutate({
-                    ...val,
-                    ...(data ? { id: data?.id } : null),
-                })
-            })
-            .catch(() => {
-                Message.warning(intlMapping.validateError)
-            })
-    }
     const { data, isFetching } = useQuery<PermissionDetail>(
         ["permission", "detail", { id: permissionId }],
         () => {
@@ -100,7 +88,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             enabled: visible && Boolean(permissionId),
         },
     )
-    const [roles, setRoles] = useState<Array<any>>(data?.roles ?? [])
+    const [roles, setRoles] = useState<Array<PermissionDetailRole>>(data?.roles ?? [])
     useEffect(() => {
         if (data) {
             const { name, resource, roles } = data
@@ -117,6 +105,18 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             setRoles([])
         }
     }, [data, form, visible])
+    const upsertConfirm = () => {
+        form.validate()
+            .then((val) => {
+                upsertHandle.mutate({
+                    ...val,
+                    ...(data ? { id: data?.id } : null),
+                })
+            })
+            .catch(() => {
+                Message.warning(intlMapping.validateError)
+            })
+    }
     return (
         <Drawer
             width={"max(40%,500px)"}
@@ -192,10 +192,10 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
 interface RoleSelectorProps {
     readonly: boolean
     visible: boolean
-    roles?: Array<any> // FIXME:类型完善
+    roles?: Array<PermissionDetailRole>
     value?: Array<number>
     onChange?: (val: Array<number>) => void
-    onRolesChange: (val: Array<RoleListRow>) => void
+    onRolesChange: (val: Array<PermissionDetailRole>) => void
 }
 
 const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
@@ -216,7 +216,7 @@ const CustomRoleSelector: React.FC<RoleSelectorProps> = ({
         })
         onRolesChange(r)
     }
-    const onSelectedChangeHandle = (ids: Array<number>, rows: Array<any>) => {
+    const onSelectedChangeHandle = (ids: Array<number>, rows: Array<PermissionDetailRole>) => {
         onChange?.(ids)
         const temp = roles?.filter((item) => {
             return ids.includes(item.id)

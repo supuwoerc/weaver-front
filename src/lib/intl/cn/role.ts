@@ -4,7 +4,9 @@ import { SystemLocaleMapping } from ".."
 const zhCN: SystemLocaleMapping = {
     "role.btn.add": "添加角色",
     "role.table.column.name": "角色名称",
-    "role.modal.title": "添加角色",
+    "role.modal.title.detail": "角色详情",
+    "role.modal.title.add": "添加角色",
+    "role.modal.title.edit": "编辑角色",
     "role.modal.label.name": "角色名称",
     "role.modal.placeholer.name": "请输入角色名称",
     "role.modal.label.permission": "角色权限",

@@ -21,6 +21,8 @@ const enUS: SystemLocaleMapping = {
     "common.tips": "Tips",
     "common.delete.tips": "Deletion is unrecoverable. Confirm deletion?",
 
+    "common.table.creator": "Creator",
+    "common.table.updater": "Updater",
     "common.table.created_at": "Created at",
     "common.table.updated_at": "Updated at",
     "common.table.operation": "Operation",

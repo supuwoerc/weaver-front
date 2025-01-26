@@ -21,6 +21,8 @@ const zhCN: SystemLocaleMapping = {
     "common.tips": "提示",
     "common.delete.tips": "删除后不可恢复，确认删除吗？",
 
+    "common.table.creator": "创建人",
+    "common.table.updater": "更新人",
     "common.table.created_at": "创建时间",
     "common.table.updated_at": "更新时间",
     "common.table.operation": "操作",
