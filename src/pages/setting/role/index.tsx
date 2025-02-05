@@ -1,6 +1,8 @@
 import {
     Button,
     Input,
+    Message,
+    Modal,
     PaginationProps,
     Space,
     Table,
@@ -10,8 +12,8 @@ import CommonSettingContainer from "@/components/commonSettingContainer"
 import { IconPlus } from "@arco-design/web-react/icon"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
-import { useQuery, useQueryClient } from "@tanstack/react-query"
-import roleService, { GetRoleListRequest } from "@/service/role"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import roleService, { GetRoleListRequest, RoleListRow } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
@@ -35,7 +37,9 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
     onSelectedChange,
 }) => {
     const [visible, setVisible] = useState(false)
-    const [tableLoading, _] = useState(false)
+    const [tableLoading, setTableLoading] = useState(false)
+    const [readonly, setReadonly] = useState(false)
+    const [roleId, setRoleId] = useState<number>()
     const intlMapping = useTranslator({
         columnName: "role.table.column.name",
         columnCreatedAt: "common.table.created_at",
@@ -47,7 +51,31 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         modalPlaceholerPermission: "role.modal.placeholer.permission",
         ruleRequired: "role.modal.rule.required",
         searchPlaceholer: "common.placeholer.search",
+        deleteSuccess: "common.delete.success",
+        tips: "common.tips",
+        deleteTips: "common.delete.tips",
     })
+    const deleteHandle = useMutation(roleService.deleteRole, {
+        onMutate() {
+            setTableLoading(true)
+        },
+        onSuccess() {
+            searchHandle()
+            Message.success(intlMapping.deleteSuccess)
+        },
+        onSettled() {
+            setTableLoading(false)
+        },
+    })
+    const detailHandle = (id: number) => {
+        setRoleId(id)
+        setReadonly(true)
+        setVisible(true)
+    }
+    const editHandle = (id: number) => {
+        setRoleId(id)
+        setVisible(true)
+    }
     const columns = useMemo<TableColumnProps[]>(() => {
         const result: TableColumnProps[] = [
             {
@@ -70,16 +98,51 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                 {
                     title: intlMapping.columnOperation,
                     dataIndex: "operation",
-                    render: () => (
-                        <Button type="primary" size="mini">
-                            Confirm
-                        </Button>
+                    render: (_, item: RoleListRow) => (
+                        <Space>
+                            <Button
+                                type="primary"
+                                shape="round"
+                                size="mini"
+                                onClick={() => detailHandle(item.id)}
+                            >
+                                <FormattedMessage id="common.detail" />
+                            </Button>
+                            <Button
+                                type="outline"
+                                shape="round"
+                                size="mini"
+                                onClick={() => editHandle(item.id)}
+                            >
+                                <FormattedMessage id="common.edit" />
+                            </Button>
+                            <Button
+                                type="outline"
+                                status="danger"
+                                shape="round"
+                                size="mini"
+                                onClick={() =>
+                                    Modal.confirm({
+                                        title: intlMapping.tips,
+                                        content: intlMapping.deleteTips,
+                                        okButtonProps: {
+                                            status: "danger",
+                                        },
+                                        onOk: () => {
+                                            return deleteHandle.mutateAsync({ id: item.id })
+                                        },
+                                    })
+                                }
+                            >
+                                <FormattedMessage id="common.delete" />
+                            </Button>
+                        </Space>
                     ),
                 },
             )
         }
         return result
-    }, [simple, intlMapping])
+    }, [simple, intlMapping, deleteHandle])
     const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,
@@ -139,7 +202,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         )
     }
     const client = useQueryClient()
-    const handleSearch = useCallback(
+    const searchHandle = useCallback(
         (s = keyword) => {
             const nextPagination = produce(pagination, (draft) => {
                 draft.current = 1
@@ -158,7 +221,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
     const keywordChangeHandle = (v: string) => {
         setKeyword(v)
         if (v == "") {
-            handleSearch(v)
+            searchHandle(v)
         }
     }
     return (
@@ -171,7 +234,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                             style={{ width: simple ? "100%" : 350, margin: 0 }}
                             value={keyword}
                             onChange={(v) => keywordChangeHandle(v)}
-                            onSearch={() => handleSearch()}
+                            onSearch={() => searchHandle()}
                             allowClear
                             searchButton={true}
                         />
@@ -206,7 +269,24 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     }}
                 />
             </Space>
-            <RoleEditor visible={visible} readonly={false} onCancel={() => setVisible(false)} />
+            {!simple && (
+                <RoleEditor
+                    visible={visible}
+                    readonly={readonly}
+                    roleId={roleId}
+                    onOk={() => {
+                        setRoleId(undefined)
+                        setReadonly(false)
+                        setVisible(false)
+                        searchHandle()
+                    }}
+                    onCancel={() => {
+                        setRoleId(undefined)
+                        setReadonly(false)
+                        setVisible(false)
+                    }}
+                />
+            )}
         </CommonSettingContainer>
     )
 }

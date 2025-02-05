@@ -1,4 +1,4 @@
-interface creator {
+interface Creator {
     email: string
     about: string | null
     Avatar: string | null
@@ -6,4 +6,6 @@ interface creator {
     nickname: string | null
 }
 
-type updater = creator
+type Updater = Creator
+
+type SimpleUser = Creator

@@ -9,7 +9,7 @@ import {
     TableColumnProps,
 } from "@arco-design/web-react"
 import { IconPlus } from "@arco-design/web-react/icon"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Grid } from "@arco-design/web-react"
@@ -28,7 +28,17 @@ const Row = Grid.Row
 const Col = Grid.Col
 const InputSearch = Input.Search
 
-const PermissionSetting: React.FC = () => {
+export interface PermissionSettingProps {
+    simple?: boolean
+    selectedRowKeys?: Array<number>
+    onSelectedChange?: (ids: Array<number>, rows: Array<any>) => void // FIXME:类型修复
+}
+
+const PermissionSetting: React.FC<PermissionSettingProps> = ({
+    simple,
+    selectedRowKeys = [],
+    onSelectedChange,
+}) => {
     const [visible, setVisible] = useState(false)
     const [tableLoading, setTableLoading] = useState(false)
     const [readonly, setReadonly] = useState(false)
@@ -46,84 +56,115 @@ const PermissionSetting: React.FC = () => {
         tips: "common.tips",
         deleteTips: "common.delete.tips",
     })
-    const columns: TableColumnProps[] = [
-        {
-            title: intlMapping.columnName,
-            dataIndex: "name",
+    const deleteHandle = useMutation(permissionService.deletePermission, {
+        onMutate() {
+            setTableLoading(true)
         },
-        {
-            title: intlMapping.columnResource,
-            dataIndex: "resource",
+        onSuccess() {
+            searchHandle()
+            Message.success(intlMapping.deleteSuccess)
         },
-        {
-            title: intlMapping.columnCreator,
-            dataIndex: "creator",
-            width: "240px",
-            render: (col) => {
-                return <UserColumn name={col.nickname} avatar={col.avatar} fallback={col.email} />
+        onSettled() {
+            setTableLoading(false)
+        },
+    })
+    const columns = useMemo<TableColumnProps[]>(() => {
+        const result: TableColumnProps[] = [
+            {
+                title: intlMapping.columnName,
+                dataIndex: "name",
             },
-        },
-        {
-            title: intlMapping.columnUpdater,
-            dataIndex: "updater",
-            width: "240px",
-            render: (col) => {
-                return <UserColumn name={col.nickname} avatar={col.avatar} fallback={col.email} />
+            {
+                title: intlMapping.columnResource,
+                dataIndex: "resource",
             },
-        },
-        {
-            title: intlMapping.columnCreatedAt,
-            dataIndex: "created_at",
-        },
-        {
-            title: intlMapping.columnUpdatedAt,
-            dataIndex: "updated_at",
-        },
-        {
-            title: intlMapping.columnOperation,
-            dataIndex: "operation",
-            render: (_, item: PermissionListRow) => (
-                <Space>
-                    <Button
-                        type="primary"
-                        shape="round"
-                        size="mini"
-                        onClick={() => detailHandle(item.id)}
-                    >
-                        <FormattedMessage id="common.detail" />
-                    </Button>
-                    <Button
-                        type="outline"
-                        shape="round"
-                        size="mini"
-                        onClick={() => editHandle(item.id)}
-                    >
-                        <FormattedMessage id="common.edit" />
-                    </Button>
-                    <Button
-                        type="outline"
-                        status="danger"
-                        shape="round"
-                        size="mini"
-                        onClick={() =>
-                            Modal.confirm({
-                                title: intlMapping.tips,
-                                content: intlMapping.deleteTips,
-                                okButtonProps: {
-                                    status: "danger",
-                                },
-                                onOk: () => {
-                                    return deleteHandle.mutateAsync({ id: item.id })
-                                },
-                            })
-                        }
-                    >
-                        <FormattedMessage id="common.delete" />
-                    </Button>
-                </Space>
-            ),
-        },
-    ]
+        ]
+        if (!simple) {
+            result.push(
+                {
+                    title: intlMapping.columnCreator,
+                    dataIndex: "creator",
+                    width: "240px",
+                    render: (col) => {
+                        return (
+                            <UserColumn
+                                name={col.nickname}
+                                avatar={col.avatar}
+                                fallback={col.email}
+                            />
+                        )
+                    },
+                },
+                {
+                    title: intlMapping.columnUpdater,
+                    dataIndex: "updater",
+                    width: "240px",
+                    render: (col) => {
+                        return (
+                            <UserColumn
+                                name={col.nickname}
+                                avatar={col.avatar}
+                                fallback={col.email}
+                            />
+                        )
+                    },
+                },
+                {
+                    title: intlMapping.columnCreatedAt,
+                    dataIndex: "created_at",
+                },
+                {
+                    title: intlMapping.columnUpdatedAt,
+                    dataIndex: "updated_at",
+                },
+                {
+                    title: intlMapping.columnOperation,
+                    dataIndex: "operation",
+                    render: (_, item: PermissionListRow) => (
+                        <Space>
+                            <Button
+                                type="primary"
+                                shape="round"
+                                size="mini"
+                                onClick={() => detailHandle(item.id)}
+                            >
+                                <FormattedMessage id="common.detail" />
+                            </Button>
+                            <Button
+                                type="outline"
+                                shape="round"
+                                size="mini"
+                                onClick={() => editHandle(item.id)}
+                            >
+                                <FormattedMessage id="common.edit" />
+                            </Button>
+                            <Button
+                                type="outline"
+                                status="danger"
+                                shape="round"
+                                size="mini"
+                                onClick={() =>
+                                    Modal.confirm({
+                                        title: intlMapping.tips,
+                                        content: intlMapping.deleteTips,
+                                        okButtonProps: {
+                                            status: "danger",
+                                        },
+                                        onOk: () => {
+                                            return deleteHandle.mutateAsync({ id: item.id })
+                                        },
+                                    })
+                                }
+                            >
+                                <FormattedMessage id="common.delete" />
+                            </Button>
+                        </Space>
+                    ),
+                },
+            )
+        }
+        return result
+    }, [simple, intlMapping, deleteHandle])
     const detailHandle = (id: number) => {
         setPermissionId(id)
         setReadonly(true)
@@ -192,7 +233,7 @@ const PermissionSetting: React.FC = () => {
         }
     }, [data])
     const client = useQueryClient()
-    const handleSearch = useCallback(
+    const searchHandle = useCallback(
         (s = keyword) => {
             const nextPagination = produce(pagination, (draft) => {
                 draft.current = 1
@@ -211,41 +252,36 @@ const PermissionSetting: React.FC = () => {
     const keywordChangeHandle = (v: string) => {
         setKeyword(v)
         if (v == "") {
-            handleSearch(v)
+            searchHandle(v)
         }
     }
-    const deleteHandle = useMutation(permissionService.deletePermission, {
-        onMutate() {
-            setTableLoading(true)
-        },
-        onSuccess() {
-            handleSearch()
-            Message.success(intlMapping.deleteSuccess)
-        },
-        onSettled() {
-            setTableLoading(false)
-        },
-    })
+
     return (
-        <CommonSettingContainer>
+        <CommonSettingContainer noPadding={simple}>
             <Space direction="vertical" style={{ width: "100%" }}>
                 <Row justify="space-between">
                     <Col flex={"auto"}>
                         <InputSearch
                             placeholder={intlMapping.searchPlaceholer}
-                            style={{ width: 350, margin: 0 }}
+                            style={{ width: simple ? "100%" : 350, margin: 0 }}
                             value={keyword}
-                            onSearch={() => handleSearch()}
+                            onSearch={() => searchHandle()}
                             onChange={(v) => keywordChangeHandle(v)}
                             allowClear
                             searchButton={true}
                         />
                     </Col>
-                    <Col flex={"0"}>
-                        <Button type="primary" icon={<IconPlus />} onClick={() => setVisible(true)}>
-                            <FormattedMessage id="permission.btn.add" />
-                        </Button>
-                    </Col>
+                    {!simple && (
+                        <Col flex={"0"}>
+                            <Button
+                                type="primary"
+                                icon={<IconPlus />}
+                                onClick={() => setVisible(true)}
+                            >
+                                <FormattedMessage id="permission.btn.add" />
+                            </Button>
+                        </Col>
+                    )}
                 </Row>
                 <Table
                     columns={columns}
@@ -254,24 +290,35 @@ const PermissionSetting: React.FC = () => {
                     loading={isFetching || tableLoading}
                     pagination={pagination}
                     onChange={tableChangeHandle}
+                    rowSelection={{
+                        type: simple ? "checkbox" : undefined,
+                        selectedRowKeys,
+                        checkCrossPage: true,
+                        preserveSelectedRowKeys: true,
+                        onChange: (seletedRowKeys, seletedRows) => {
+                            onSelectedChange?.(seletedRowKeys as Array<number>, seletedRows)
+                        },
+                    }}
                 />
             </Space>
-            <PermissionEditor
-                visible={visible}
-                readonly={readonly}
-                permissionId={permissionId}
-                onOk={() => {
-                    setPermissionId(undefined)
-                    setReadonly(false)
-                    setVisible(false)
-                    handleSearch()
-                }}
-                onCancel={() => {
-                    setPermissionId(undefined)
-                    setReadonly(false)
-                    setVisible(false)
-                }}
-            />
+            {!simple && (
+                <PermissionEditor
+                    visible={visible}
+                    readonly={readonly}
+                    permissionId={permissionId}
+                    onOk={() => {
+                        setPermissionId(undefined)
+                        setReadonly(false)
+                        setVisible(false)
+                        searchHandle()
+                    }}
+                    onCancel={() => {
+                        setPermissionId(undefined)
+                        setReadonly(false)
+                        setVisible(false)
+                    }}
+                />
+            )}
         </CommonSettingContainer>
     )
 }

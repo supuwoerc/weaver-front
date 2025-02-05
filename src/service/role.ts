@@ -8,8 +8,8 @@ export interface RoleListRow {
     name: string
     created_at: string
     updated_at: string
-    creator: creator
-    updater: updater
+    creator: Creator
+    updater: Updater
 }
 
 const getRoleList = (params: GetRoleListRequest) =>
@@ -23,11 +23,19 @@ export interface CreateRoleRequest {
 
 const createRole = (params: CreateRoleRequest) => defaultClient.post<null>("/role/create", params)
 
+export interface RoleDetailPermission {
+    created_at: string
+    updated_at: string
+    id: number
+    name: string
+    resource: string
+}
+
 export interface RoleDetail {
     id: number
     name: string
-    users: Array<any> // FIXME:类型修复
-    permissions: Array<any> // FIXME:类型修复
+    users: Array<SimpleUser>
+    permissions: Array<RoleDetailPermission>
     created_at: string
     updated_at: string
 }

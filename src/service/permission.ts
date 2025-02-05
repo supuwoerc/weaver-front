@@ -9,8 +9,8 @@ export interface PermissionListRow {
     resource: string
     created_at: string
     updated_at: string
-    creator: creator
-    updater: updater
+    creator: Creator
+    updater: Updater
 }
 
 const getPermissionList = (params: GetPermissionListRequest) =>
