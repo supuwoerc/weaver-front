@@ -13,8 +13,10 @@ const enUS: SystemLocaleMapping = {
     "router.dashboard.todo": "Todo",
     "router.resetPassword": "Reset password",
     "router.setting": "System setting",
-    "router.setting.role": "Role setting",
-    "router.setting.permission": "Permission setting",
+    "router.setting.role": "Role management",
+    "router.setting.permission": "Permission management",
+    "router.setting.user": "Users management",
+    "router.setting.dept": "Department management",
 }
 
 export default enUS

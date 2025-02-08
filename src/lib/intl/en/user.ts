@@ -17,6 +17,11 @@ const enUS: SystemLocaleMapping = {
     "user.infoEditor.readonlyInfo.title": "Other",
     "user.infoEditor.readonlyInfo.roles": "Apply for Roles",
     "user.infoEditor.readonlyInfo.password": "Set Password",
+    "user.table.column.avatar": "Avatar",
+    "user.table.column.name": "Nickname",
+    "user.table.column.email": "Email",
+    "user.table.column.roles": "Roles",
+    "user.table.column.dept": "Departments",
 }
 
 export default enUS

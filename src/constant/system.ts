@@ -28,3 +28,5 @@ export const appIsDevEnv = appEnv.VITE_APP_ENV === "dev"
 export const globalRouter = { navigate: null } as {
     navigate: null | NavigateFunction
 }
+
+export const emptyPlaceholder = "-"

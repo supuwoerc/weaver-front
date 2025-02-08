@@ -74,7 +74,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     useEffect(() => {
         if (appEnv.DEV && isLogin) {
             form.setFieldValue("email", "zhangzhouou@gmail.com")
-            form.setFieldValue("password", "_Admin123")
+            form.setFieldValue("password", "_Admin111")
         }
     }, [form, isLogin])
     useEffect(() => {

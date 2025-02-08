@@ -17,6 +17,11 @@ const zhCN: SystemLocaleMapping = {
     "user.infoEditor.readonlyInfo.title": "其他",
     "user.infoEditor.readonlyInfo.roles": "角色申请",
     "user.infoEditor.readonlyInfo.password": "设置密码",
+    "user.table.column.avatar": "头像",
+    "user.table.column.name": "昵称",
+    "user.table.column.email": "邮箱",
+    "user.table.column.roles": "角色",
+    "user.table.column.dept": "部门",
 }
 
 export default zhCN

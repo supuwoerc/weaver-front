@@ -9,5 +9,19 @@ interface UserInfo {
     gender: UserGender | null
     birthday: string | null
     about: string | null
-    permissions: Array<string>
+    created_at: string
+    updated_at: string
+    roles: UserInfoRole[]
+    permissions: string[] // TODO:接口完善
+    departments: UserInfoDept[]
+}
+
+interface UserInfoRole {
+    id: number
+    name: string
+}
+
+interface UserInfoDept {
+    id: number
+    name: string
 }
