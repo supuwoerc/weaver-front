@@ -66,6 +66,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                         flex-direction: column;
                         justify-content: space-between;
                         overflow-y: auto;
+                        min-width: 1080px;
                     `}
                 >
                     <SwitchTransition mode="out-in">
