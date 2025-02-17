@@ -6,6 +6,7 @@ import loadLocale from "@/lib/intl"
 import { system } from "@/store"
 import { useQueryClient } from "@tanstack/react-query"
 import { getIntl } from "@/utils"
+import { NuqsAdapter } from "nuqs/adapters/react"
 
 interface UnderlayProps {}
 
@@ -29,7 +30,9 @@ const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
     return (
         <ConfigProvider locale={intlSetting.arcoLocale}>
             <Intl locale={intlInstance.locale} messages={intlInstance.messages}>
-                <BrowserRouter>{children}</BrowserRouter>
+                <NuqsAdapter>
+                    <BrowserRouter>{children}</BrowserRouter>
+                </NuqsAdapter>
             </Intl>
         </ConfigProvider>
     )

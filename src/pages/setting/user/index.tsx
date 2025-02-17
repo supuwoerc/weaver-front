@@ -8,6 +8,7 @@ import {
     TableColumnProps,
     Tag,
 } from "@arco-design/web-react"
+import { parseAsString, useQueryState } from "nuqs"
 import CommonSettingContainer from "@/components/commonSettingContainer"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
@@ -150,7 +151,8 @@ const UserSetting: React.FC<UserSettingProps> = () => {
         current: 1,
         pageSizeChangeResetCurrent: true,
     })
-    const [keyword, setKeyword] = useState<string>("")
+    const [keyword, setKeyword] = useQueryState<string>("keyword", parseAsString.withDefault(""))
+
     const { current, pageSize } = pagination
     const [queryParams, setQueryParams] = useState<GetUserListRequest>({
         keyword: keyword,
