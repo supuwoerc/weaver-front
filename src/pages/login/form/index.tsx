@@ -19,6 +19,8 @@ interface LoginOrSignupFormProps {
     type: "login" | "signup"
 }
 
+type FormData = (LoginRequest | SignupRequest) & { confirmPassword?: string }
+
 const enum TabType {
     login = "login",
     signup = "signup",
@@ -26,7 +28,7 @@ const enum TabType {
 const TabArr = [TabType.login, TabType.signup]
 const TabKey = "tab"
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
-    const [form] = Form.useForm<LoginRequest | SignupRequest>()
+    const [form] = Form.useForm<FormData>()
     const location = useLocation()
     const [visible, setVisible] = useState(false)
     const [searchParams, setSearchParams] = useSearchParams()
@@ -55,7 +57,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         form.clearFields()
         setSearchParams({ tab: isLogin ? TabType.signup : TabType.login })
     }
-    const submitHandle = (v: LoginRequest | SignupRequest) => {
+    const submitHandle = (v: FormData) => {
         v.password = md5(v.password)
         if (isLogin) {
             login(v)
@@ -65,11 +67,14 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     }
     const finishHandle = (id: string, code: string) => {
         setVisible(false)
-        const value = form.getFieldsValue() as SignupRequest
-        value.password = md5(value.password)
-        value.id = id
-        value.code = code
-        signup(value)
+        const { password = "", email = "" } = form.getFieldsValue()
+        const params: SignupRequest = {
+            id,
+            code,
+            password: md5(password),
+            email,
+        }
+        signup(params)
     }
     useEffect(() => {
         if (appEnv.DEV && isLogin) {
