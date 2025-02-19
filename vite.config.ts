@@ -86,5 +86,8 @@ export default ({ mode }) => {
                 port: 12345, // https://github.com/vitejs/vite/issues/14328#issuecomment-1897675256
             },
         },
+        optimizeDeps: {
+            exclude: ["react-scan"], // https://github.com/vitejs/vite/issues/10761
+        },
     })
 }
