@@ -1,7 +1,7 @@
 {
-    "name": "learn-gin-web-front",
+    "name": "weaver-front",
     "private": true,
-    "description": "learn-gin-web-front",
+    "description": "weaver-front",
     "version": "1.0.0",
     "type": "module",
     "scripts": {
