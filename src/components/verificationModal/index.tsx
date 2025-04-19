@@ -18,7 +18,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
     const { data, isFetching, error } = useQuery(
         queryKey,
         () => {
-            return captchaService.getCaptcha()
+            return captchaService.getSignUpCaptcha()
         },
         {
             cacheTime: 0,

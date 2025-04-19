@@ -5,8 +5,8 @@ export interface GetCaptchaResponse {
     base64: string
 }
 
-const getCaptcha = () => defaultClient.get<GetCaptchaResponse>("/public/captcha/generate")
+const getSignUpCaptcha = () => defaultClient.get<GetCaptchaResponse>("/public/captcha/signup")
 
 export default {
-    getCaptcha,
+    getSignUpCaptcha,
 }
