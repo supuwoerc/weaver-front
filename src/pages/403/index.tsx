@@ -1,7 +1,7 @@
 import ForbiddenSVG from "@/assets/403/forbidden.svg?react"
 import { Button } from "@arco-design/web-react"
 import { useNavigate } from "react-router-dom"
-import Exception from "@/components/exceptionContainer"
+import Exception from "@/components/exception-container"
 
 const Forbidden: React.FC = () => {
     const navigate = useNavigate()

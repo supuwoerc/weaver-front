@@ -9,7 +9,7 @@ import {
     Tag,
 } from "@arco-design/web-react"
 import { parseAsString, useQueryState } from "nuqs"
-import CommonSettingContainer from "@/components/commonSettingContainer"
+import CommonSettingContainer from "@/components/common-setting-container"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"

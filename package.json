@@ -44,7 +44,7 @@
     ],
     "author": "zhangzhouou@gmail.com",
     "dependencies": {
-        "@arco-design/web-react": "^2.63.1",
+        "@arco-design/web-react": "^2.66.1",
         "@emotion/react": "^11.11.0",
         "@emotion/styled": "^11.11.0",
         "@supuwoerc/utils": "^1.1.8",

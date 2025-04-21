@@ -1,4 +1,4 @@
-import { languageList } from "@/constant/languageSelect"
+import { languageList } from "@/constant/language-select"
 import { SystemLocale } from "@/constant/system"
 import loadLocale from "@/lib/intl"
 import { system } from "@/store"

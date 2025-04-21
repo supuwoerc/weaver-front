@@ -7,6 +7,7 @@ import {
     Space,
     Table,
     TableColumnProps,
+    Typography,
 } from "@arco-design/web-react"
 import { IconPlus } from "@arco-design/web-react/icon"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -16,13 +17,13 @@ import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/useTranslator"
-import CommonSettingContainer from "@/components/commonSettingContainer"
-import PermissionEditor from "./permissionEditor"
+import CommonSettingContainer from "@/components/common-setting-container"
+import PermissionEditor from "./permission-editor"
 import permissionService, {
     GetPermissionListRequest,
     PermissionListRow,
 } from "@/service/permission"
-import UserColumn from "@/components/userColumn"
+import UserColumn from "@/components/user-column"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -68,15 +69,26 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
             setTableLoading(false)
         },
     })
-    const columns = useMemo<TableColumnProps[]>(() => {
-        const result: TableColumnProps[] = [
+    const columns = useMemo<TableColumnProps<PermissionListRow>[]>(() => {
+        const result: TableColumnProps<PermissionListRow>[] = [
             {
                 title: intlMapping.columnName,
                 dataIndex: "name",
+                ellipsis: true,
             },
             {
                 title: intlMapping.columnResource,
                 dataIndex: "resource",
+                ellipsis: true,
+                render: (col) => {
+                    return (
+                        <Typography>
+                            <Typography.Paragraph style={{ margin: 0 }} copyable ellipsis>
+                                {col}
+                            </Typography.Paragraph>
+                        </Typography>
+                    )
+                },
             },
         ]
         if (!simple) {
@@ -84,38 +96,26 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                 {
                     title: intlMapping.columnCreator,
                     dataIndex: "creator",
-                    width: "240px",
-                    render: (col) => {
-                        return (
-                            <UserColumn
-                                name={col.nickname}
-                                avatar={col.avatar}
-                                fallback={col.email}
-                            />
-                        )
+                    render: (_, item) => {
+                        return <UserColumn {...item.creator} />
                     },
                 },
                 {
                     title: intlMapping.columnUpdater,
                     dataIndex: "updater",
-                    width: "240px",
-                    render: (col) => {
-                        return (
-                            <UserColumn
-                                name={col.nickname}
-                                avatar={col.avatar}
-                                fallback={col.email}
-                            />
-                        )
+                    render: (_, item) => {
+                        return <UserColumn {...item.updater} />
                     },
                 },
                 {
                     title: intlMapping.columnCreatedAt,
                     dataIndex: "created_at",
+                    ellipsis: true,
                 },
                 {
                     title: intlMapping.columnUpdatedAt,
                     dataIndex: "updated_at",
+                    ellipsis: true,
                 },
                 {
                     title: intlMapping.columnOperation,
@@ -283,7 +283,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                         </Col>
                     )}
                 </Row>
-                <Table
+                <Table<PermissionListRow>
                     columns={columns}
                     data={data?.list}
                     rowKey={"id"}

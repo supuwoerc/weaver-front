@@ -8,7 +8,7 @@ import {
     Table,
     TableColumnProps,
 } from "@arco-design/web-react"
-import CommonSettingContainer from "@/components/commonSettingContainer"
+import CommonSettingContainer from "@/components/common-setting-container"
 import { IconPlus } from "@arco-design/web-react/icon"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormattedMessage } from "react-intl"

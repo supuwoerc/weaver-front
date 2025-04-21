@@ -1,5 +1,5 @@
 import { Card, Form, Input, Link } from "@arco-design/web-react"
-import InfoEditorContainer from "./infoEditorContainer"
+import InfoEditorContainer from "./info-editor-container"
 import { useMemo, useState } from "react"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import Row from "@arco-design/web-react/es/Grid/row"

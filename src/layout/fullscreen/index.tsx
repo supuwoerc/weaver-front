@@ -3,10 +3,10 @@ import { css } from "@emotion/react"
 import { useRef } from "react"
 import { useLocation, useOutlet } from "react-router-dom"
 import { SwitchTransition, CSSTransition } from "react-transition-group"
-import { transitionCss } from "../routerTransition"
+import { transitionCss } from "../router-transition"
 import Logo, { ResponsiveKey } from "@/components/logo"
-import LanguageSelect from "@/components/languageSelect"
-import ThemeSelect from "@/components/themeSelect"
+import LanguageSelect from "@/components/language-select"
+import ThemeSelect from "@/components/theme-select"
 
 interface FullscreenLayoutProps {
     color?: Partial<Record<ResponsiveKey, string>> | string

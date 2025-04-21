@@ -1,7 +1,7 @@
 import { Button, Form, Input, Space } from "@arco-design/web-react"
 import classNames from "classnames"
 import { FormattedMessage } from "react-intl"
-import FormContainer from "./formContainer"
+import FormContainer from "./form-container"
 import { IconLock, IconUser } from "@arco-design/web-react/icon"
 import { useEffect, useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
@@ -10,7 +10,7 @@ import useUser from "@/hooks/useUser"
 import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
 import { appEnv } from "@/constant/system"
-import VerificationModal from "@/components/verificationModal"
+import VerificationModal from "@/components/verification-modal"
 import { useTranslator } from "@/hooks/useTranslator"
 
 const FormItem = Form.Item

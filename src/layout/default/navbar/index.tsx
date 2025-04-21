@@ -1,8 +1,8 @@
 import NavbarContainer from "./navbarContainer"
 import AccountMenu from "./accountMenu"
-import LanguageSelect from "@/components/languageSelect"
+import LanguageSelect from "@/components/language-select"
 import { Space } from "@arco-design/web-react"
-import ThemeSelect from "@/components/themeSelect"
+import ThemeSelect from "@/components/theme-select"
 import { IconMenuFold, IconMenuUnfold } from "@arco-design/web-react/icon"
 import { system } from "@/store"
 

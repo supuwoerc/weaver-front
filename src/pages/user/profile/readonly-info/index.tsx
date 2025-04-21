@@ -1,5 +1,5 @@
 import { Card } from "@arco-design/web-react"
-import ReadonlyInfoContainer from "./readonlyInfoContainer"
+import ReadonlyInfoContainer from "./readonly-info-container"
 import { useMemo } from "react"
 import RolesSvg from "@/assets/user/profile/readonly-info/role.svg?react"
 import PasswordSvg from "@/assets/user/profile/readonly-info/password.svg?react"

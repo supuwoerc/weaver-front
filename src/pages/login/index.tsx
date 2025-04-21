@@ -1,6 +1,6 @@
 import Col from "@arco-design/web-react/es/Grid/col"
 import Row from "@arco-design/web-react/es/Grid/row"
-import LoginContainer from "./loginContainer"
+import LoginContainer from "./login-container"
 import { Carousel } from "@arco-design/web-react"
 import ufo from "@/assets/login/ufo.png"
 import write from "@/assets/login/write.png"

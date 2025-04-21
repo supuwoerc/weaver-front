@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@arco-design/web-react':
-    specifier: ^2.63.1
-    version: 2.65.0(@types/react@18.3.18)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^2.66.1
+    version: 2.66.1(@types/react@18.3.18)(react-dom@18.2.0)(react@18.2.0)
   '@emotion/react':
     specifier: ^11.11.0
     version: 11.14.0(@types/react@18.3.18)(react@18.2.0)
@@ -241,8 +241,8 @@ packages:
       color: 3.2.1
     dev: false
 
-  /@arco-design/web-react@2.65.0(@types/react@18.3.18)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-IzSHoKZ+2hYwf7gGYaISrw4RMzEzw9DoOeA8fggxikrwKs8BrzwwfpxTpJ4MGekerhbFDmereCrYNJnVnNrigA==}
+  /@arco-design/web-react@2.66.1(@types/react@18.3.18)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-A3KKlNFHXldFrB2hGzLGu+RIGPYwizNnkYk3ttXEN/TnbzqhC1eGQqdo53j4hpLL0/DrQbSkOZNzlQgEdeQcGA==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'

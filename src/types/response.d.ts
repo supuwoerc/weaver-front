@@ -1,7 +1,7 @@
 interface Creator {
     email: string
     about: string | null
-    Avatar: string | null
+    avatar: string | null
     id: number
     nickname: string | null
 }
