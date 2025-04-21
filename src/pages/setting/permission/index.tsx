@@ -7,7 +7,7 @@ import {
     Space,
     Table,
     TableColumnProps,
-    Typography,
+    Tag,
 } from "@arco-design/web-react"
 import { IconPlus } from "@arco-design/web-react/icon"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -24,6 +24,7 @@ import permissionService, {
     PermissionListRow,
 } from "@/service/permission"
 import UserColumn from "@/components/user-column"
+import { ResourceTypeOptions } from "@/constant/permission"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -32,7 +33,7 @@ const InputSearch = Input.Search
 export interface PermissionSettingProps {
     simple?: boolean
     selectedRowKeys?: Array<number>
-    onSelectedChange?: (ids: Array<number>, rows: Array<any>) => void // FIXME:类型修复
+    onSelectedChange?: (ids: Array<number>, rows: Array<PermissionListRow>) => void
 }
 
 const PermissionSetting: React.FC<PermissionSettingProps> = ({
@@ -47,6 +48,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
     const intlMapping = useTranslator({
         columnName: "permission.table.column.name",
         columnResource: "permission.table.column.resource",
+        columnType: "permission.table.column.type",
         columnCreator: "common.table.creator",
         columnUpdater: "common.table.updater",
         columnCreatedAt: "common.table.created_at",
@@ -75,19 +77,27 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                 title: intlMapping.columnName,
                 dataIndex: "name",
                 ellipsis: true,
+                render: (_, item) => {
+                    return <Tag color="arcoblue">{item.name}</Tag>
+                },
             },
             {
                 title: intlMapping.columnResource,
                 dataIndex: "resource",
                 ellipsis: true,
-                render: (col) => {
-                    return (
-                        <Typography>
-                            <Typography.Paragraph style={{ margin: 0 }} copyable ellipsis>
-                                {col}
-                            </Typography.Paragraph>
-                        </Typography>
-                    )
+            },
+            {
+                title: intlMapping.columnType,
+                dataIndex: "type",
+                ellipsis: true,
+                render: (_, item) => {
+                    const o = ResourceTypeOptions.find((option) => {
+                        return option.value == item.type
+                    })
+                    if (o) {
+                        return <FormattedMessage id={o.label} />
+                    }
+                    return "-"
                 },
             },
         ]

@@ -7,6 +7,7 @@ import {
     Space,
     Table,
     TableColumnProps,
+    Tag,
 } from "@arco-design/web-react"
 import CommonSettingContainer from "@/components/common-setting-container"
 import { IconPlus } from "@arco-design/web-react/icon"
@@ -18,8 +19,8 @@ import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/useTranslator"
-import RoleEditor from "./roleEditor"
-import { PermissionDetailRole } from "@/service/permission"
+import RoleEditor from "./role-editor"
+import UserColumn from "@/components/user-column"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -28,7 +29,7 @@ const InputSearch = Input.Search
 export interface RoleSettingProps {
     simple?: boolean
     selectedRowKeys?: Array<number>
-    onSelectedChange?: (ids: Array<number>, rows: Array<PermissionDetailRole>) => void
+    onSelectedChange?: (ids: Array<number>, rows: Array<RoleListRow>) => void
 }
 
 const RoleSetting: React.FC<RoleSettingProps> = ({
@@ -49,6 +50,8 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         deleteSuccess: "common.delete.success",
         tips: "common.tips",
         deleteTips: "common.delete.tips",
+        columnCreator: "common.table.creator",
+        columnUpdater: "common.table.updater",
     })
     const deleteHandle = useMutation(roleService.deleteRole, {
         onMutate() {
@@ -71,11 +74,15 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         setRoleId(id)
         setVisible(true)
     }
-    const columns = useMemo<TableColumnProps[]>(() => {
-        const result: TableColumnProps[] = [
+    const columns = useMemo<TableColumnProps<RoleListRow>[]>(() => {
+        const result: TableColumnProps<RoleListRow>[] = [
             {
                 title: intlMapping.columnName,
                 dataIndex: "name",
+                ellipsis: true,
+                render: (_, item) => {
+                    return <Tag color="arcoblue">{item.name}</Tag>
+                },
             },
             {
                 title: intlMapping.columnCreatedAt,
@@ -85,6 +92,20 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         ]
         if (!simple) {
             result.push(
+                {
+                    title: intlMapping.columnCreator,
+                    dataIndex: "creator",
+                    render: (_, item) => {
+                        return <UserColumn {...item.creator} />
+                    },
+                },
+                {
+                    title: intlMapping.columnUpdater,
+                    dataIndex: "updater",
+                    render: (_, item) => {
+                        return <UserColumn {...item.updater} />
+                    },
+                },
                 {
                     title: intlMapping.columnUpdatedAt,
                     dataIndex: "updated_at",
@@ -246,7 +267,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                         </Col>
                     )}
                 </Row>
-                <Table
+                <Table<RoleListRow>
                     rowKey={"id"}
                     columns={columns}
                     data={data?.list}

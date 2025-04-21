@@ -1,4 +1,4 @@
-import { useTranslator } from "@/hooks/useTranslator"
+import { useOptionsTranslator, useTranslator } from "@/hooks/useTranslator"
 import {
     Drawer,
     Form,
@@ -9,6 +9,7 @@ import {
     Spin,
     Empty,
     Alert,
+    Select,
 } from "@arco-design/web-react"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import { useEffect, useState } from "react"
@@ -21,6 +22,7 @@ import permissionService, {
     UpdatePermissionRequest,
 } from "@/service/permission"
 import { FormattedMessage } from "react-intl"
+import { ResourceType, ResourceTypeOptions } from "@/constant/permission"
 
 interface PermissionEditorProps {
     visible: boolean
@@ -41,7 +43,9 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         modalTitleAdd: "permission.modal.title.add",
         modalTitleEdit: "permission.modal.title.edit",
         modalLabelName: "permission.modal.label.name",
+        modalLabelType: "permission.modal.label.type",
         modalPlaceholerName: "permission.modal.placeholer.name",
+        modalPlaceholerType: "permission.modal.placeholer.type",
         modalLabelResource: "permission.modal.label.resource",
         modalPlaceholerResource: "permission.modal.placeholer.resource",
         modalLabelRoles: "permission.modal.label.roles",
@@ -52,6 +56,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         validateError: "common.validate.error",
         warning: "common.warning",
     })
+    const typeOptions = useOptionsTranslator<ResourceType>(ResourceTypeOptions)
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm<CreatePermissionRequest | UpdatePermissionRequest>()
     const upsertHandle = useMutation(
@@ -91,10 +96,11 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
     const [roles, setRoles] = useState<Array<PermissionDetailRole>>(data?.roles ?? [])
     useEffect(() => {
         if (data) {
-            const { name, resource, roles } = data
+            const { name, resource, type, roles } = data
             form.setFieldsValue({
                 name,
                 resource,
+                type,
                 roles: roles.map((item) => item.id),
             })
             setRoles(roles)
@@ -154,6 +160,22 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
                             maxLength={20}
                             readOnly={readonly}
                             showWordLimit={!readonly}
+                        />
+                    </FormItem>{" "}
+                    <FormItem
+                        label={intlMapping.modalLabelType}
+                        field="type"
+                        rules={[
+                            {
+                                required: true,
+                                message: intlMapping.ruleRequired,
+                            },
+                        ]}
+                    >
+                        <Select
+                            options={typeOptions}
+                            placeholder={intlMapping.modalPlaceholerType}
+                            style={{ flex: 1 }}
                         />
                     </FormItem>
                     <FormItem
