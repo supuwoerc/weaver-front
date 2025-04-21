@@ -20,7 +20,7 @@
         "release": "release-it"
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx}": [
+        "*.{jsx,ts,tsx}": [
             "pnpm run lint",
             "npx prettier --write"
         ],

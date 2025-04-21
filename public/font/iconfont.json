@@ -6,6 +6,20 @@
   "description": "weaver",
   "glyphs": [
     {
+      "icon_id": "16922891",
+      "name": "B站狗头",
+      "font_class": "F8523125E92F6969F7377D0C42335F33",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "21479106",
+      "name": "密码文件夹",
+      "font_class": "020-folder",
+      "unicode": "e6f2",
+      "unicode_decimal": 59122
+    },
+    {
       "icon_id": "15112753",
       "name": "验证码",
       "font_class": "yanzhengma",

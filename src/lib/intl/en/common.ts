@@ -23,6 +23,7 @@ const enUS: SystemLocaleMapping = {
 
     "common.table.creator": "Creator",
     "common.table.updater": "Updater",
+    "common.table.operator": "Operator",
     "common.table.created_at": "Created at",
     "common.table.updated_at": "Updated at",
     "common.table.operation": "Operation",

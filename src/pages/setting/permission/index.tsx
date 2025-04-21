@@ -49,9 +49,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
         columnName: "permission.table.column.name",
         columnResource: "permission.table.column.resource",
         columnType: "permission.table.column.type",
-        columnCreator: "common.table.creator",
-        columnUpdater: "common.table.updater",
-        columnCreatedAt: "common.table.created_at",
+        columnOperator: "common.table.operator",
         columnUpdatedAt: "common.table.updated_at",
         columnOperation: "common.table.operation",
         searchPlaceholer: "common.placeholer.search",
@@ -85,6 +83,9 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                 title: intlMapping.columnResource,
                 dataIndex: "resource",
                 ellipsis: true,
+                render: (_, item) => {
+                    return <Tag color="arcoblue">{item.resource}</Tag>
+                },
             },
             {
                 title: intlMapping.columnType,
@@ -95,7 +96,11 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                         return option.value == item.type
                     })
                     if (o) {
-                        return <FormattedMessage id={o.label} />
+                        return (
+                            <Tag color="arcoblue">
+                                <FormattedMessage id={o.label} />
+                            </Tag>
+                        )
                     }
                     return "-"
                 },
@@ -104,23 +109,12 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
         if (!simple) {
             result.push(
                 {
-                    title: intlMapping.columnCreator,
-                    dataIndex: "creator",
-                    render: (_, item) => {
-                        return <UserColumn {...item.creator} />
-                    },
-                },
-                {
-                    title: intlMapping.columnUpdater,
+                    title: intlMapping.columnOperator,
                     dataIndex: "updater",
+                    ellipsis: true,
                     render: (_, item) => {
                         return <UserColumn {...item.updater} />
                     },
-                },
-                {
-                    title: intlMapping.columnCreatedAt,
-                    dataIndex: "created_at",
-                    ellipsis: true,
                 },
                 {
                     title: intlMapping.columnUpdatedAt,

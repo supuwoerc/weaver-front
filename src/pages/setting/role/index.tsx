@@ -50,8 +50,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         deleteSuccess: "common.delete.success",
         tips: "common.tips",
         deleteTips: "common.delete.tips",
-        columnCreator: "common.table.creator",
-        columnUpdater: "common.table.updater",
+        columnOperator: "common.table.operator",
     })
     const deleteHandle = useMutation(roleService.deleteRole, {
         onMutate() {
@@ -93,14 +92,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         if (!simple) {
             result.push(
                 {
-                    title: intlMapping.columnCreator,
-                    dataIndex: "creator",
-                    render: (_, item) => {
-                        return <UserColumn {...item.creator} />
-                    },
-                },
-                {
-                    title: intlMapping.columnUpdater,
+                    title: intlMapping.columnOperator,
                     dataIndex: "updater",
                     render: (_, item) => {
                         return <UserColumn {...item.updater} />
