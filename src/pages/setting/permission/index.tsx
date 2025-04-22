@@ -75,17 +75,11 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                 title: intlMapping.columnName,
                 dataIndex: "name",
                 ellipsis: true,
-                render: (_, item) => {
-                    return <Tag color="arcoblue">{item.name}</Tag>
-                },
             },
             {
                 title: intlMapping.columnResource,
                 dataIndex: "resource",
                 ellipsis: true,
-                render: (_, item) => {
-                    return <Tag color="arcoblue">{item.resource}</Tag>
-                },
             },
             {
                 title: intlMapping.columnType,

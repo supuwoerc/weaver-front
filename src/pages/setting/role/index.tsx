@@ -7,7 +7,6 @@ import {
     Space,
     Table,
     TableColumnProps,
-    Tag,
 } from "@arco-design/web-react"
 import CommonSettingContainer from "@/components/common-setting-container"
 import { IconPlus } from "@arco-design/web-react/icon"
@@ -79,9 +78,6 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                 title: intlMapping.columnName,
                 dataIndex: "name",
                 ellipsis: true,
-                render: (_, item) => {
-                    return <Tag color="arcoblue">{item.name}</Tag>
-                },
             },
             {
                 title: intlMapping.columnCreatedAt,

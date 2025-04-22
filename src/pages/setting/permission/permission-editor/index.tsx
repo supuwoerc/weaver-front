@@ -58,6 +58,9 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         warning: "common.warning",
     })
     const typeOptions = useOptionsTranslator<ResourceType>(ResourceTypeOptions)
+    if (readonly) {
+        typeOptions.forEach((item) => (item.disabled = true))
+    }
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm<CreatePermissionRequest | UpdatePermissionRequest>()
     const upsertHandle = useMutation(
