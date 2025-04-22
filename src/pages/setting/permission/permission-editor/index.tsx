@@ -1,4 +1,3 @@
-import { useOptionsTranslator, useTranslator } from "@/hooks/use-translator"
 import {
     Drawer,
     Form,
@@ -23,6 +22,8 @@ import permissionService, {
 } from "@/service/permission"
 import { FormattedMessage } from "react-intl"
 import { ResourceType, ResourceTypeOptions } from "@/constant/permission"
+import { useOptionsTranslator } from "@/hooks/use-options-translator"
+import { useTranslator } from "@/hooks/use-translator"
 
 interface PermissionEditorProps {
     visible: boolean

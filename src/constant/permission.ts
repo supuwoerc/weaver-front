@@ -1,4 +1,4 @@
-import { Option } from "@/hooks/use-translator"
+import { Option } from "@/hooks/use-options-translator"
 
 export enum ResourceType {
     VIEW_ROUTE = 1,
