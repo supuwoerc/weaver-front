@@ -1,5 +1,5 @@
 import { Timeline, Upload, Button, Tooltip } from "@arco-design/web-react"
-import UserInfoContainer from "./userInfoContainer"
+import UserInfoContainer from "./user-info-container"
 import backageImage from "@/assets/user/profile/user-info/default-bg.png"
 import { Building2, Mail, Tag as TagIcon } from "lucide-react"
 import TimelineItem from "@arco-design/web-react/es/Timeline/item"

@@ -1,6 +1,6 @@
 import { Menu } from "@arco-design/web-react"
 import { IconApps } from "@arco-design/web-react/icon"
-import SidebarContainer from "./sidebarContainer"
+import SidebarContainer from "./sidebar-container"
 import { FormattedMessage } from "react-intl"
 import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"

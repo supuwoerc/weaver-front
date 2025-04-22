@@ -4,7 +4,7 @@ import { useMemo, useState } from "react"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import Row from "@arco-design/web-react/es/Grid/row"
 import Col from "@arco-design/web-react/es/Grid/col"
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 
 interface InfoEditorProps {}
 

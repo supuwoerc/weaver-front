@@ -3,7 +3,7 @@ import ReadonlyInfoContainer from "./readonly-info-container"
 import { useMemo } from "react"
 import RolesSvg from "@/assets/user/profile/readonly-info/role.svg?react"
 import PasswordSvg from "@/assets/user/profile/readonly-info/password.svg?react"
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 
 interface InfoEditorProps {}
 

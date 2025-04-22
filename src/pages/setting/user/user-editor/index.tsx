@@ -1,4 +1,4 @@
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 import {
     CreateRoleRequest,
     RoleDetail,

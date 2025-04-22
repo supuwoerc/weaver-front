@@ -1,5 +1,5 @@
-import NavbarContainer from "./navbarContainer"
-import AccountMenu from "./accountMenu"
+import NavbarContainer from "./navbar-container"
+import AccountMenu from "./account-menu"
 import LanguageSelect from "@/components/language-select"
 import { Space } from "@arco-design/web-react"
 import ThemeSelect from "@/components/theme-select"

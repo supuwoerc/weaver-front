@@ -1,4 +1,4 @@
-import { useOptionsTranslator, useTranslator } from "@/hooks/useTranslator"
+import { useOptionsTranslator, useTranslator } from "@/hooks/use-translator"
 import {
     Drawer,
     Form,

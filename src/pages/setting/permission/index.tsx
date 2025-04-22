@@ -16,7 +16,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 import CommonSettingContainer from "@/components/common-setting-container"
 import PermissionEditor from "./permission-editor"
 import permissionService, {

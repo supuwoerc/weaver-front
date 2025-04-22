@@ -6,12 +6,12 @@ import { IconLock, IconUser } from "@arco-design/web-react/icon"
 import { useEffect, useMemo, useState } from "react"
 import { emailRegexp, passwordRegexp } from "@/constant/user"
 import { Link, useLocation, useSearchParams } from "react-router-dom"
-import useUser from "@/hooks/useUser"
+import useUser from "@/hooks/use-user"
 import { LoginRequest, SignupRequest } from "@/service/user"
 import md5 from "md5"
 import { appEnv } from "@/constant/system"
 import VerificationModal from "@/components/verification-modal"
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 
 const FormItem = Form.Item
 

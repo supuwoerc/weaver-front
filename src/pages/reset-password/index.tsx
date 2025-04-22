@@ -8,7 +8,7 @@ import useForm from "@arco-design/web-react/es/Form/useForm"
 import { VerifyEmailRequest } from "@/service/reset-password"
 import { Link, useSearchParams } from "react-router-dom"
 import { emailRegexp } from "@/constant/user"
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 
 interface ResetPasswordProps {}
 

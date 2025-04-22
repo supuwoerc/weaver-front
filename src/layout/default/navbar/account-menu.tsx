@@ -1,4 +1,4 @@
-import useUser from "@/hooks/useUser"
+import useUser from "@/hooks/use-user"
 import { Divider, Dropdown, Menu, Space } from "@arco-design/web-react"
 import { IconSettings, IconUser, IconPoweroff } from "@arco-design/web-react/icon"
 import { css } from "@emotion/react"

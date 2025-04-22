@@ -18,7 +18,7 @@ import roleService, { GetRoleListRequest, RoleListRow } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
 import { getArrayItem } from "@supuwoerc/utils"
-import { useTranslator } from "@/hooks/useTranslator"
+import { useTranslator } from "@/hooks/use-translator"
 import RoleEditor from "./role-editor"
 import UserColumn from "@/components/user-column"
 
