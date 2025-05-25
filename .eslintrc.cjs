@@ -33,6 +33,7 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-namespace": "off",
         "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-empty-object-type": "off",
         "no-unused-expressions": [
             "error",
             {

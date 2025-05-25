@@ -31,7 +31,9 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
     const [time, setTime] = useState(defaultTime)
     const timer = useRef<ReturnType<typeof setTimeout>>()
     const regenerateHandle = useCallback(() => {
-        timer.current && clearTimeout(timer.current)
+        if (timer.current) {
+            clearTimeout(timer.current)
+        }
         setTime(defaultTime)
         client.invalidateQueries(queryKey)
     }, [client])
@@ -53,7 +55,9 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
             }, 1000)
         }
         return () => {
-            timer.current && clearTimeout(timer.current)
+            if (timer.current) {
+                clearTimeout(timer.current)
+            }
         }
     }, [visible, isFetching, data, time, regenerateHandle])
     return (

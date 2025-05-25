@@ -41,7 +41,9 @@ const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }
         },
     )
     useEffect(() => {
-        data && user.setUserInfo(data)
+        if (data) {
+            user.setUserInfo(data)
+        }
     }, [data])
     return <>{children}</>
 }
