@@ -15,8 +15,8 @@ jobs:
             - name: setup node and pnpm
               uses: dafnik/setup-node-pnpm@v3
               with:
-                  pnpm: 8.15.4
-                  node: 18.16.0
+                  pnpm: 10.11.0
+                  node: 22.16.0
 
             - name: Install dependencies
               run: pnpm install --no-frozen-lockfile
