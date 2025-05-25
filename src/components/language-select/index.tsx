@@ -12,19 +12,22 @@ interface LanguageSelectProps {
 }
 
 const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
+    const locale = system.useSystemConfigStore((state) => state.locale)
     const onSelectHandle = (key: string) => {
-        system.setSystemLocale(key as SystemLocale)
-        loadLocale(key as SystemLocale).then(({ mapping, locale }) => {
-            const intl = getIntl(locale, mapping!)
-            const label = key === SystemLocale.cn ? "中文" : "English"
-            const msg = `${intl.formatMessage(
-                {
-                    id: "system.language.switch",
-                },
-                { locale: label },
-            )}`
-            Message.info(msg)
-        })
+        if (locale !== (key as SystemLocale)) {
+            system.setSystemLocale(key as SystemLocale)
+            loadLocale(key as SystemLocale).then(({ mapping, locale }) => {
+                const intl = getIntl(locale, mapping!)
+                const label = key === SystemLocale.cn ? "中文" : "English"
+                const msg = `${intl.formatMessage(
+                    {
+                        id: "system.language.switch",
+                    },
+                    { locale: label },
+                )}`
+                Message.info(msg)
+            })
+        }
     }
     return (
         <div style={style}>
@@ -33,7 +36,20 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
                 droplist={
                     <Menu onClickMenuItem={onSelectHandle}>
                         {languageList.map((item) => {
-                            return <Menu.Item key={item.value}>{item.label}</Menu.Item>
+                            return (
+                                <Menu.Item
+                                    key={item.value}
+                                    style={{
+                                        color:
+                                            locale === item.value
+                                                ? "var(--theme-color)"
+                                                : undefined,
+                                        fontWeight: locale === item.value ? "bold" : undefined,
+                                    }}
+                                >
+                                    {item.label}
+                                </Menu.Item>
+                            )
                         })}
                     </Menu>
                 }
