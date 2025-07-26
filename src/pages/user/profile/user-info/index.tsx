@@ -1,4 +1,4 @@
-import { Timeline, Upload, Button, Tooltip } from "@arco-design/web-react"
+import { Timeline, Tooltip, Avatar } from "@arco-design/web-react"
 import UserInfoContainer from "./user-info-container"
 import backageImage from "@/assets/user/profile/user-info/default-bg.png"
 import { Building2, Mail, Tag as TagIcon } from "lucide-react"
@@ -7,6 +7,8 @@ import { IconCamera, IconInfoCircle } from "@arco-design/web-react/icon"
 import { user } from "@/store"
 import { useIntl } from "react-intl"
 import { useShallow } from "zustand/shallow"
+import UploadModal from "@/components/upload-modal"
+import { useState } from "react"
 
 interface UserInfoProps {}
 
@@ -21,6 +23,7 @@ const UserInfo: React.FC<UserInfoProps> = () => {
             email: state?.userInfo?.email,
         })),
     )
+    const [uploaderVisible, setUploaderVisible] = useState(false)
     const intl = useIntl()
     const tips = intl.formatMessage({
         id: "user.infoEditor.info.tips",
@@ -28,18 +31,21 @@ const UserInfo: React.FC<UserInfoProps> = () => {
     const showTips = !nickname || !avatar
     return (
         <UserInfoContainer backageImage={backageImage}>
-            {/* TODO:使用https://arco.design/react/components/avatar来重构头像 */}
             <div className="simple-info">
-                <Upload
-                    autoUpload={false}
-                    renderUploadList={() => null}
-                    renderUploadItem={() => null}
+                <Avatar
+                    triggerIcon={<IconCamera />}
+                    triggerIconStyle={{
+                        color: "var(--theme-color)",
+                    }}
+                    onClick={() => setUploaderVisible(true)}
+                    autoFixFontSize={false}
+                    size={68}
+                    style={{
+                        backgroundColor: "unset",
+                    }}
                 >
-                    <div className="favicon">
-                        <img src="/favicon.svg" className="user-favicon" />
-                        <Button shape="circle" icon={<IconCamera />} size="mini" />
-                    </div>
-                </Upload>
+                    <img src="/favicon.svg" className="user-favicon" />
+                </Avatar>
                 <div className="desc">
                     <p className="name">{nickname || "***"}</p>
                     <p className="dept">
@@ -70,6 +76,15 @@ const UserInfo: React.FC<UserInfoProps> = () => {
                     <TimelineItem label="2020-09-30">The third milestone</TimelineItem>
                 </Timeline>
             </div>
+            <UploadModal
+                title="上传头像" // TODO:国际化设置
+                visible={uploaderVisible}
+                // type={FileType.Image}
+                // crop
+                multiple
+                onOk={() => setUploaderVisible(false)}
+                onCancel={() => setUploaderVisible(false)}
+            />
         </UserInfoContainer>
     )
 }

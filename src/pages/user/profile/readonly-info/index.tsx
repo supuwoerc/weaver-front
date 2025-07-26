@@ -1,8 +1,8 @@
 import { Card } from "@arco-design/web-react"
 import ReadonlyInfoContainer from "./readonly-info-container"
 import { useMemo } from "react"
-import RolesSvg from "@/assets/user/profile/readonly-info/role.svg?react"
-import PasswordSvg from "@/assets/user/profile/readonly-info/password.svg?react"
+import RolesIcon from "@/assets/user/profile/readonly-info/role.png"
+import PasswordIcon from "@/assets/user/profile/readonly-info/password.png"
 import { useTranslator } from "@/hooks/use-translator"
 
 interface InfoEditorProps {}
@@ -16,8 +16,8 @@ const intlMap = {
 const getFormItems = (intlMapping: Record<keyof typeof intlMap, string>) => {
     // TODO:定义跳转页面
     return [
-        { label: intlMapping.roles, icon: RolesSvg },
-        { label: intlMapping.password, icon: PasswordSvg },
+        { label: intlMapping.roles, icon: RolesIcon },
+        { label: intlMapping.password, icon: PasswordIcon },
     ]
 }
 
@@ -33,7 +33,7 @@ const InfoEditor: React.FC<InfoEditorProps> = () => {
                     {formItems.map((item) => {
                         return (
                             <div className="btn-item" key={item.label} title={item.label}>
-                                <item.icon width={72} height={72} />
+                                <img src={item.icon} alt={item.label} width={72} height={72} />
                                 <div>{item.label}</div>
                             </div>
                         )
