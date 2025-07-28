@@ -1,22 +1,24 @@
-import { FileType } from "@/constant/components/upload-modal"
-import { Modal, Upload, Grid, Skeleton, Empty, Button } from "@arco-design/web-react"
+import { FileType, fileType2Accept, fileType2ListType } from "@/constant/components/upload-modal"
+import { Modal, Upload, Grid, Skeleton, Empty, Button, Message } from "@arco-design/web-react"
 import Cropper, { CropperHandle } from "./cropper"
 import { useRef, useState } from "react"
 import { UploadItem } from "@arco-design/web-react/es/Upload"
 import { isNil } from "lodash-es"
 import { css } from "@emotion/react"
 import dirIcon from "@/assets/components/upload-modal/dir.png"
+import {
+    IconClose,
+    IconFaceFrownFill,
+    IconFileAudio,
+    IconUpload,
+} from "@arco-design/web-react/icon"
 
 interface UploadModalProps {
-    multiple?: boolean // 开启裁剪功能时仅支持单张上传
-    crop?: boolean // 仅当上传文件类型为图片时才生效
-    type?: FileType
-    visible: boolean
-    imagePreview?: boolean
     title: string
-    showFileList?: boolean
+    visible: boolean
+    type: FileType
+    multiple?: boolean
     limit?: number
-    listType?: "text" | "picture-list" | "picture-card"
     onOk: () => void
     onCancel: () => void
 }
@@ -24,14 +26,11 @@ interface UploadModalProps {
 const UploadModal: React.FC<UploadModalProps> = ({
     title,
     visible,
-    imagePreview,
+    type,
+    multiple,
+    limit,
     onOk,
     onCancel,
-    type,
-    crop,
-    multiple,
-    listType,
-    limit,
 }) => {
     const [fileList, setFileList] = useState<UploadItem[]>([])
     const cropperRef = useRef<CropperHandle>(null)
@@ -42,6 +41,8 @@ const UploadModal: React.FC<UploadModalProps> = ({
         onOk()
     }
     const isImageMode = type === FileType.Image
+    const listType = fileType2ListType[type]
+    const accept = fileType2Accept[type]
     return (
         <Modal
             title={title}
@@ -79,7 +80,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
                         action=""
                         limit={!multiple ? 1 : limit}
                         autoUpload={false}
-                        imagePreview={imagePreview}
+                        imagePreview={false}
                         multiple={multiple}
                         listType={listType}
                         onChange={(fileList: UploadItem[]) => {
@@ -88,8 +89,31 @@ const UploadModal: React.FC<UploadModalProps> = ({
                         style={{
                             width: isImageMode ? "auto" : "100%",
                         }}
+                        accept={accept}
+                        showUploadList={{
+                            reuploadIcon: <IconUpload />,
+                            cancelIcon: <IconClose />,
+                            fileIcon: <IconFileAudio />,
+                            removeIcon: <IconClose />,
+                            previewIcon: null,
+                            errorIcon: <IconFaceFrownFill />,
+                            fileName: (file) => {
+                                return (
+                                    <a
+                                        onClick={() => {
+                                            Message.info("click " + file.name)
+                                        }}
+                                    >
+                                        {file.name}
+                                    </a>
+                                )
+                            },
+                        }}
+                        progressProps={{
+                            formatText: (percent) => `${percent}%`,
+                        }}
                     >
-                        {(type !== FileType.Image || !crop) &&
+                        {type !== FileType.Image &&
                             (fileList.length == 0 ? (
                                 <Empty
                                     style={{ marginTop: "30px" }}
@@ -103,7 +127,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
                             ))}
                     </Upload>
                 </Grid.Col>
-                {isImageMode && crop ? (
+                {isImageMode ? (
                     <Grid.Col span={19}>
                         {fileList.length > 0 ? (
                             <Cropper ref={cropperRef} file={fileList[0].originFile!}></Cropper>
