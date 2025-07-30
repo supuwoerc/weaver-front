@@ -1,5 +1,5 @@
 import { FileType, fileType2Accept, fileType2ListType } from "@/constant/components/upload-modal"
-import { Modal, Upload, Grid, Skeleton, Empty, Button, Message } from "@arco-design/web-react"
+import { Modal, Upload, Grid, Skeleton, Empty, Button } from "@arco-design/web-react"
 import Cropper, { CropperHandle } from "./cropper"
 import { useRef, useState } from "react"
 import { UploadItem } from "@arco-design/web-react/es/Upload"
@@ -9,9 +9,11 @@ import dirIcon from "@/assets/components/upload-modal/dir.png"
 import {
     IconClose,
     IconFaceFrownFill,
-    IconFileAudio,
+    IconFile,
+    IconPlus,
     IconUpload,
 } from "@arco-design/web-react/icon"
+import { BaseButtonProps } from "@arco-design/web-react/es/Button/interface"
 
 interface UploadModalProps {
     title: string
@@ -19,7 +21,7 @@ interface UploadModalProps {
     type: FileType
     multiple?: boolean
     limit?: number
-    onOk: () => void
+    onOk: (items: Array<UploadItem>, files: Array<File | undefined>) => void
     onCancel: () => void
 }
 
@@ -27,22 +29,55 @@ const UploadModal: React.FC<UploadModalProps> = ({
     title,
     visible,
     type,
-    multiple,
     limit,
     onOk,
     onCancel,
 }) => {
     const [fileList, setFileList] = useState<UploadItem[]>([])
+    const [cropFileList, setCropFileList] = useState<File[]>([])
+    const [cropIndex, setCropIndex] = useState(0)
     const cropperRef = useRef<CropperHandle>(null)
     const confirmHandle = async () => {
+        const originFileList = fileList.map((item) => {
+            return item.originFile
+        })
         if (!isNil(cropperRef.current)) {
-            await cropperRef.current.getImage()
+            switch (type) {
+                case FileType.ImageWithCropper:
+                    onOk(fileList, [await cropperRef.current.getImage()])
+                    return
+                case FileType.MultipleImageWithCropper:
+                    onOk(fileList, cropFileList)
+                    return
+                default:
+                    onOk(fileList, originFileList)
+                    return
+            }
+        } else {
+            onOk(fileList, originFileList)
         }
-        onOk()
     }
-    const isImageMode = type === FileType.Image
+    const isImageCropMode = [FileType.ImageWithCropper, FileType.MultipleImageWithCropper].includes(
+        type,
+    )
     const listType = fileType2ListType[type]
     const accept = fileType2Accept[type]
+    const multiple = [
+        FileType.MultipleFile,
+        FileType.MultipleImage,
+        FileType.MultipleImageWithCropper,
+    ].includes(type)
+    const triggerMap = {
+        [FileType.MultipleImage]: [<FileDirUpload />, <ButtonUpload />],
+        [FileType.MultipleImageWithCropper]: [
+            <ButtonUpload long={false} iconButton />,
+            <ButtonUpload long={false} iconButton />,
+        ],
+        [FileType.Image]: [<FileDirUpload />, undefined],
+        [FileType.ImageWithCropper]: [undefined, undefined],
+        [FileType.File]: [<FileDirUpload />, undefined],
+        [FileType.MultipleFile]: [<FileDirUpload />, <ButtonUpload />],
+    }
     return (
         <Modal
             title={title}
@@ -51,7 +86,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
             onCancel={() => onCancel()}
             css={css`
                 .arco-upload-list {
-                    margin-top: 20px;
+                    margin-top: 0px;
                     height: 150px;
                     overflow-y: auto;
                     overflow-x: hidden;
@@ -60,7 +95,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
                         margin: 0;
                     }
                     &:empty {
-                        height: 0;
+                        display: none;
                     }
                 }
             `}
@@ -72,9 +107,9 @@ const UploadModal: React.FC<UploadModalProps> = ({
             >
                 <Grid.Col
                     style={{
-                        flex: isImageMode ? "0 0 80px" : 1,
+                        flex: isImageCropMode ? "0 0 80px" : 1,
                     }}
-                    span={isImageMode ? 5 : 24}
+                    span={isImageCropMode ? 5 : 24}
                 >
                     <Upload
                         action=""
@@ -87,50 +122,28 @@ const UploadModal: React.FC<UploadModalProps> = ({
                             setFileList(fileList)
                         }}
                         style={{
-                            width: isImageMode ? "auto" : "100%",
+                            width: isImageCropMode ? "auto" : "100%",
                         }}
                         accept={accept}
                         showUploadList={{
                             reuploadIcon: <IconUpload />,
                             cancelIcon: <IconClose />,
-                            fileIcon: <IconFileAudio />,
+                            fileIcon: <IconFile />,
                             removeIcon: <IconClose />,
                             previewIcon: null,
                             errorIcon: <IconFaceFrownFill />,
-                            fileName: (file) => {
-                                return (
-                                    <a
-                                        onClick={() => {
-                                            Message.info("click " + file.name)
-                                        }}
-                                    >
-                                        {file.name}
-                                    </a>
-                                )
-                            },
                         }}
                         progressProps={{
                             formatText: (percent) => `${percent}%`,
                         }}
                     >
-                        {type !== FileType.Image &&
-                            (fileList.length == 0 ? (
-                                <Empty
-                                    style={{ marginTop: "30px" }}
-                                    icon={<img src={dirIcon} />}
-                                    description={"点击上传文件"} // TODO:国际化
-                                />
-                            ) : (
-                                <Button type="primary" long>
-                                    上传文件
-                                </Button>
-                            ))}
+                        {fileList.length == 0 ? triggerMap[type][0] : triggerMap[type][1]}
                     </Upload>
                 </Grid.Col>
-                {isImageMode ? (
+                {isImageCropMode ? (
                     <Grid.Col span={19}>
                         {fileList.length > 0 ? (
-                            <Cropper ref={cropperRef} file={fileList[0].originFile!}></Cropper>
+                            <Cropper ref={cropperRef} file={fileList[cropIndex].originFile!} />
                         ) : (
                             <Skeleton
                                 text={{
@@ -144,4 +157,44 @@ const UploadModal: React.FC<UploadModalProps> = ({
         </Modal>
     )
 }
+
+interface UploadTriggerProps {
+    description?: string | React.ReactNode
+}
+
+const FileDirUpload: React.FC<UploadTriggerProps> = ({ description }) => {
+    return (
+        <Empty
+            style={{ marginTop: 30 }}
+            icon={<img src={dirIcon} />}
+            description={description ?? "点击上传文件"} // TODO:国际化
+        />
+    )
+}
+
+interface ButtonUploadTriggerProps extends UploadTriggerProps {
+    long?: boolean
+    shape?: BaseButtonProps["shape"]
+    iconButton?: boolean
+}
+
+const ButtonUpload: React.FC<ButtonUploadTriggerProps> = ({
+    description,
+    long = true,
+    shape = "round",
+    iconButton = false,
+}) => {
+    return (
+        <Button
+            type="primary"
+            long={long}
+            shape={shape}
+            icon={<IconPlus />}
+            style={{ marginBottom: 20 }}
+        >
+            {!iconButton ? description ?? "点击上传文件" : null}
+        </Button>
+    )
+}
+
 export default UploadModal

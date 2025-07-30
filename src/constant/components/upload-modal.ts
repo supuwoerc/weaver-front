@@ -14,7 +14,7 @@ export const fileType2ListType: Record<FileType, UploadProps["listType"]> = {
     [FileType.MultipleImage]: "picture-list",
     [FileType.MultipleImageWithCropper]: "picture-list",
     [FileType.Image]: "picture-list",
-    [FileType.ImageWithCropper]: "picture-list",
+    [FileType.ImageWithCropper]: "picture-card",
     [FileType.File]: "text",
     [FileType.MultipleFile]: "text",
 }
@@ -25,7 +25,7 @@ const imageAccept: UploadProps["accept"] = {
 }
 
 const fileAccept: UploadProps["accept"] = {
-    type: ".pdf,.doc,.docx,.ppt,.mp3,.mp4,.zip,.7z,.rar,.flv,.txt,.xls,.xlsx,.sql,.js,.css,.html,.css",
+    type: ".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.ppt,.mp3,.mp4,.zip,.7z,.rar,.flv,.txt,.xls,.xlsx,.sql,.js,.css,.html,.css",
     strict: true,
 }
 

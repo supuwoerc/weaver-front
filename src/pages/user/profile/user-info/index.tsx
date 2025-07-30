@@ -10,6 +10,7 @@ import { useShallow } from "zustand/shallow"
 import UploadModal from "@/components/upload-modal"
 import { useState } from "react"
 import { FileType } from "@/constant/components/upload-modal"
+import { UploadItem } from "@arco-design/web-react/es/Upload"
 
 interface UserInfoProps {}
 
@@ -30,6 +31,9 @@ const UserInfo: React.FC<UserInfoProps> = () => {
         id: "user.infoEditor.info.tips",
     })
     const showTips = !nickname || !avatar
+    const handleUploaderConfirm = (items: Array<UploadItem>, files: Array<File | undefined>) => {
+        setUploaderVisible(false)
+    }
     return (
         <UserInfoContainer backageImage={backageImage}>
             <div className="simple-info">
@@ -80,9 +84,8 @@ const UserInfo: React.FC<UserInfoProps> = () => {
             <UploadModal
                 title="上传头像" // TODO:国际化设置
                 visible={uploaderVisible}
-                type={FileType.MultipleImage}
-                multiple
-                onOk={() => setUploaderVisible(false)}
+                type={FileType.MultipleImageWithCropper}
+                onOk={handleUploaderConfirm}
                 onCancel={() => setUploaderVisible(false)}
             />
         </UserInfoContainer>

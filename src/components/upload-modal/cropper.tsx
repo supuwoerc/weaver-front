@@ -49,7 +49,7 @@ interface CropperProps {
 }
 
 export interface CropperHandle {
-    getImage: () => Promise<File | null>
+    getImage: () => Promise<File | undefined>
 }
 
 const Cropper = forwardRef<CropperHandle, CropperProps>(({ file }, ref) => {
@@ -72,7 +72,7 @@ const Cropper = forwardRef<CropperHandle, CropperProps>(({ file }, ref) => {
             })
             return croppedImage
         }
-        return null
+        return undefined
     }
 
     useImperativeHandle(ref, () => {
