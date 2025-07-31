@@ -84,7 +84,7 @@ const UserInfo: React.FC<UserInfoProps> = () => {
             <UploadModal
                 title="上传头像" // TODO:国际化设置
                 visible={uploaderVisible}
-                type={FileType.MultipleImageWithCropper}
+                type={FileType.MultipleFile}
                 onOk={handleUploaderConfirm}
                 onCancel={() => setUploaderVisible(false)}
             />

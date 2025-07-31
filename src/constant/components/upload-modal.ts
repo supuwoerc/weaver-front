@@ -3,7 +3,6 @@ import { UploadProps } from "@arco-design/web-react"
 // 上传文件的类型
 export enum FileType {
     MultipleImage = 1, // 多张图片上传
-    MultipleImageWithCropper, // 多张图片上传 & 裁剪
     Image, // 单张图片上传
     ImageWithCropper, // 单张图片上传 & 裁剪
     File, // 单个文件
@@ -12,7 +11,6 @@ export enum FileType {
 
 export const fileType2ListType: Record<FileType, UploadProps["listType"]> = {
     [FileType.MultipleImage]: "picture-list",
-    [FileType.MultipleImageWithCropper]: "picture-list",
     [FileType.Image]: "picture-list",
     [FileType.ImageWithCropper]: "picture-card",
     [FileType.File]: "text",
@@ -31,7 +29,6 @@ const fileAccept: UploadProps["accept"] = {
 
 export const fileType2Accept: Record<FileType, UploadProps["accept"]> = {
     [FileType.MultipleImage]: imageAccept,
-    [FileType.MultipleImageWithCropper]: imageAccept,
     [FileType.Image]: imageAccept,
     [FileType.ImageWithCropper]: imageAccept,
     [FileType.File]: fileAccept,

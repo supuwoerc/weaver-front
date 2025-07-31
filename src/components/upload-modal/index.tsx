@@ -46,9 +46,6 @@ const UploadModal: React.FC<UploadModalProps> = ({
                 case FileType.ImageWithCropper:
                     onOk(fileList, [await cropperRef.current.getImage()])
                     return
-                case FileType.MultipleImageWithCropper:
-                    onOk(fileList, cropFileList)
-                    return
                 default:
                     onOk(fileList, originFileList)
                     return
@@ -57,22 +54,12 @@ const UploadModal: React.FC<UploadModalProps> = ({
             onOk(fileList, originFileList)
         }
     }
-    const isImageCropMode = [FileType.ImageWithCropper, FileType.MultipleImageWithCropper].includes(
-        type,
-    )
+    const isImageCropMode = [FileType.ImageWithCropper].includes(type)
     const listType = fileType2ListType[type]
     const accept = fileType2Accept[type]
-    const multiple = [
-        FileType.MultipleFile,
-        FileType.MultipleImage,
-        FileType.MultipleImageWithCropper,
-    ].includes(type)
+    const multiple = [FileType.MultipleImage, FileType.MultipleFile].includes(type)
     const triggerMap = {
         [FileType.MultipleImage]: [<FileDirUpload />, <ButtonUpload />],
-        [FileType.MultipleImageWithCropper]: [
-            <ButtonUpload long={false} iconButton />,
-            <ButtonUpload long={false} iconButton />,
-        ],
         [FileType.Image]: [<FileDirUpload />, undefined],
         [FileType.ImageWithCropper]: [undefined, undefined],
         [FileType.File]: [<FileDirUpload />, undefined],
@@ -136,6 +123,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
                         progressProps={{
                             formatText: (percent) => `${percent}%`,
                         }}
+                        fileList={fileList}
                     >
                         {fileList.length == 0 ? triggerMap[type][0] : triggerMap[type][1]}
                     </Upload>
