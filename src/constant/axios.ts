@@ -6,7 +6,7 @@ const defaultClient = generateAxiosClient(appEnv.VITE_APP_DEFAULT_SERVER)
 const refreshTokenClient = generateAxiosClient(
     appEnv.VITE_APP_DEFAULT_SERVER,
     {},
-    InterceptorType.refreshToken,
+    InterceptorType.RefreshToken,
 )
 
 export { defaultClient, refreshTokenClient }

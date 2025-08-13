@@ -10,12 +10,12 @@ async function loadLocale(target: keyof typeof SystemLocale) {
     let arcoLocale
     let locale = "en-US"
     switch (target) {
-        case SystemLocale.cn:
+        case SystemLocale.CN:
             locale = "zh-CN"
             mapping = (await import("./cn")).default
             arcoLocale = zhCN
             break
-        case SystemLocale.en:
+        case SystemLocale.EN:
             locale = "en-US"
             mapping = (await import("./en")).default
             arcoLocale = enUS

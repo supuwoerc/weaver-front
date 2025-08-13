@@ -9,10 +9,10 @@ export interface WrapAxiosInstance extends AxiosInstance {
 }
 
 export enum InterceptorType {
-    onlyRequest,
-    onlyResponse,
-    all,
-    refreshToken,
+    OnlyRequest,
+    OnlyResponse,
+    All,
+    RefreshToken,
 }
 
 const setRequestInterceptors = (client: AxiosInstance) => {
@@ -35,7 +35,7 @@ const setRefreshInterceptors = (client: AxiosInstance) => {
 const generateAxiosClient = (
     baseURL: string,
     config: AxiosRequestConfig = {},
-    interceptorType = InterceptorType.all,
+    interceptorType = InterceptorType.All,
 ): WrapAxiosInstance => {
     const client = axios.create({
         ...config,
@@ -45,16 +45,16 @@ const generateAxiosClient = (
         },
     })
     switch (interceptorType) {
-        case InterceptorType.onlyRequest:
+        case InterceptorType.OnlyRequest:
             setRequestInterceptors(client)
             break
-        case InterceptorType.onlyResponse:
+        case InterceptorType.OnlyResponse:
             setResponseInterceptors(client)
             break
-        case InterceptorType.all:
+        case InterceptorType.All:
             setInterceptors(client)
             break
-        case InterceptorType.refreshToken:
+        case InterceptorType.RefreshToken:
             setRefreshInterceptors(client)
             break
     }

@@ -21,6 +21,7 @@ const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
             return loadLocale(locale)
         }).then(setIntlSetting)
     }, [qc, locale])
+
     const isLoaded = intlSetting.arcoLocale && intlSetting.locale && intlSetting.mapping
     if (!isLoaded) {
         return null

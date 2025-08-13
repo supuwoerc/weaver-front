@@ -1,15 +1,16 @@
 import { AxiosResponse } from "axios"
 import { WrapAxiosInstance } from ".."
-import { ServerErrorMessage, SystemLocale, globalRouter } from "@/constant/system"
+import { ServerErrorMessage, SystemLocale, globalRouter, systemEvent } from "@/constant/system"
 import userService from "@/service/user"
-import { user } from "@/store"
+import { system, user } from "@/store"
 
 let isRefreshing = false
 let requests: Array<(token: string) => void> = []
 
-function gotoLogin() {
-    user.useLoginStore.persist.clearStorage()
-    window.location.replace("/login")
+const publishInvalidTokenEvent = () => {
+    system.useSystemEventStore.setState((state) => {
+        state.event = systemEvent.InvalidToken
+    })
 }
 
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
@@ -19,7 +20,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
             const { code } = response.data
             if (status >= 500) {
                 const { headers } = config
-                const locale = (headers.get("Locale") || SystemLocale.en) as SystemLocale
+                const locale = (headers.get("Locale") || SystemLocale.EN) as SystemLocale
                 if (window.location.pathname !== "/500") {
                     globalRouter.navigate?.("/500")
                 }
@@ -37,7 +38,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                 if (code === 10000) {
                                     user.useLoginStore.setState((state) => {
                                         state.token = data.data.token
-                                        state.refreshToken = data.data.token
+                                        state.refreshToken = data.data.refresh_token
                                     })
                                     config.headers["Authorization"] = data.data.token
                                     requests.forEach((cb) => cb(data.data.token))
@@ -48,7 +49,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                 }
                             })
                             .catch(() => {
-                                gotoLogin()
+                                publishInvalidTokenEvent()
                             })
                             .finally(() => {
                                 isRefreshing = false
@@ -62,13 +63,13 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                         })
                     }
                 } else {
-                    gotoLogin()
+                    publishInvalidTokenEvent()
                 }
             } else if (code === 10000) {
                 return response.data.data
             } else if (code == 10006) {
                 // 长token失效
-                gotoLogin()
+                publishInvalidTokenEvent()
             } else {
                 return Promise.reject(response.data.message || response.data.msg)
             }

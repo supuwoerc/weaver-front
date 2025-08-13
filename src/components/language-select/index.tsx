@@ -18,7 +18,7 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
             system.setSystemLocale(key as SystemLocale)
             loadLocale(key as SystemLocale).then(({ mapping, locale }) => {
                 const intl = getIntl(locale, mapping!)
-                const label = key === SystemLocale.cn ? "中文" : "English"
+                const label = key === SystemLocale.CN ? "中文" : "English"
                 const msg = `${intl.formatMessage(
                     {
                         id: "system.language.switch",

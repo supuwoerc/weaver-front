@@ -1,22 +1,22 @@
 import { Option } from "@/hooks/use-options-translator"
 
 export enum ResourceType {
-    VIEW_ROUTE = 1,
-    VIEW_RESOURCE,
-    API_ROUTE,
+    ViewRoute = 1,
+    ViewResource,
+    ApiRoute,
 }
 
 export const ResourceTypeOptions: Array<Option<ResourceType>> = [
     {
         label: "resource.type.view_route",
-        value: ResourceType.VIEW_ROUTE,
+        value: ResourceType.ViewRoute,
     },
     {
         label: "resource.type.view_resource",
-        value: ResourceType.VIEW_RESOURCE,
+        value: ResourceType.ViewResource,
     },
     {
         label: "resource.type.api_route",
-        value: ResourceType.API_ROUTE,
+        value: ResourceType.ApiRoute,
     },
 ]

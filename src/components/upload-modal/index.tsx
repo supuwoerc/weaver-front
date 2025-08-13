@@ -34,8 +34,8 @@ const UploadModal: React.FC<UploadModalProps> = ({
     onCancel,
 }) => {
     const [fileList, setFileList] = useState<UploadItem[]>([])
-    const [cropFileList, setCropFileList] = useState<File[]>([])
-    const [cropIndex, setCropIndex] = useState(0)
+    // const [_, setCropFileList] = useState<File[]>([])
+    const [cropIndex] = useState(0)
     const cropperRef = useRef<CropperHandle>(null)
     const confirmHandle = async () => {
         const originFileList = fileList.map((item) => {

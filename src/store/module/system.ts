@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { SystemLocale, appIsDevEnv } from "@/constant/system"
+import { SystemLocale, appIsDevEnv, systemEvent } from "@/constant/system"
 import { devtools, persist } from "zustand/middleware"
 import { immer } from "zustand/middleware/immer"
 
@@ -10,7 +10,7 @@ type TSystemConfigStore = {
 }
 
 const initialSystemConfig: TSystemConfigStore = {
-    locale: SystemLocale.cn,
+    locale: SystemLocale.CN,
     sidebarCollapsed: false,
     theme: "light",
 }
@@ -46,3 +46,28 @@ export const setSystemTheme = (theme: TSystemConfigStore["theme"]) => {
         state.theme = theme
     })
 }
+
+class SystemEventStore {
+    private event: {
+        event?: systemEvent
+        time?: number
+    } = {}
+    publish = (e: systemEvent) => {
+        this.event.event = e
+        this.event.time = new Date().getTime()
+    }
+}
+
+const SYSTEM_EVENT_STORE_NAME = "systemEventStore"
+
+export const useSystemEventStore = create<SystemEventStore>()(
+    immer(
+        devtools(
+            persist(() => new SystemEventStore(), { name: SYSTEM_EVENT_STORE_NAME }),
+            {
+                name: SYSTEM_EVENT_STORE_NAME,
+                enabled: appIsDevEnv,
+            },
+        ),
+    ),
+)

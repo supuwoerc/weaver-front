@@ -3,10 +3,10 @@ import { SystemLocale } from "./system"
 export const languageList = [
     {
         label: "中文",
-        value: SystemLocale.cn,
+        value: SystemLocale.CN,
     },
     {
         label: "English",
-        value: SystemLocale.en,
+        value: SystemLocale.EN,
     },
 ]

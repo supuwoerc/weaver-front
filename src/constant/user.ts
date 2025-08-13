@@ -1,6 +1,6 @@
 export enum UserGender {
-    GENDER_MALE,
-    GENDER_FEMALE,
+    Male,
+    Female,
 }
 
 export const emailRegexp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
