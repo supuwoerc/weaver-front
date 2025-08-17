@@ -56,6 +56,7 @@
         "classnames": "^2.5.1",
         "dayjs": "^1.11.8",
         "emotion-reset": "^3.0.1",
+        "eventemitter3": "^5.0.1",
         "immer": "^10.0.2",
         "lodash-es": "^4.17.21",
         "lucide-react": "^0.447.0",

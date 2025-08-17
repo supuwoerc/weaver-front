@@ -1,5 +1,6 @@
 import { getAppEnv } from "@/utils"
 import { NavigateFunction } from "react-router-dom"
+import EventEmitter from "eventemitter3"
 
 export enum SystemLocale {
     CN = "CN",
@@ -32,5 +33,7 @@ export const globalRouter = { navigate: null } as {
 export const emptyPlaceholder = "-"
 
 export enum systemEvent {
-    InvalidToken,
+    InvalidToken = "invalid-token",
 }
+
+export const systemEventEmitter = new EventEmitter()

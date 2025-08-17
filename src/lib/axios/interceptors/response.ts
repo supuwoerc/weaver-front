@@ -1,16 +1,20 @@
 import { AxiosResponse } from "axios"
 import { WrapAxiosInstance } from ".."
-import { ServerErrorMessage, SystemLocale, globalRouter, systemEvent } from "@/constant/system"
+import {
+    ServerErrorMessage,
+    SystemLocale,
+    globalRouter,
+    systemEvent,
+    systemEventEmitter,
+} from "@/constant/system"
 import userService from "@/service/user"
-import { system, user } from "@/store"
+import { user } from "@/store"
 
 let isRefreshing = false
 let requests: Array<(token: string) => void> = []
 
 const publishInvalidTokenEvent = () => {
-    system.useSystemEventStore.setState((state) => {
-        state.event = systemEvent.InvalidToken
-    })
+    systemEventEmitter.emit(systemEvent.InvalidToken)
 }
 
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
