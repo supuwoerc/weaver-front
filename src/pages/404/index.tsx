@@ -1,5 +1,5 @@
 // https://github.com/pd4d10/vite-plugin-svgr/issues/92#issuecomment-1733753768
-import NotFoundSVG from "@/assets/404/not-found.svg?react"
+import NotFoundPNG from "@/assets/404/not-found.png"
 import { Button } from "@arco-design/web-react"
 import { useNavigate } from "react-router-dom"
 import Exception from "@/components/exception-container"
@@ -8,7 +8,7 @@ const NotFound: React.FC = () => {
     const navigate = useNavigate()
     return (
         <Exception>
-            <NotFoundSVG width={200} className="image" />
+            <img className="img" width={200} src={NotFoundPNG} alt="not-found-error" />
             <div className="info">
                 <div className="desc">
                     <div className="title">404</div>

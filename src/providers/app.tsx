@@ -16,13 +16,15 @@ const qc = generateQueryClient((err) => {
 
 const AppProvider: FC<PropsWithChildren<AppProviderProps>> = ({ children }) => {
     return (
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <>
             <GlobalStyle />
-            <QueryClientProvider client={qc}>
-                <ReactQueryDevtools initialIsOpen={false} />
-                <Underlay>{children}</Underlay>
-            </QueryClientProvider>
-        </ErrorBoundary>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <QueryClientProvider client={qc}>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                    <Underlay>{children}</Underlay>
+                </QueryClientProvider>
+            </ErrorBoundary>
+        </>
     )
 }
 export default AppProvider

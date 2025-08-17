@@ -2,7 +2,7 @@ import { Global, css } from "@emotion/react"
 import emotionReset from "emotion-reset"
 
 // 滚动条设置
-const scrollbar = css`
+export const scrollbar = css`
     ::-webkit-scrollbar {
         z-index: 11;
         width: 6px;
@@ -26,7 +26,7 @@ const scrollbar = css`
 `
 
 // app容器设置
-const appCommon = css`
+export const appCommon = css`
     html,
     body,
     #root {
@@ -55,7 +55,7 @@ const appCommon = css`
 `
 
 // css变量设置
-const variables = css`
+export const variables = css`
     :root:root {
         --main-padding: 14px;
     }

@@ -11,8 +11,9 @@ const Exception = styled.div`
         height: 200px;
     }
     .info {
+        box-sizing: border-box;
         height: 200px;
-        padding: 0.5em;
+        padding: 20px 0.5em;
         padding-bottom: 40px;
         margin-left: 1em;
         display: flex;
@@ -25,7 +26,8 @@ const Exception = styled.div`
                 font-weight: bold;
             }
             .tips {
-                margin-top: 6px;
+                margin-top: 16px;
+                font-weight: bold;
             }
         }
     }
