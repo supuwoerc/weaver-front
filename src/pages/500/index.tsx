@@ -12,10 +12,10 @@ const ServerError: React.FC = () => {
             <div className="info">
                 <div className="desc">
                     <div className="title">500</div>
-                    <div className="tips">抱歉，服务器出错了</div>
+                    <div className="tips">Server error</div>
                 </div>
                 <Button className="btn" type="primary" onClick={() => navigate("/")}>
-                    返回首页
+                    Home
                 </Button>
             </div>
         </Exception>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
-import BeforeEach from "./before-each"
-import CheckLogin from "./check-login"
+import RouteProgress from "./route-progress"
+import RoutePermission from "./route-permission"
 import RouteView from "./route-view"
 import { globalRouter, systemEvent, systemEventEmitter } from "@/constant/system"
 import { useEffect } from "react"
@@ -19,11 +19,11 @@ const AppRoutes = () => {
     }, [navigate])
 
     return (
-        <CheckLogin>
-            <BeforeEach>
+        <RoutePermission>
+            <RouteProgress>
                 <RouteView />
-            </BeforeEach>
-        </CheckLogin>
+            </RouteProgress>
+        </RoutePermission>
     )
 }
 export default AppRoutes

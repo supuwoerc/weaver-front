@@ -5,7 +5,9 @@ import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
 import routes from "@/routes/config"
 import { CustomRouteObject } from "@/types/routes"
 import lazyload from "@/components/lazyload"
-import { useLoginStore } from "./user"
+import { usePermissionStore } from "./permission"
+import { PermissionType } from "@/constant/permission"
+import { UserPermission } from "@/service/permission"
 
 const Forbidden = lazy(() => import("@/pages/403/index"))
 
@@ -14,16 +16,41 @@ type TSystemRouteStore = {
     syncPermissionRoutes: CustomRouteObject[]
 }
 
-export const useSystemRouteStore = create<TSystemRouteStore>()(() => {
-    const permissions = useLoginStore.getState()?.userInfo?.permissions ?? []
-    const syncRoutes = getMenuRoutes(permissions, cloneDeep(routes))
+const processPermissions = (permissions: Array<UserPermission>) => {
+    const menuPermission: Array<UserPermission> = []
+    const routePermission: Array<UserPermission> = []
+    permissions.forEach((item) => {
+        if (item.type == PermissionType.ViewMenu) {
+            menuPermission.push(item)
+        }
+        if (item.type == PermissionType.ViewRoute) {
+            routePermission.push(item)
+        }
+    })
+    const syncMenus = getMenuRoutes(menuPermission, cloneDeep(routes))
     const syncPermissionRoutes = getPermissionRoutes(
-        permissions,
+        routePermission,
         cloneDeep(routes),
         lazyload(Forbidden),
     )
+
+    return { syncMenus, syncPermissionRoutes }
+}
+
+export const useSystemRouteStore = create<TSystemRouteStore>()((set) => {
+    // 初始化时获取权限
+    const permissions = usePermissionStore.getState().permissions
+    const { syncMenus, syncPermissionRoutes } = processPermissions(permissions)
+    // 订阅权限变化
+    usePermissionStore.subscribe((state) => {
+        const { syncMenus, syncPermissionRoutes } = processPermissions(state.permissions)
+        set({
+            menuRoutes: syncMenus,
+            syncPermissionRoutes: syncPermissionRoutes,
+        })
+    })
     return {
-        menuRoutes: syncRoutes,
+        menuRoutes: syncMenus,
         syncPermissionRoutes: syncPermissionRoutes,
     }
 })

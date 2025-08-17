@@ -11,10 +11,10 @@ const Forbidden: React.FC = () => {
             <div className="info">
                 <div className="desc">
                     <div className="title">403</div>
-                    <div className="tips">抱歉，您没有访问该资源的权限</div>
+                    <div className="tips">Permission denied</div>
                 </div>
                 <Button className="btn" type="primary" onClick={() => navigate("/")}>
-                    返回首页
+                    Home
                 </Button>
             </div>
         </Exception>

@@ -21,7 +21,7 @@ import permissionService, {
     UpdatePermissionRequest,
 } from "@/service/permission"
 import { FormattedMessage } from "react-intl"
-import { ResourceType, ResourceTypeOptions } from "@/constant/permission"
+import { PermissionType, ResourceTypeOptions } from "@/constant/permission"
 import { useOptionsTranslator } from "@/hooks/use-options-translator"
 import { useTranslator } from "@/hooks/use-translator"
 
@@ -57,7 +57,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         validateError: "common.validate.error",
         warning: "common.warning",
     })
-    const typeOptions = useOptionsTranslator<ResourceType>(ResourceTypeOptions)
+    const typeOptions = useOptionsTranslator<PermissionType>(ResourceTypeOptions)
     if (readonly) {
         typeOptions.forEach((item) => (item.disabled = true))
     }

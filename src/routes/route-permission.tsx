@@ -1,15 +1,16 @@
-import { user } from "@/store"
+import { user, permission } from "@/store"
 import { PropsWithChildren, useEffect } from "react"
 import { matchRoutes, useLocation, useNavigate } from "react-router-dom"
 import routes from "./config"
 import { useQuery } from "@tanstack/react-query"
 import userService from "@/service/user"
+import permissionService from "@/service/permission"
 import { isNull, isString } from "@supuwoerc/utils"
 import { useShallow } from "zustand/shallow"
 
-interface InitAppStateProps {}
+interface RoutePermissionProps {}
 
-const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }) => {
+const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ children }) => {
     const { userInfo, token } = user.useLoginStore(
         useShallow((state) => ({
             userInfo: state.userInfo,
@@ -23,6 +24,7 @@ const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }
         const route = item.route
         return Boolean(route.meta?.auth)
     })
+    // 检查登录状态
     useEffect(() => {
         if (!token && isNeedLogin) {
             navigate("/login")
@@ -30,6 +32,9 @@ const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }
             navigate("/")
         }
     }, [navigate, token, isNeedLogin, location])
+
+    const queryEnabled = isString(token) && token !== "" && isNull(userInfo)
+
     const { data } = useQuery(
         ["user", "getUserInfo"],
         () => {
@@ -37,15 +42,29 @@ const CheckLogin: React.FC<PropsWithChildren<InitAppStateProps>> = ({ children }
         },
         {
             cacheTime: 0,
-            enabled: isString(token) && token !== "" && isNull(userInfo),
+            enabled: queryEnabled,
         },
     )
+    const { data: permissions } = useQuery(
+        ["permission", "getuserPermissions"],
+        () => {
+            return permissionService.getuserPermissions()
+        },
+        {
+            cacheTime: 0,
+            enabled: queryEnabled,
+        },
+    )
+    // 设置用户账户&权限信息
     useEffect(() => {
         if (data) {
             user.setUserInfo(data)
         }
-    }, [data])
+        if (permissions) {
+            permission.setPermissions(permissions)
+        }
+    }, [data, permissions])
     return <>{children}</>
 }
 
-export default CheckLogin
+export default RoutePermission

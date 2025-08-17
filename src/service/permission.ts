@@ -1,5 +1,5 @@
 import defaultClient from "@/constant/axios"
-import { ResourceType } from "@/constant/permission"
+import { PermissionType } from "@/constant/permission"
 
 export interface GetPermissionListRequest extends PageRequest {
     keyword?: string
@@ -7,12 +7,19 @@ export interface GetPermissionListRequest extends PageRequest {
 export interface PermissionListRow {
     id: number
     name: string
-    type: ResourceType
+    type: PermissionType
     resource: string
     created_at: string
     updated_at: string
     creator: Creator
     updater: Updater
+}
+
+export interface UserPermission {
+    id: number
+    name: string
+    type: PermissionType
+    resource: string
 }
 
 const getPermissionList = (params: GetPermissionListRequest) =>
@@ -21,7 +28,7 @@ const getPermissionList = (params: GetPermissionListRequest) =>
 export interface CreatePermissionRequest {
     name: string
     resource: string
-    type: ResourceType
+    type: PermissionType
     roles: Array<number>
 }
 
@@ -38,7 +45,7 @@ export interface PermissionDetailRole {
 export interface PermissionDetail {
     id: number
     name: string
-    type: ResourceType
+    type: PermissionType
     resource: string
     roles: Array<PermissionDetailRole>
     created_at: string
@@ -58,10 +65,14 @@ export interface UpdatePermissionRequest extends CreatePermissionRequest {
 const updatePermission = (params: UpdatePermissionRequest) =>
     defaultClient.post<null>("/permission/update", params)
 
+const getuserPermissions = () =>
+    defaultClient.get<Array<UserPermission>>("/permission/user-permissions")
+
 export default {
     getPermissionList,
     createPermission,
     getPermisisonDetail,
     deletePermission,
     updatePermission,
+    getuserPermissions,
 }

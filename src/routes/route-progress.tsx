@@ -6,13 +6,13 @@ import "nprogress/nprogress.css"
 import routes from "./config"
 import { appEnv } from "@/constant/system"
 
-interface BeforeEachProps {}
+interface RouteProgressProps {}
 
 nprogress.configure({
     showSpinner: false,
 })
 
-const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) => {
+const RouteProgress: React.FC<PropsWithChildren<RouteProgressProps>> = ({ children }) => {
     const location = useLocation()
     const prevLocation = useRef({
         pathname: "",
@@ -45,4 +45,4 @@ const BeforeEach: React.FC<PropsWithChildren<BeforeEachProps>> = ({ children }) 
     return <>{children}</>
 }
 
-export default BeforeEach
+export default RouteProgress

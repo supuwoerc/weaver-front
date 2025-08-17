@@ -1,3 +1,4 @@
+import { UserPermission } from "@/service/permission"
 import { CustomRouteObject } from "@/types/routes"
 
 /**
@@ -7,7 +8,7 @@ import { CustomRouteObject } from "@/types/routes"
  * @returns 有权限的路由tree
  */
 export function getMenuRoutes(
-    permissions: string[],
+    permissions: UserPermission[],
     routes: CustomRouteObject[],
     path = "",
 ): Array<CustomRouteObject> {
@@ -15,11 +16,9 @@ export function getMenuRoutes(
         if (route.path && !route.path.includes("/")) {
             route.path = path + "/" + route.path
         }
-        const isNotNeedAuth = !route.meta?.auth || (route.meta.permissions ?? []).length === 0
-        const routeNeedPermissions = route.meta?.permissions ?? []
-        const permissionIsExist = routeNeedPermissions.some((item) => permissions.includes(item))
+        const isNotNeedAuth = !route.meta?.auth
         const childFilterResult = getMenuRoutes(permissions, route.children ?? [], route.path)
-        const existPermission = isNotNeedAuth || permissionIsExist || childFilterResult.length > 0
+        const existPermission = isNotNeedAuth || childFilterResult.length > 0
         if (existPermission && childFilterResult.length > 0) {
             route.children = childFilterResult
         } else {
@@ -36,16 +35,13 @@ export function getMenuRoutes(
  * @returns 有权限的路由tree
  */
 export function getPermissionRoutes(
-    permissions: string[],
+    permissions: UserPermission[],
     routes: CustomRouteObject[],
     forbidden: React.ReactNode,
 ): CustomRouteObject[] {
     return routes.map((route) => {
-        const isNotNeedAuth = !route.meta?.auth || (route.meta.permissions ?? []).length === 0
-        const routeNeedPermissions = route.meta?.permissions ?? []
-        const permissionIsExist = routeNeedPermissions.some((item) => permissions.includes(item))
-        const existPermission = isNotNeedAuth || permissionIsExist
-        if (!existPermission) {
+        const isNotNeedAuth = !route.meta?.auth
+        if (!isNotNeedAuth) {
             route.element = forbidden
         }
         const childReplaceResult = getPermissionRoutes(permissions, route.children ?? [], forbidden)

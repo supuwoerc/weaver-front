@@ -1,22 +1,23 @@
 import { Option } from "@/hooks/use-options-translator"
 
-export enum ResourceType {
+export enum PermissionType {
     ViewRoute = 1,
+    ViewMenu,
     ViewResource,
     ApiRoute,
 }
 
-export const ResourceTypeOptions: Array<Option<ResourceType>> = [
+export const ResourceTypeOptions: Array<Option<PermissionType>> = [
     {
         label: "resource.type.view_route",
-        value: ResourceType.ViewRoute,
+        value: PermissionType.ViewRoute,
     },
     {
         label: "resource.type.view_resource",
-        value: ResourceType.ViewResource,
+        value: PermissionType.ViewResource,
     },
     {
         label: "resource.type.api_route",
-        value: ResourceType.ApiRoute,
+        value: PermissionType.ApiRoute,
     },
 ]

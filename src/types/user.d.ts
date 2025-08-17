@@ -12,7 +12,6 @@ interface UserInfo {
     created_at: string
     updated_at: string
     roles: UserInfoRole[]
-    permissions: string[] // TODO:接口完善
     departments: UserInfoDept[]
 }
 

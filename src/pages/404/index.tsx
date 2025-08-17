@@ -12,10 +12,10 @@ const NotFound: React.FC = () => {
             <div className="info">
                 <div className="desc">
                     <div className="title">404</div>
-                    <div className="tips">抱歉，你访问的页面不存在</div>
+                    <div className="tips">Not found</div>
                 </div>
                 <Button className="btn" type="primary" onClick={() => navigate("/")}>
-                    返回首页
+                    Home
                 </Button>
             </div>
         </Exception>

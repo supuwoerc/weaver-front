@@ -11,9 +11,9 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
             <img className="img" src={fallbackError} alt="fallback-error.png" />
             <div>
                 <div className="title">Error</div>
-                <div className="tips">发生错误：{error.message}</div>
+                <div className="tips">{error.message}</div>
                 <Button type="primary" onClick={() => resetErrorBoundary()}>
-                    重试
+                    Retry
                 </Button>
             </div>
         </div>
