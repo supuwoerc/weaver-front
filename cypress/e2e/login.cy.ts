@@ -6,7 +6,7 @@ describe("login-page test", () => {
         cy.visit("/login")
         // TODO:测试国际化内容
         cy.get('[data-test="title"]').contains("登录")
-        cy.get('[data-test="desc"]').contains("登录到 Learn GIN Web")
+        cy.get('[data-test="desc"]').contains("登录到 Weaver")
         cy.get('[data-test="email"]').should("have.attr", "placeholder", "请输入登录邮箱")
         cy.get('[data-test="password"]').should("have.attr", "placeholder", "请输入登录密码")
         cy.get('[data-test="password"]').should("have.attr", "placeholder", "请输入登录密码")

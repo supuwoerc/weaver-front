@@ -6,13 +6,13 @@ const enUS: SystemLocaleMapping = {
     "login.login.btn.signup": "Sign up",
 
     "login.login.title": "Login",
-    "login.login.desc": "Login to Learn GIN Web",
+    "login.login.desc": "Login to Weaver",
     "login.login.placeholder.email": "please enter email",
     "login.login.placeholder.password": "please enter password",
     "login.login.forget": "Forgotten password?",
 
     "login.signup.title": "Sign up",
-    "login.signup.desc": "Register for a Learn GIN Web account",
+    "login.signup.desc": "Register for a Weaver account",
     "login.signup.placeholder.email": "please enter email",
     "login.signup.placeholder.password": "please enter password",
     "login.signup.placeholder.confirmPassword": "re-enter password",
