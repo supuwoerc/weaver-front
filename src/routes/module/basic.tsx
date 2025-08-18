@@ -3,6 +3,7 @@ import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
 import lazyload from "@/components/lazyload/index"
+import DefaultLayout from "@/layout/default"
 
 const Login = lazy(() => import("@/pages/login"))
 const ServerError = lazy(() => import("@/pages/500/index"))
@@ -68,7 +69,7 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.serverError",
                     auth: false,
                 },
-                element: <FullscreenLayout color={"var(--color-text-1)"} />,
+                element: <DefaultLayout />,
                 children: [
                     {
                         path: "",

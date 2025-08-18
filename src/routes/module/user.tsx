@@ -13,7 +13,7 @@ const userRoutes: CustomRouteObject[] = [
         element: <DefaultLayout />,
         meta: {
             title: "router.user",
-            auth: false,
+            auth: true,
             icon: <IconUser />,
         },
         children: [
