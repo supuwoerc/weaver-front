@@ -33,6 +33,8 @@ const processPermissions = (permissions: Array<UserPermission>) => {
         cloneDeep(routes),
         lazyload(Forbidden),
     )
+    // console.log("syncMenus", syncMenus)
+    // console.log("syncPermissionRoutes", syncPermissionRoutes)
 
     return { syncMenus, syncPermissionRoutes }
 }

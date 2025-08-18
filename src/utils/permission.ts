@@ -1,5 +1,6 @@
 import { UserPermission } from "@/service/permission"
 import { CustomRouteObject } from "@/types/routes"
+import path from "path-browserify"
 
 /**
  * 根据用户权限过滤出有权限的路由树(用于菜单展示)
@@ -10,15 +11,16 @@ import { CustomRouteObject } from "@/types/routes"
 export function getMenuRoutes(
     permissions: UserPermission[],
     routes: CustomRouteObject[],
-    path = "",
+    parentPath = "",
 ): Array<CustomRouteObject> {
     return routes.filter((route) => {
-        if (route.path && !route.path.includes("/")) {
-            route.path = path + "/" + route.path
+        if (route.path) {
+            route.path = path.join(parentPath, route.path)
         }
         const isNotNeedAuth = !route.meta?.auth
+        const hasPermission = permissions.some((item) => item.resource === route.path)
         const childFilterResult = getMenuRoutes(permissions, route.children ?? [], route.path)
-        const existPermission = isNotNeedAuth || childFilterResult.length > 0
+        const existPermission = isNotNeedAuth || hasPermission || childFilterResult.length > 0
         if (existPermission && childFilterResult.length > 0) {
             route.children = childFilterResult
         } else {
@@ -38,13 +40,24 @@ export function getPermissionRoutes(
     permissions: UserPermission[],
     routes: CustomRouteObject[],
     forbidden: React.ReactNode,
+    parentPath = "",
 ): CustomRouteObject[] {
     return routes.map((route) => {
+        if (route.path) {
+            route.path = path.join(parentPath, route.path)
+        }
         const isNotNeedAuth = !route.meta?.auth
-        if (!isNotNeedAuth) {
+        const hasPermission = permissions.some((item) => item.resource === route.path)
+        const existPermission = isNotNeedAuth || hasPermission
+        if (!existPermission) {
             route.element = forbidden
         }
-        const childReplaceResult = getPermissionRoutes(permissions, route.children ?? [], forbidden)
+        const childReplaceResult = getPermissionRoutes(
+            permissions,
+            route.children ?? [],
+            forbidden,
+            route.path,
+        )
         route.children = childReplaceResult
         return route
     })
