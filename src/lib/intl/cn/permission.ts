@@ -19,8 +19,9 @@ const zhCN: SystemLocaleMapping = {
     "permission.modal.placeholer.roles": "请配置权限角色",
     "permission.modal.rule.required": "必填",
     "resource.type.view_route": "前端路由",
+    "resource.type.view_menu": "前端菜单",
     "resource.type.view_resource": "前端资源",
-    "resource.type.api_route": "后端路由",
+    "resource.type.api_route": "后端接口",
 }
 
 export default zhCN

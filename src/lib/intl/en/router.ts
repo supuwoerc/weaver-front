@@ -16,7 +16,7 @@ const enUS: SystemLocaleMapping = {
     "router.setting.role": "Role management",
     "router.setting.permission": "Permission management",
     "router.setting.user": "Users management",
-    "router.setting.dept": "Department management",
+    "router.setting.department": "Department management",
 }
 
 export default enUS

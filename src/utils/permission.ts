@@ -14,21 +14,27 @@ export function getMenuRoutes(
     parentPath = "",
 ): Array<CustomRouteObject> {
     return routes.filter((route) => {
-        if (route.path) {
-            route.path = path.join(parentPath, route.path)
-        } else {
-            route.path = parentPath
-        }
+        // 先检查是否有路径
+        const hasPath = !!route.path
         const isNotNeedAuth = !route.meta?.auth
-        const hasPermission = permissions.some((item) => item.resource === route.path)
-        const childFilterResult = getMenuRoutes(permissions, route.children ?? [], route.path)
+        const fullPath = path.join(parentPath, route.path || "")
+        const hasPermission = permissions.some((item) => item.resource === route.meta?.title)
+        const childFilterResult = getMenuRoutes(permissions, route.children ?? [], fullPath)
         const existPermission = isNotNeedAuth || hasPermission || childFilterResult.length > 0
         if (existPermission && childFilterResult.length > 0) {
             route.children = childFilterResult
         } else {
             delete route.children
         }
-        return existPermission && !route.meta?.hidden && route.path !== ""
+        if (existPermission && !route.meta?.hidden && hasPath) {
+            if (route.path) {
+                route.path = path.join(parentPath, route.path)
+            } else {
+                route.path = parentPath
+            }
+            return true
+        }
+        return false
     })
 }
 
@@ -47,8 +53,6 @@ export function getPermissionRoutes(
     return routes.map((route) => {
         if (route.path) {
             route.path = path.join(parentPath, route.path)
-        } else {
-            route.path = parentPath
         }
         const isNotNeedAuth = !route.meta?.auth
         const hasPermission = permissions.some((item) => item.resource === route.path)

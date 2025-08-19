@@ -16,7 +16,7 @@ const zhCN: SystemLocaleMapping = {
     "router.setting.role": "角色管理",
     "router.setting.permission": "权限管理",
     "router.setting.user": "用户管理",
-    "router.setting.dept": "部门管理",
+    "router.setting.department": "部门管理",
 }
 
 export default zhCN

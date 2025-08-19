@@ -13,6 +13,10 @@ export const ResourceTypeOptions: Array<Option<PermissionType>> = [
         value: PermissionType.ViewRoute,
     },
     {
+        label: "resource.type.view_menu",
+        value: PermissionType.ViewMenu,
+    },
+    {
         label: "resource.type.view_resource",
         value: PermissionType.ViewResource,
     },

@@ -18,9 +18,10 @@ const enUS: SystemLocaleMapping = {
     "permission.modal.label.roles": "Roles",
     "permission.modal.placeholer.roles": "Please configure permission roles",
     "permission.modal.rule.required": "Required",
-    "resource.type.view_route": "Front route",
-    "resource.type.view_resource": "Front resource",
-    "resource.type.api_route": "Api route",
+    "resource.type.view_route": "Frontend route",
+    "resource.type.view_menu": "Frontend menu",
+    "resource.type.view_resource": "Frontend resource",
+    "resource.type.api_route": "Backend Api",
 }
 
 export default enUS

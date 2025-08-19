@@ -21,13 +21,13 @@ const settingRoutes: CustomRouteObject[] = [
         },
         children: [
             {
-                path: "users",
+                path: "user",
                 meta: { title: "router.setting.user", auth: true },
                 element: lazyload(UserSetting),
             },
             {
                 path: "department",
-                meta: { title: "router.setting.dept", auth: true },
+                meta: { title: "router.setting.department", auth: true },
                 element: lazyload(DepartmentSetting),
             },
             {
