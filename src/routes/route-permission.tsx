@@ -46,9 +46,9 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         },
     )
     const { data: permissions } = useQuery(
-        ["permission", "getuserPermissions"],
+        ["permission", "getUserRouteAndMenuPermissions"],
         () => {
-            return permissionService.getuserPermissions()
+            return permissionService.getUserRouteAndMenuPermissions()
         },
         {
             cacheTime: 0,

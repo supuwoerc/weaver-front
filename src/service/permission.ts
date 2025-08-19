@@ -65,8 +65,8 @@ export interface UpdatePermissionRequest extends CreatePermissionRequest {
 const updatePermission = (params: UpdatePermissionRequest) =>
     defaultClient.post<null>("/permission/update", params)
 
-const getuserPermissions = () =>
-    defaultClient.get<Array<UserPermission>>("/permission/user-permissions")
+const getUserRouteAndMenuPermissions = () =>
+    defaultClient.get<Array<UserPermission>>("/permission/user-route-menu-permissions")
 
 export default {
     getPermissionList,
@@ -74,5 +74,5 @@ export default {
     getPermisisonDetail,
     deletePermission,
     updatePermission,
-    getuserPermissions,
+    getUserRouteAndMenuPermissions,
 }

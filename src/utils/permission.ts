@@ -16,6 +16,8 @@ export function getMenuRoutes(
     return routes.filter((route) => {
         if (route.path) {
             route.path = path.join(parentPath, route.path)
+        } else {
+            route.path = parentPath
         }
         const isNotNeedAuth = !route.meta?.auth
         const hasPermission = permissions.some((item) => item.resource === route.path)
@@ -45,20 +47,22 @@ export function getPermissionRoutes(
     return routes.map((route) => {
         if (route.path) {
             route.path = path.join(parentPath, route.path)
+        } else {
+            route.path = parentPath
         }
         const isNotNeedAuth = !route.meta?.auth
         const hasPermission = permissions.some((item) => item.resource === route.path)
-        const existPermission = isNotNeedAuth || hasPermission
-        if (!existPermission) {
-            route.element = forbidden
-        }
-        const childReplaceResult = getPermissionRoutes(
+        const childFilterResult = getPermissionRoutes(
             permissions,
             route.children ?? [],
             forbidden,
             route.path,
         )
-        route.children = childReplaceResult
+        const existPermission = isNotNeedAuth || hasPermission || childFilterResult.length > 0
+        if (!existPermission) {
+            route.element = forbidden
+        }
+        route.children = childFilterResult
         return route
     })
 }
