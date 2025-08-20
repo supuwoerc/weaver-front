@@ -35,10 +35,11 @@ const Login: React.FC<LoginProps> = () => {
                     <div className="carousel-container">
                         <Carousel
                             className="carousel"
-                            animation="fade"
+                            animation="slide"
                             autoPlay={{
                                 interval: 30000,
                             }}
+                            indicatorType="slider"
                         >
                             {items.map((item, index) => (
                                 <div className="item" key={index}>
