@@ -12,6 +12,7 @@ import md5 from "md5"
 import { appEnv } from "@/constant/system"
 import VerificationModal from "@/components/verification-modal"
 import { useTranslator } from "@/hooks/use-translator"
+import { AnimatePresence, motion } from "motion/react"
 
 const FormItem = Form.Item
 
@@ -94,151 +95,173 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
 
     return (
         <FormContainer className={classNames("form", type)}>
-            <div className="title" data-test="title">
-                <FormattedMessage id={isLogin ? "login.login.title" : "login.signup.title"} />
-            </div>
-            <div className="desc" data-test="desc">
-                <FormattedMessage id={isLogin ? "login.login.desc" : "login.signup.desc"} />
-            </div>
-            <Form
-                form={form}
-                style={{ width: 320 }}
-                wrapperCol={{ span: 24 }}
-                autoComplete="off"
-                onSubmit={submitHandle}
-            >
-                <FormItem
-                    field="email"
-                    rules={[
-                        {
-                            validator(value, callback) {
-                                if (!value) {
-                                    return callback(
-                                        isLogin
-                                            ? intlMapping.loginEmailPlaceholder
-                                            : intlMapping.signupEmailPlaceholder,
-                                    )
-                                } else if (!emailRegexp.test(value)) {
-                                    return callback(intlMapping.emailError)
-                                } else {
-                                    return callback(null)
-                                }
-                            },
-                        },
-                    ]}
+            <AnimatePresence initial={true} key={isLogin ? "login-title" : "signup-title"}>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.6, rotate: "10deg" }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{
+                        duration: 0.3,
+                        ease: "easeInOut",
+                    }}
                 >
-                    <Input
-                        placeholder={
-                            isLogin
-                                ? intlMapping.loginEmailPlaceholder
-                                : intlMapping.signupEmailPlaceholder
-                        }
-                        data-test="email"
-                        prefix={<IconUser />}
-                    />
-                </FormItem>
-                <FormItem
-                    field="password"
-                    rules={[
-                        {
-                            validator(value, callback) {
-                                if (!value) {
-                                    return callback(
-                                        isLogin
-                                            ? intlMapping.loginPasswordPlaceholder
-                                            : intlMapping.signupPasswordPlaceholder,
-                                    )
-                                } else if (!isLogin && !passwordRegexp.test(value)) {
-                                    return callback(intlMapping.passwordError)
-                                } else {
-                                    return callback(null)
-                                }
-                            },
-                        },
-                    ]}
-                >
-                    <Input.Password
-                        placeholder={
-                            isLogin
-                                ? intlMapping.loginPasswordPlaceholder
-                                : intlMapping.signupPasswordPlaceholder
-                        }
-                        data-test="password"
-                        prefix={<IconLock />}
-                    />
-                </FormItem>
-                {!isLogin && (
-                    <FormItem
-                        field="confirmPassword"
-                        rules={[
-                            {
-                                required: true,
-                                validator(value, callback) {
-                                    if (!value || form.getFieldValue("password") !== value) {
-                                        return callback(
-                                            intlMapping.signupConfirmPasswordPlaceholder,
-                                        )
-                                    } else {
-                                        return callback(null)
-                                    }
-                                },
-                            },
-                        ]}
-                    >
-                        <Input.Password
-                            placeholder={intlMapping.signupConfirmPasswordPlaceholder}
-                            data-test="confirm-password"
-                            prefix={<IconLock />}
-                        />
-                    </FormItem>
-                )}
-                <Space direction="vertical" size={16}>
-                    {isLogin && (
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                            }}
-                        >
-                            <Link
-                                to="/reset-password"
-                                style={{
-                                    flexShrink: 0,
-                                }}
-                                data-test="reset-password-link"
-                            >
-                                <FormattedMessage id="login.login.forget" />
-                            </Link>
-                        </div>
-                    )}
-                    <FormItem style={{ margin: 0 }}>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            long
-                            loading={isLogin ? loginLoading : signupLoading}
-                            data-test="primary-button"
-                        >
-                            <FormattedMessage
-                                id={isLogin ? "login.login.btn.login" : "login.login.btn.signup"}
-                            />
-                        </Button>
-                    </FormItem>
-                    <Button
-                        type="text"
-                        long
-                        onClick={clickToggleHandle}
-                        style={{ color: "#88909c" }}
-                        disabled={loginLoading || signupLoading}
-                        data-test="switch-button"
-                    >
+                    <div className="title" data-test="title">
                         <FormattedMessage
-                            id={isLogin ? "login.login.btn.signup" : "login.login.btn.login"}
+                            id={isLogin ? "login.login.title" : "login.signup.title"}
                         />
-                    </Button>
-                </Space>
-            </Form>
+                    </div>
+                    <div className="desc" data-test="desc">
+                        <FormattedMessage id={isLogin ? "login.login.desc" : "login.signup.desc"} />
+                    </div>
+                    <Form
+                        form={form}
+                        style={{ width: 320 }}
+                        wrapperCol={{ span: 24 }}
+                        autoComplete="off"
+                        onSubmit={submitHandle}
+                    >
+                        <FormItem
+                            field="email"
+                            rules={[
+                                {
+                                    validator(value, callback) {
+                                        if (!value) {
+                                            return callback(
+                                                isLogin
+                                                    ? intlMapping.loginEmailPlaceholder
+                                                    : intlMapping.signupEmailPlaceholder,
+                                            )
+                                        } else if (!emailRegexp.test(value)) {
+                                            return callback(intlMapping.emailError)
+                                        } else {
+                                            return callback(null)
+                                        }
+                                    },
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder={
+                                    isLogin
+                                        ? intlMapping.loginEmailPlaceholder
+                                        : intlMapping.signupEmailPlaceholder
+                                }
+                                data-test="email"
+                                prefix={<IconUser />}
+                            />
+                        </FormItem>
+                        <FormItem
+                            field="password"
+                            rules={[
+                                {
+                                    validator(value, callback) {
+                                        if (!value) {
+                                            return callback(
+                                                isLogin
+                                                    ? intlMapping.loginPasswordPlaceholder
+                                                    : intlMapping.signupPasswordPlaceholder,
+                                            )
+                                        } else if (!isLogin && !passwordRegexp.test(value)) {
+                                            return callback(intlMapping.passwordError)
+                                        } else {
+                                            return callback(null)
+                                        }
+                                    },
+                                },
+                            ]}
+                        >
+                            <Input.Password
+                                placeholder={
+                                    isLogin
+                                        ? intlMapping.loginPasswordPlaceholder
+                                        : intlMapping.signupPasswordPlaceholder
+                                }
+                                data-test="password"
+                                prefix={<IconLock />}
+                            />
+                        </FormItem>
+                        {!isLogin && (
+                            <FormItem
+                                field="confirmPassword"
+                                rules={[
+                                    {
+                                        required: true,
+                                        validator(value, callback) {
+                                            if (
+                                                !value ||
+                                                form.getFieldValue("password") !== value
+                                            ) {
+                                                return callback(
+                                                    intlMapping.signupConfirmPasswordPlaceholder,
+                                                )
+                                            } else {
+                                                return callback(null)
+                                            }
+                                        },
+                                    },
+                                ]}
+                            >
+                                <Input.Password
+                                    placeholder={intlMapping.signupConfirmPasswordPlaceholder}
+                                    data-test="confirm-password"
+                                    prefix={<IconLock />}
+                                />
+                            </FormItem>
+                        )}
+                        <Space direction="vertical" size={16}>
+                            {isLogin ? (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <Link
+                                        to="/reset-password"
+                                        style={{
+                                            flexShrink: 0,
+                                        }}
+                                        data-test="reset-password-link"
+                                    >
+                                        <FormattedMessage id="login.login.forget" />
+                                    </Link>
+                                </div>
+                            ) : null}
+                            <FormItem style={{ margin: 0 }}>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    long
+                                    loading={isLogin ? loginLoading : signupLoading}
+                                    data-test="primary-button"
+                                >
+                                    <FormattedMessage
+                                        id={
+                                            isLogin
+                                                ? "login.login.btn.login"
+                                                : "login.login.btn.signup"
+                                        }
+                                    />
+                                </Button>
+                            </FormItem>
+                            <Button
+                                type="text"
+                                long
+                                onClick={clickToggleHandle}
+                                style={{ color: "#88909c" }}
+                                disabled={loginLoading || signupLoading}
+                                data-test="switch-button"
+                            >
+                                <FormattedMessage
+                                    id={
+                                        isLogin ? "login.login.btn.signup" : "login.login.btn.login"
+                                    }
+                                />
+                            </Button>
+                        </Space>
+                    </Form>
+                </motion.div>
+            </AnimatePresence>
             <VerificationModal visible={visible} finishHandle={finishHandle} />
         </FormContainer>
     )

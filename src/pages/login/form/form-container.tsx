@@ -8,7 +8,7 @@ const FormContainer = styled.div`
     .desc {
         color: var(--gray-8);
         font-size: 16px;
-        margin: 4px 0 20px;
+        margin: 10px 0 20px;
     }
 `
 
