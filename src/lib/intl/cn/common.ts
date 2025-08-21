@@ -2,6 +2,8 @@ import { SystemLocaleMapping } from ".."
 
 // 按照页面路由划分
 const zhCN: SystemLocaleMapping = {
+    "common.loading": "加载中...",
+
     "common.placeholer.search": "请输入关键词进行检索",
 
     "common.add.success": "添加成功",

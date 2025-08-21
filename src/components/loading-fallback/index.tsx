@@ -1,6 +1,7 @@
-import { Skeleton, Spin } from "@arco-design/web-react"
+import { Spin } from "@arco-design/web-react"
 import { css } from "@emotion/react"
 import { useEffect, useState } from "react"
+import { FormattedMessage } from "react-intl"
 
 interface LoadingFallbackProps {
     fullscreen?: boolean
@@ -29,16 +30,7 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen, delay = 2
                 }
             `}
         >
-            <Spin size={40} />
-            <Skeleton
-                animation
-                style={{
-                    padding: "min(15vh,120px) 22px",
-                }}
-                text={{
-                    rows: 12,
-                }}
-            />
+            <Spin size={40} tip={<FormattedMessage id="common.loading" />} />
         </div>
     )
 }
