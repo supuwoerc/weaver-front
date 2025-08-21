@@ -7,6 +7,7 @@ import { system } from "@/store"
 import { useQueryClient } from "@tanstack/react-query"
 import { getIntl } from "@/utils"
 import { NuqsAdapter } from "nuqs/adapters/react"
+import { TransitionProvider } from "./transition"
 
 interface UnderlayProps {}
 
@@ -32,7 +33,9 @@ const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
         <ConfigProvider locale={intlSetting.arcoLocale}>
             <Intl locale={intlInstance.locale} messages={intlInstance.messages}>
                 <NuqsAdapter>
-                    <BrowserRouter>{children}</BrowserRouter>
+                    <TransitionProvider>
+                        <BrowserRouter>{children}</BrowserRouter>
+                    </TransitionProvider>
                 </NuqsAdapter>
             </Intl>
         </ConfigProvider>

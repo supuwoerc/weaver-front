@@ -1,20 +1,21 @@
 import { Layout } from "@arco-design/web-react"
 import { css } from "@emotion/react"
-import { useMemo, useRef } from "react"
+import { useContext, useMemo } from "react"
 import { useLocation, useOutlet } from "react-router-dom"
-import { SwitchTransition, CSSTransition } from "react-transition-group"
-import { transitionCss } from "../router-transition"
+import { SwitchTransition, Transition } from "react-transition-group"
 import Navbar from "./navbar"
 import Sidebar from "./sidebar"
 import { routes, system } from "@/store"
 import { getParents } from "@supuwoerc/utils"
 import Logo from "@/components/logo"
+import { TransitionContext } from "@/providers/transition"
+import gsap from "gsap"
 
 interface DefaultLayoutProps {}
 const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const location = useLocation()
-    const nodeRef = useRef(null)
     const currentOutlet = useOutlet()
+    const { toggleCompleted } = useContext(TransitionContext)
     const menuRoutes = routes.useSystemRouteStore((state) => state.menuRoutes)
     const sidebarCollapsed = system.useSystemConfigStore((state) => state.sidebarCollapsed)
     const routePath = useMemo(() => {
@@ -26,7 +27,6 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
             css={css`
                 height: 100%;
                 position: relative;
-                ${transitionCss}
             `}
         >
             <Logo
@@ -70,23 +70,40 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                     `}
                 >
                     <SwitchTransition mode="out-in">
-                        <CSSTransition
+                        <Transition
                             key={location.pathname}
-                            nodeRef={nodeRef}
-                            timeout={500}
-                            classNames="fade-slide"
-                            unmountOnExit={true}
-                            mountOnEnter
-                            exit={false}
+                            timeout={300}
+                            onEnter={(node: HTMLElement) => {
+                                toggleCompleted(false)
+                                gsap.set(node, {
+                                    x: 40,
+                                })
+                                gsap.timeline({
+                                    delay: 0,
+                                    paused: true,
+                                    onComplete: () => toggleCompleted(true),
+                                })
+                                    .to(node, {
+                                        x: 0,
+                                        duration: 0.3,
+                                    })
+                                    .play()
+                            }}
+                            onExit={(node) => {
+                                gsap.timeline({ paused: true, delay: 0 })
+                                    .to(node, {
+                                        x: 40,
+                                        duration: 0.3,
+                                    })
+                                    .play()
+                            }}
                         >
                             {() => (
                                 <div
-                                    ref={nodeRef}
                                     style={{
                                         flex: 1,
                                         boxSizing: "border-box",
                                     }}
-                                    className="fade-slide"
                                 >
                                     <div
                                         css={css`
@@ -97,7 +114,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                                     </div>
                                 </div>
                             )}
-                        </CSSTransition>
+                        </Transition>
                     </SwitchTransition>
                 </Layout.Content>
             </Layout>

@@ -4,8 +4,12 @@ import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
 import lazyload from "@/components/lazyload/index"
 import DefaultLayout from "@/layout/default"
+// import { sleep } from "@/utils"
 
 const Login = lazy(() => import("@/pages/login"))
+// const Login = lazy(() => {
+//     return sleep(30000).then(() => import("@/pages/login"))
+// })
 const ServerError = lazy(() => import("@/pages/500/index"))
 const ResetPassword = lazy(() => import("@/pages/reset-password/index"))
 const basicRoutes: CustomRouteObject[] = [
