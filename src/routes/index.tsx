@@ -16,7 +16,7 @@ const AppRoutes = () => {
             user.clear()
         }
         systemEventEmitter.addListener(systemEvent.InvalidToken, logout)
-    }, [navigate])
+    }, [])
 
     return (
         <RoutePermission>
