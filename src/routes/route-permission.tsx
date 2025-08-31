@@ -21,8 +21,8 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
     const navigate = useNavigate()
     const location = useLocation()
     const ret = matchRoutes(routes, location)
-    const isNeedLogin = ret?.some((item) => {
-        return (item.route.meta?.auth ?? AuthType.Anonymous) != AuthType.Anonymous
+    const isNeedLogin = (ret ?? []).some((item) => {
+        return (item.route.meta?.auth ?? AuthType.Anonymous) !== AuthType.Anonymous
     })
     // 检查登录状态
     useEffect(() => {

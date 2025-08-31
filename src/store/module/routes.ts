@@ -1,5 +1,5 @@
 import { lazy } from "react"
-import { cloneDeep } from "lodash-es"
+import { cloneDeep, isString } from "lodash-es"
 import { create } from "zustand"
 import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
 import routes from "@/routes/config"
@@ -9,8 +9,11 @@ import { usePermissionStore } from "./permission"
 import { PermissionType } from "@/constant/permission"
 import { UserPermission } from "@/service/permission"
 import { useLoginStore } from "./user"
+import { AuthType } from "@/constant/router"
 
 const Forbidden = lazy(() => import("@/pages/403/index"))
+const NotFound = lazy(() => import("@/pages/404/index"))
+const DefaultLayout = lazy(() => import("@/layout/default/index"))
 
 type TSystemRouteStore = {
     menuRoutes: CustomRouteObject[]
@@ -36,12 +39,42 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
         lazyload(Forbidden),
     )
 
+    if (isLogin) {
+        syncPermissionRoutes.push({
+            path: "",
+            element: lazyload(DefaultLayout),
+            meta: {
+                hidden: true,
+                auth: AuthType.Anonymous,
+                title: "router.notFound",
+            },
+            children: [
+                {
+                    path: "*",
+                    meta: { title: "router.notFound", auth: AuthType.Anonymous, hidden: true },
+                    element: lazyload(NotFound),
+                },
+            ],
+        })
+    } else {
+        syncPermissionRoutes.push({
+            path: "*",
+            meta: {
+                hidden: true,
+                auth: AuthType.Anonymous,
+                title: "router.notFound",
+            },
+            element: lazyload(NotFound),
+        })
+    }
+
     return { syncMenus, syncPermissionRoutes }
 }
 
 export const useSystemRouteStore = create<TSystemRouteStore>()((set) => {
     const generateRoutes = () => {
-        const isLogin = useLoginStore.getState().userInfo !== null
+        const token = useLoginStore.getState().token
+        const isLogin = isString(token) && token !== ""
         const permissions = usePermissionStore.getState().permissions
         const { syncMenus, syncPermissionRoutes } = processPermissions(isLogin, permissions)
         return { menuRoutes: syncMenus, syncPermissionRoutes }

@@ -3,8 +3,8 @@ import { useIntl } from "react-intl"
 import { matchRoutes, useLocation } from "react-router-dom"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
-import routes from "./config"
 import { appEnv } from "@/constant/system"
+import { routes } from "@/store"
 
 interface RouteProgressProps {}
 
@@ -29,15 +29,16 @@ const RouteProgress: React.FC<PropsWithChildren<RouteProgressProps>> = ({ childr
         nprogress.start()
     }
     const intl = useIntl()
+    const systemRoutes = routes.useSystemRouteStore((state) => state.syncPermissionRoutes)
     const pageTitle = useMemo(() => {
-        const matchs = matchRoutes(routes, location) ?? []
+        const matchs = matchRoutes(systemRoutes, location) ?? []
         const validMatchs = matchs.map((item) => {
             return item.route.meta?.title
         })
         const titles = validMatchs.filter(Boolean)
         const title = titles.pop()
         return title ?? appEnv.VITE_APP_TITLE
-    }, [location])
+    }, [location, systemRoutes])
     useEffect(() => {
         nprogress.done()
         document.title = intl.formatMessage({ id: pageTitle })
