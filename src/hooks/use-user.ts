@@ -52,15 +52,18 @@ export default function useUser(
             setSignupLoading(false)
         },
     })
-    // TODO:请求接口登出,将token和refreshToken加入黑名单
-    const logout = () => {
-        userStore.clear()
-        if (logoutSuccess) {
-            logoutSuccess()
-        }
-    }
+    const logoutHandle = useMutation(userService.logout, {
+        onSuccess() {
+            userStore.useLoginStore.persist.clearStorage()
+            userStore.clear()
+            if (logoutSuccess) {
+                logoutSuccess()
+            }
+        },
+    })
     const login = (params: LoginRequest) => loginHandle.mutate(params)
     const signup = (params: SignupRequest) => signupHandle.mutate(params)
+    const logout = () => logoutHandle.mutate()
     return {
         login,
         loginLoading,

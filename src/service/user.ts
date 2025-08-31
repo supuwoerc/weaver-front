@@ -41,6 +41,8 @@ const getUserInfo = () => defaultClient.get<UserInfo>("/user/profile")
 const refreshToken = () =>
     refreshTokenClient.get<{ data: RefreshTokenResponse }>("/user/refresh-token")
 
+const logout = () => refreshTokenClient.post("/user/logout")
+
 export interface GetUserListRequest extends PageRequest {
     keyword?: string
 }
@@ -63,6 +65,7 @@ const getUserList = (params: GetUserListRequest) =>
 export default {
     signup,
     login,
+    logout,
     getUserInfo,
     refreshToken,
     getUserList,
