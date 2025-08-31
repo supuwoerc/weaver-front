@@ -12,6 +12,10 @@ import { TransitionContext } from "@/providers/transition"
 import gsap from "gsap"
 
 interface DefaultLayoutProps {}
+
+const duration = 0.2
+const translateX = 50
+
 const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     const location = useLocation()
     const currentOutlet = useOutlet()
@@ -66,7 +70,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                         flex-direction: column;
                         justify-content: space-between;
                         overflow-y: auto;
-                        min-width: 1080px;
+                        min-width: 980px;
                     `}
                 >
                     <SwitchTransition mode="out-in">
@@ -76,7 +80,8 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                             onEnter={(node: HTMLElement) => {
                                 toggleCompleted(false)
                                 gsap.set(node, {
-                                    x: 40,
+                                    x: translateX,
+                                    opacity: 0,
                                 })
                                 gsap.timeline({
                                     delay: 0,
@@ -85,15 +90,17 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                                 })
                                     .to(node, {
                                         x: 0,
-                                        duration: 0.3,
+                                        duration: duration,
+                                        opacity: 1,
                                     })
                                     .play()
                             }}
                             onExit={(node) => {
                                 gsap.timeline({ paused: true, delay: 0 })
                                     .to(node, {
-                                        x: 40,
-                                        duration: 0.3,
+                                        x: translateX,
+                                        duration: duration,
+                                        opacity: 0,
                                     })
                                     .play()
                             }}
