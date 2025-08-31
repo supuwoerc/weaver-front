@@ -57,10 +57,12 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         validateError: "common.validate.error",
         warning: "common.warning",
     })
-    const typeOptions = useOptionsTranslator<PermissionType>(ResourceTypeOptions)
-    if (readonly) {
-        typeOptions.forEach((item) => (item.disabled = true))
-    }
+    const typeOptions = useOptionsTranslator<PermissionType>(
+        ResourceTypeOptions.map((item) => {
+            item.disabled = readonly
+            return item
+        }),
+    )
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm<CreatePermissionRequest | UpdatePermissionRequest>()
     const upsertHandle = useMutation(

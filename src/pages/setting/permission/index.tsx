@@ -170,6 +170,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
     }
     const editHandle = (id: number) => {
         setPermissionId(id)
+        setReadonly(false)
         setVisible(true)
     }
     const [pagination, setPagination] = useState<PaginationProps>({
