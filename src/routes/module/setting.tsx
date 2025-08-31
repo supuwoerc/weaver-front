@@ -4,6 +4,7 @@ import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
+import { AuthType } from "@/constant/router"
 
 const UserSetting = lazy(() => import("@/pages/setting/user/index"))
 const DepartmentSetting = lazy(() => import("@/pages/setting/department/index"))
@@ -16,28 +17,28 @@ const settingRoutes: CustomRouteObject[] = [
         element: <DefaultLayout />,
         meta: {
             title: "router.setting",
-            auth: true,
+            auth: AuthType.PermissionRequired,
             icon: <IconSettings />,
         },
         children: [
             {
                 path: "user",
-                meta: { title: "router.setting.user", auth: true },
+                meta: { title: "router.setting.user", auth: AuthType.PermissionRequired },
                 element: lazyload(UserSetting),
             },
             {
                 path: "department",
-                meta: { title: "router.setting.department", auth: true },
+                meta: { title: "router.setting.department", auth: AuthType.PermissionRequired },
                 element: lazyload(DepartmentSetting),
             },
             {
                 path: "role",
-                meta: { title: "router.setting.role", auth: true },
+                meta: { title: "router.setting.role", auth: AuthType.PermissionRequired },
                 element: lazyload(RoleSetting),
             },
             {
                 path: "permission",
-                meta: { title: "router.setting.permission", auth: true },
+                meta: { title: "router.setting.permission", auth: AuthType.PermissionRequired },
                 element: lazyload(PermissionSetting),
             },
             {

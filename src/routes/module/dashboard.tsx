@@ -4,6 +4,7 @@ import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
+import { AuthType } from "@/constant/router"
 
 const Workplace = lazy(() => import("@/pages/dashboard/workplace/index"))
 const Todo = lazy(() => import("@/pages/dashboard/todo/index"))
@@ -14,18 +15,18 @@ const dashboardRoutes: CustomRouteObject[] = [
         element: <DefaultLayout />,
         meta: {
             title: "router.dashboard",
-            auth: true,
+            auth: AuthType.LoginRequired,
             icon: <IconDashboard />,
         },
         children: [
             {
                 path: "workplace",
-                meta: { title: "router.dashboard.workplace", auth: true },
+                meta: { title: "router.dashboard.workplace", auth: AuthType.LoginRequired },
                 element: lazyload(Workplace),
             },
             {
                 path: "todo",
-                meta: { title: "router.dashboard.todo", auth: true },
+                meta: { title: "router.dashboard.todo", auth: AuthType.LoginRequired },
                 element: lazyload(Todo),
             },
             {

@@ -8,6 +8,7 @@ import lazyload from "@/components/lazyload"
 import { usePermissionStore } from "./permission"
 import { PermissionType } from "@/constant/permission"
 import { UserPermission } from "@/service/permission"
+import { useLoginStore } from "./user"
 
 const Forbidden = lazy(() => import("@/pages/403/index"))
 
@@ -16,7 +17,7 @@ type TSystemRouteStore = {
     syncPermissionRoutes: CustomRouteObject[]
 }
 
-const processPermissions = (permissions: Array<UserPermission>) => {
+const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>) => {
     const menuPermission: Array<UserPermission> = []
     const routePermission: Array<UserPermission> = []
     permissions.forEach((item) => {
@@ -27,8 +28,9 @@ const processPermissions = (permissions: Array<UserPermission>) => {
             routePermission.push(item)
         }
     })
-    const syncMenus = getMenuRoutes(menuPermission, cloneDeep(routes))
+    const syncMenus = getMenuRoutes(isLogin, menuPermission, cloneDeep(routes))
     const syncPermissionRoutes = getPermissionRoutes(
+        isLogin,
         routePermission,
         cloneDeep(routes),
         lazyload(Forbidden),
@@ -38,19 +40,18 @@ const processPermissions = (permissions: Array<UserPermission>) => {
 }
 
 export const useSystemRouteStore = create<TSystemRouteStore>()((set) => {
-    // 初始化时获取权限
-    const permissions = usePermissionStore.getState().permissions
-    const { syncMenus, syncPermissionRoutes } = processPermissions(permissions)
-    // 订阅权限变化
-    usePermissionStore.subscribe((state) => {
-        const { syncMenus, syncPermissionRoutes } = processPermissions(state.permissions)
-        set({
-            menuRoutes: syncMenus,
-            syncPermissionRoutes: syncPermissionRoutes,
-        })
-    })
-    return {
-        menuRoutes: syncMenus,
-        syncPermissionRoutes: syncPermissionRoutes,
+    const generateRoutes = () => {
+        const isLogin = useLoginStore.getState().userInfo !== null
+        const permissions = usePermissionStore.getState().permissions
+        const { syncMenus, syncPermissionRoutes } = processPermissions(isLogin, permissions)
+        return { menuRoutes: syncMenus, syncPermissionRoutes }
     }
+
+    const initialState = generateRoutes()
+    set(initialState)
+
+    usePermissionStore.subscribe(() => set(generateRoutes()))
+    useLoginStore.subscribe(() => set(generateRoutes()))
+
+    return initialState
 })

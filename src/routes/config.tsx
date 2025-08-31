@@ -6,6 +6,7 @@ import userRoutes from "./module/user"
 import dashboardRoutes from "./module/dashboard"
 import settingRoutes from "./module/setting"
 import lazyload from "@/components/lazyload"
+import { AuthType } from "@/constant/router"
 
 const NotFound = lazy(() => import("@/pages/404/index"))
 const routes: CustomRouteObject[] = [
@@ -18,12 +19,12 @@ const routes: CustomRouteObject[] = [
         element: <DefaultLayout />,
         meta: {
             hidden: true,
-            auth: false,
+            auth: AuthType.Anonymous,
         },
         children: [
             {
                 path: "*",
-                meta: { title: "router.notFound", auth: false },
+                meta: { title: "router.notFound", auth: AuthType.Anonymous },
                 element: lazyload(NotFound),
             },
         ],

@@ -4,6 +4,7 @@ import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
+import { AuthType } from "@/constant/router"
 
 const UserProfile = lazy(() => import("@/pages/user/profile/index"))
 
@@ -13,13 +14,13 @@ const userRoutes: CustomRouteObject[] = [
         element: <DefaultLayout />,
         meta: {
             title: "router.user",
-            auth: true,
+            auth: AuthType.LoginRequired,
             icon: <IconUser />,
         },
         children: [
             {
                 path: "profile",
-                meta: { title: "router.user.profile", auth: true },
+                meta: { title: "router.user.profile", auth: AuthType.LoginRequired },
                 element: lazyload(UserProfile),
             },
             {

@@ -7,6 +7,7 @@ import userService from "@/service/user"
 import permissionService from "@/service/permission"
 import { isNull, isString } from "@supuwoerc/utils"
 import { useShallow } from "zustand/shallow"
+import { AuthType } from "@/constant/router"
 
 interface RoutePermissionProps {}
 
@@ -21,8 +22,7 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
     const location = useLocation()
     const ret = matchRoutes(routes, location)
     const isNeedLogin = ret?.some((item) => {
-        const route = item.route
-        return Boolean(route.meta?.auth)
+        return (item.route.meta?.auth ?? AuthType.Anonymous) != AuthType.Anonymous
     })
     // 检查登录状态
     useEffect(() => {
