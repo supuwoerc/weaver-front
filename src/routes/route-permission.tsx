@@ -33,9 +33,9 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         }
     }, [navigate, token, isNeedLogin, location])
 
-    const queryEnabled = isString(token) && token !== "" && isNull(userInfo)
+    const queryEnabled = isNeedLogin && isString(token) && token !== "" && isNull(userInfo)
 
-    const { data } = useQuery(
+    const { data, isFetched: userInfoFetched } = useQuery(
         ["user", "getUserInfo"],
         () => {
             return userService.getUserInfo()
@@ -45,7 +45,7 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
             enabled: queryEnabled,
         },
     )
-    const { data: permissions } = useQuery(
+    const { data: permissions, isFetched: permissionsFetched } = useQuery(
         ["permission", "getUserRouteAndMenuPermissions"],
         () => {
             return permissionService.getUserRouteAndMenuPermissions()
@@ -64,7 +64,10 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
             permission.setPermissions(permissions)
         }
     }, [data, permissions])
-    return <>{children}</>
+    if (!isNeedLogin || (userInfoFetched && permissionsFetched)) {
+        return <>{children}</>
+    }
+    return null
 }
 
 export default RoutePermission

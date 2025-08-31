@@ -1,10 +1,12 @@
 import { css } from "@emotion/react"
-import { CSSProperties, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { CSSProperties } from "react"
+import { useLocation, useNavigate } from "react-router-dom"
 import LogoContainer from "./logo-container"
 import { appEnv } from "@/constant/system"
 import Favicon from "@/assets/logo.svg?react"
 import { useRef } from "react"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
 
 export type ResponsiveKey = "lg" | "md" | "sm" | "xl" | "xs" | "xxl" | "xxxl"
 export interface LogoProps {
@@ -18,20 +20,50 @@ const Logo: React.FC<LogoProps> = (props) => {
     const { style, to, color = "var(--color-bg-1)", onlyLogo = false } = props
     const logoRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
+    const location = useLocation()
     const onClickHandle = () => {
         if (to) {
             navigate(to)
         }
     }
-    useEffect(() => {
-        const paths = logoRef.current?.querySelectorAll<SVGPathElement>(".animation-path")
-        if (paths && paths.length) {
-            paths.forEach((item) => {
-                const length = item.getTotalLength()
-                item.style.setProperty("--stroke-length", `${length}`)
-            })
-        }
-    }, [])
+    useGSAP(
+        () => {
+            const paths = logoRef.current?.querySelectorAll<SVGPathElement>(".animation-path")
+            if (paths && paths.length) {
+                paths.forEach((item) => {
+                    const strokeLength = item.getTotalLength()
+                    const timeline = gsap.timeline({})
+                    timeline
+                        .set(item, {
+                            strokeDasharray: strokeLength,
+                            strokeDashoffset: strokeLength / 4,
+                            fill: "none",
+                        })
+                        .to(item, {
+                            strokeDashoffset: 0,
+                            duration: 0.6,
+                            ease: "power2.inOut",
+                            fill: "var(--theme-color)",
+                        })
+                })
+            }
+        },
+        { dependencies: [location.pathname], revertOnUpdate: true },
+    )
+    useGSAP(
+        () => {
+            const logoSvg = logoRef.current?.querySelector<SVGPathElement>(".icon")
+            if (logoSvg) {
+                gsap.from(logoSvg, {
+                    xPercent: -200,
+                    opacity: 0,
+                    duration: 0.6,
+                    rotate: -360,
+                })
+            }
+        },
+        { scope: logoRef.current!, dependencies: [] },
+    )
     return (
         <LogoContainer
             style={style}
@@ -48,23 +80,9 @@ const Logo: React.FC<LogoProps> = (props) => {
                     font-weight: bold;
                     font-size: 18px;
                 }
-                @keyframes logoAnimation {
-                    from {
-                        stroke-dashoffset: var(--stroke-length);
-                        fill: none;
-                    }
-                    to {
-                        stroke-dashoffset: 0;
-                    }
-                }
-                .animation-path {
-                    stroke-dasharray: var(--stroke-length);
-                    stroke-dashoffset: var(--stroke-length);
-                    animation: logoAnimation 3s ease-in-out forwards;
-                }
             `}
         >
-            <Favicon width={30} stroke="#4070ff" strokeWidth={16} />
+            <Favicon width={30} stroke="var(--theme-color)" strokeWidth={16} />
             {onlyLogo ? null : <div style={{ marginLeft: 10 }}>{appEnv.VITE_APP_NAME}</div>}
         </LogoContainer>
     )
