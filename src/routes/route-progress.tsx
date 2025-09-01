@@ -10,6 +10,8 @@ interface RouteProgressProps {}
 
 nprogress.configure({
     showSpinner: false,
+    easing: "ease",
+    speed: 500,
 })
 
 const RouteProgress: React.FC<PropsWithChildren<RouteProgressProps>> = ({ children }) => {

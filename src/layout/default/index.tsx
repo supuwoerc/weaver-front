@@ -70,6 +70,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
                         flex-direction: column;
                         justify-content: space-between;
                         overflow-y: auto;
+                        overflow-x: hidden;
                         min-width: 980px;
                     `}
                 >

@@ -72,6 +72,18 @@ export const variables = css`
     }
 `
 
+// ngprogress
+export const ngprogress = css`
+    #nprogress {
+        position: relative;
+        z-index: 3;
+        .bar {
+            background: var(--theme-color);
+            height: 4px;
+        }
+    }
+`
+
 interface GlobalStyleProps {}
 // 全局的样式
 export const GlobalStyle: React.FC<GlobalStyleProps> = () => {
@@ -81,6 +93,7 @@ export const GlobalStyle: React.FC<GlobalStyleProps> = () => {
                 ${scrollbar}
                 ${appCommon}
                 ${variables}
+                ${ngprogress}
                 ${emotionReset}
             `}
         />
