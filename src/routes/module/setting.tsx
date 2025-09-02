@@ -43,7 +43,7 @@ const settingRoutes: CustomRouteObject[] = [
             },
             {
                 path: "",
-                element: <Navigate to={"/setting/users"} replace />,
+                element: <Navigate to={"/setting/user"} replace />,
             },
         ],
     },
