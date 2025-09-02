@@ -1,14 +1,14 @@
-import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
 import lazyload from "@/components/lazyload/index"
 import DefaultLayout from "@/layout/default"
 import { AuthType } from "@/constant/router"
+import { lazyloadWithProgress } from "@/utils/progress"
 
-const Login = lazy(() => import("@/pages/login"))
-const ServerError = lazy(() => import("@/pages/500/index"))
-const ResetPassword = lazy(() => import("@/pages/reset-password/index"))
+const Login = lazyloadWithProgress(import("@/pages/login"))
+const ServerError = lazyloadWithProgress(import("@/pages/500/index"))
+const ResetPassword = lazyloadWithProgress(import("@/pages/reset-password/index"))
 
 const basicRoutes: CustomRouteObject[] = [
     {

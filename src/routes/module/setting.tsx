@@ -1,15 +1,15 @@
 import { IconSettings } from "@arco-design/web-react/icon"
 import DefaultLayout from "@/layout/default/index"
-import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
 import { AuthType } from "@/constant/router"
+import { lazyloadWithProgress } from "@/utils/progress"
 
-const UserSetting = lazy(() => import("@/pages/setting/user/index"))
-const DepartmentSetting = lazy(() => import("@/pages/setting/department/index"))
-const RoleSetting = lazy(() => import("@/pages/setting/role/index"))
-const PermissionSetting = lazy(() => import("@/pages/setting/permission/index"))
+const UserSetting = lazyloadWithProgress(import("@/pages/setting/user/index"))
+const DepartmentSetting = lazyloadWithProgress(import("@/pages/setting/department/index"))
+const RoleSetting = lazyloadWithProgress(import("@/pages/setting/role/index"))
+const PermissionSetting = lazyloadWithProgress(import("@/pages/setting/permission/index"))
 
 const settingRoutes: CustomRouteObject[] = [
     {

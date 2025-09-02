@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import RouteProgress from "./route-progress"
+import RouteTitle from "./route-title"
 import RoutePermission from "./route-permission"
 import RouteView from "./route-view"
 import { globalRouter, systemEvent, systemEventEmitter } from "@/constant/system"
@@ -20,9 +20,9 @@ const AppRoutes = () => {
 
     return (
         <RoutePermission>
-            <RouteProgress>
+            <RouteTitle>
                 <RouteView />
-            </RouteProgress>
+            </RouteTitle>
         </RoutePermission>
     )
 }

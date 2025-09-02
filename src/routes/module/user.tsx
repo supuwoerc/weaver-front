@@ -1,12 +1,12 @@
 import { IconUser } from "@arco-design/web-react/icon"
 import DefaultLayout from "@/layout/default/index"
-import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
 import { AuthType } from "@/constant/router"
+import { lazyloadWithProgress } from "@/utils/progress"
 
-const UserProfile = lazy(() => import("@/pages/user/profile/index"))
+const UserProfile = lazyloadWithProgress(import("@/pages/user/profile/index"))
 
 const userRoutes: CustomRouteObject[] = [
     {

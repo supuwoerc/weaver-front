@@ -1,13 +1,13 @@
 import { IconDashboard } from "@arco-design/web-react/icon"
 import DefaultLayout from "@/layout/default/index"
-import { lazy } from "react"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
 import lazyload from "@/components/lazyload"
 import { AuthType } from "@/constant/router"
+import { lazyloadWithProgress } from "@/utils/progress"
 
-const Workplace = lazy(() => import("@/pages/dashboard/workplace/index"))
-const Todo = lazy(() => import("@/pages/dashboard/todo/index"))
+const Workplace = lazyloadWithProgress(import("@/pages/dashboard/workplace/index"))
+const Todo = lazyloadWithProgress(import("@/pages/dashboard/todo/index"))
 
 const dashboardRoutes: CustomRouteObject[] = [
     {

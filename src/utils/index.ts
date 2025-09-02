@@ -15,7 +15,7 @@ export function getAppEnv() {
  * @returns Promise<void>
  */
 export function sleep(s: number) {
-    return new Promise((resolve: any) => {
+    return new Promise<void>((resolve) => {
         setTimeout(() => {
             resolve()
         }, s * 1000)
