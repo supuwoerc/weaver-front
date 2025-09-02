@@ -38,7 +38,7 @@ const login = (params: LoginRequest) =>
 const getUserInfo = () => defaultClient.get<UserInfo>("/user/profile")
 
 const refreshToken = () =>
-    refreshTokenClient.get<{ data: RefreshTokenResponse }>("/user/refresh-token")
+    refreshTokenClient.post<{ data: RefreshTokenResponse }>("/user/refresh-token")
 
 const logout = () => refreshTokenClient.post("/user/logout")
 
