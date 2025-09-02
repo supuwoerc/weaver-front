@@ -24,7 +24,6 @@ export interface LoginResponseUser {
 
 export interface RefreshTokenResponse {
     data: {
-        refresh_token: string
         token: string
     }
     code: number

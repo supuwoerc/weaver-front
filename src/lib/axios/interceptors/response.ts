@@ -42,7 +42,6 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                 if (code === 10000) {
                                     user.useLoginStore.setState((state) => {
                                         state.token = data.data.token
-                                        state.refreshToken = data.data.refresh_token
                                     })
                                     config.headers["Authorization"] = data.data.token
                                     requests.forEach((cb) => cb(data.data.token))
