@@ -8,12 +8,14 @@ import permissionService from "@/service/permission"
 import { isString } from "@supuwoerc/utils"
 import { useShallow } from "zustand/shallow"
 import { AuthType } from "@/constant/router"
+import { isNull } from "lodash-es"
 
 interface RoutePermissionProps {}
 
 const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ children }) => {
-    const { token } = user.useLoginStore(
+    const { userInfo, token } = user.useLoginStore(
         useShallow((state) => ({
+            userInfo: state.userInfo,
             token: state.token,
         })),
     )
@@ -33,8 +35,8 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         }
     }, [navigate, token, isNeedLogin, location])
 
-    const { data, isFetched } = useQuery(
-        ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { token: token }],
+    const { data } = useQuery(
+        ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { location: location }],
         () => {
             return Promise.all([
                 userService.getUserInfo(),
@@ -43,19 +45,24 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         },
         {
             cacheTime: 0,
-            enabled: isNeedLogin && isString(token) && token !== "",
+            enabled: isNeedLogin && isString(token) && token !== "" && isNull(userInfo),
         },
     )
 
     // 设置用户账户&权限信息
     useEffect(() => {
-        if (data) {
+        if (data && data.length === 2) {
             const [userInfo, permissions] = data
-            user.setUserInfo(userInfo)
-            permission.setPermissions(permissions)
+            if (userInfo) {
+                user.setUserInfo(userInfo)
+            }
+            if (permissions) {
+                permission.setPermissions(permissions)
+            }
         }
     }, [data])
-    if (!isNeedLogin || isFetched) {
+
+    if (!isNeedLogin || !isNull(userInfo)) {
         return <>{children}</>
     }
     return null

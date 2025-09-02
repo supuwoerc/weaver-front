@@ -44,9 +44,10 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                         state.token = data.data.token
                                     })
                                     config.headers["Authorization"] = data.data.token
+                                    const retry = client(config)
                                     requests.forEach((cb) => cb(data.data.token))
                                     requests = []
-                                    return client(config)
+                                    return retry
                                 } else {
                                     return Promise.reject(data.message)
                                 }
