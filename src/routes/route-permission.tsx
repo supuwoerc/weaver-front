@@ -36,7 +36,7 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
     }, [navigate, token, isNeedLogin, location])
 
     const { data } = useQuery(
-        ["user", "getUserInfo", "getUserRouteAndMenuPermissions"],
+        ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { location: location }],
         () => {
             return Promise.all([
                 userService.getUserInfo(),
@@ -45,7 +45,7 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         },
         {
             cacheTime: 0,
-            enabled: isNeedLogin && isString(token) && token !== "",
+            enabled: isNeedLogin && isString(token) && token !== "" && isNull(userInfo),
         },
     )
 
