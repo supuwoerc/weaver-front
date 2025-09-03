@@ -14,10 +14,10 @@ import { user } from "@/store"
 import { isError } from "lodash-es"
 
 let isRefreshing = false
-let requests: Array<(token: string, err?: Error) => void> = []
+let requests: Array<(token: string, err?: string) => void> = []
 
-const publishInvalidTokenEvent = (err: Error) => {
-    systemEventEmitter.emit(systemEvent.InvalidToken, { err })
+const publishInvalidTokenEvent = (err: string) => {
+    systemEventEmitter.emit(systemEvent.InvalidToken, err)
 }
 
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
@@ -56,19 +56,17 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                 }
                             })
                             .catch((err) => {
-                                let wrapErr = err
-                                if (!isError(err)) {
-                                    wrapErr = new Error(err)
-                                }
-                                requests.forEach((cb) => cb("", wrapErr))
-                                publishInvalidTokenEvent(wrapErr)
+                                const msg = isError(err) ? err.message : err
+                                requests.forEach((cb) => cb("", msg))
+                                requests = []
+                                publishInvalidTokenEvent(msg)
                             })
                             .finally(() => {
                                 isRefreshing = false
                             })
                     } else {
                         return new Promise((resolve, reject) => {
-                            requests.push((token: string, err?: Error) => {
+                            requests.push((token: string, err?: string) => {
                                 if (err) {
                                     reject(err)
                                 } else {
@@ -79,15 +77,17 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                         })
                     }
                 } else {
-                    requests.forEach((cb) => cb("", new Error(NotExistRefreshToken[locale])))
-                    publishInvalidTokenEvent(new Error(NotExistRefreshToken[locale]))
+                    requests.forEach((cb) => cb("", NotExistRefreshToken[locale]))
+                    requests = []
+                    publishInvalidTokenEvent(NotExistRefreshToken[locale])
                 }
             } else if (code === 10000) {
                 return response.data.data
             } else if (code == 10006) {
                 // 长token失效
-                requests.forEach((cb) => cb("", new Error(InvalidRefreshToken[locale])))
-                publishInvalidTokenEvent(new Error(InvalidRefreshToken[locale]))
+                requests.forEach((cb) => cb("", InvalidRefreshToken[locale]))
+                requests = []
+                publishInvalidTokenEvent(InvalidRefreshToken[locale])
             } else {
                 return Promise.reject(response.data.message || response.data.msg)
             }

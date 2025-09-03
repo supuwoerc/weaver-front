@@ -6,20 +6,15 @@ import { globalRouter, systemEvent, systemEventEmitter } from "@/constant/system
 import { useEffect } from "react"
 import { user } from "@/store"
 import { Message } from "@arco-design/web-react"
-import { isError } from "lodash-es"
 
 const AppRoutes = () => {
     const navigate = useNavigate()
     globalRouter.navigate = navigate
 
     useEffect(() => {
-        const logout = (err?: Error) => {
+        const logout = (err?: string) => {
             if (err) {
-                if (isError(err)) {
-                    Message.error(`${err?.message}`)
-                } else {
-                    Message.error(`${err}`)
-                }
+                Message.error(`${err}`)
             }
             user.useLoginStore.persist.clearStorage()
             user.clear()
