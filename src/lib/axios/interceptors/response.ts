@@ -3,18 +3,21 @@ import { WrapAxiosInstance } from ".."
 import {
     ServerErrorMessage,
     SystemLocale,
+    NotExistRefreshToken,
+    InvalidRefreshToken,
     globalRouter,
     systemEvent,
     systemEventEmitter,
 } from "@/constant/system"
 import userService from "@/service/user"
 import { user } from "@/store"
+import { isError } from "lodash-es"
 
 let isRefreshing = false
-let requests: Array<(token: string) => void> = []
+let requests: Array<(token: string, err?: Error) => void> = []
 
-const publishInvalidTokenEvent = () => {
-    systemEventEmitter.emit(systemEvent.InvalidToken)
+const publishInvalidTokenEvent = (err: Error) => {
+    systemEventEmitter.emit(systemEvent.InvalidToken, { err })
 }
 
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
@@ -22,9 +25,9 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
         (response: AxiosResponse) => {
             const { config, status } = response
             const { code } = response.data
+            const { headers } = config
+            const locale = (headers.get("Locale") || SystemLocale.EN) as SystemLocale
             if (status >= 500) {
-                const { headers } = config
-                const locale = (headers.get("Locale") || SystemLocale.EN) as SystemLocale
                 if (window.location.pathname !== "/500") {
                     globalRouter.navigate?.("/500")
                 }
@@ -52,28 +55,39 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                     return Promise.reject(data.message)
                                 }
                             })
-                            .catch(() => {
-                                publishInvalidTokenEvent()
+                            .catch((err) => {
+                                let wrapErr = err
+                                if (!isError(err)) {
+                                    wrapErr = new Error(err)
+                                }
+                                requests.forEach((cb) => cb("", wrapErr))
+                                publishInvalidTokenEvent(wrapErr)
                             })
                             .finally(() => {
                                 isRefreshing = false
                             })
                     } else {
-                        return new Promise((resolve) => {
-                            requests.push((token: string) => {
-                                config.headers["Authorization"] = token
-                                resolve(client(config))
+                        return new Promise((resolve, reject) => {
+                            requests.push((token: string, err?: Error) => {
+                                if (err) {
+                                    reject(err)
+                                } else {
+                                    config.headers["Authorization"] = token
+                                    resolve(client(config))
+                                }
                             })
                         })
                     }
                 } else {
-                    publishInvalidTokenEvent()
+                    requests.forEach((cb) => cb("", new Error(NotExistRefreshToken[locale])))
+                    publishInvalidTokenEvent(new Error(NotExistRefreshToken[locale]))
                 }
             } else if (code === 10000) {
                 return response.data.data
             } else if (code == 10006) {
                 // 长token失效
-                publishInvalidTokenEvent()
+                requests.forEach((cb) => cb("", new Error(InvalidRefreshToken[locale])))
+                publishInvalidTokenEvent(new Error(InvalidRefreshToken[locale]))
             } else {
                 return Promise.reject(response.data.message || response.data.msg)
             }

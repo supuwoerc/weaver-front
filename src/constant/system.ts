@@ -22,6 +22,36 @@ export const ServerErrorMessage = new Proxy(
     },
 )
 
+export const NotExistRefreshToken = new Proxy(
+    {
+        [SystemLocale.CN]: "Not exist RefreshToken, please log in again",
+        [SystemLocale.EN]: "不存在刷新令牌，请重新登录",
+    },
+    {
+        get(target, p) {
+            if (!Reflect.has(target, p)) {
+                return Reflect.get(target, SystemLocale.EN)
+            }
+            return Reflect.get(target, p)
+        },
+    },
+)
+
+export const InvalidRefreshToken = new Proxy(
+    {
+        [SystemLocale.CN]: "Invalid RefreshToken, please log in again",
+        [SystemLocale.EN]: "刷新令牌无效，请重新登录",
+    },
+    {
+        get(target, p) {
+            if (!Reflect.has(target, p)) {
+                return Reflect.get(target, SystemLocale.EN)
+            }
+            return Reflect.get(target, p)
+        },
+    },
+)
+
 export const appEnv = getAppEnv()
 
 export const appIsDevEnv = appEnv.VITE_APP_ENV === "dev"
