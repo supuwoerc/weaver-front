@@ -5,22 +5,24 @@ import RouteView from "./route-view"
 import { globalRouter, systemEvent, systemEventEmitter } from "@/constant/system"
 import { useEffect } from "react"
 import { user } from "@/store"
-import { Message } from "@arco-design/web-react"
 
 const AppRoutes = () => {
     const navigate = useNavigate()
     globalRouter.navigate = navigate
 
     useEffect(() => {
-        const logout = (err?: string) => {
-            if (err) {
-                Message.error(`${err}`)
-            }
+        const logout = () => {
             user.useLoginStore.persist.clearStorage()
             user.clear()
         }
         systemEventEmitter.addListener(systemEvent.InvalidToken, logout)
-    }, [])
+        const serverError = () => {
+            if (window.location.pathname !== "/500") {
+                navigate("/500")
+            }
+        }
+        systemEventEmitter.addListener(systemEvent.ServerError, serverError)
+    }, [navigate])
 
     return (
         <RoutePermission>

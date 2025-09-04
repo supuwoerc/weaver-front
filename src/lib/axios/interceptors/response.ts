@@ -5,7 +5,6 @@ import {
     SystemLocale,
     NotExistRefreshToken,
     InvalidRefreshToken,
-    globalRouter,
     systemEvent,
     systemEventEmitter,
 } from "@/constant/system"
@@ -16,28 +15,37 @@ import { isError } from "lodash-es"
 let isRefreshing = false
 let requests: Array<(token: string, err?: string) => void> = []
 
-const publishInvalidTokenEvent = (err: string) => {
-    systemEventEmitter.emit(systemEvent.InvalidToken, err)
+const invalidTokenHandle = (err: string) => {
+    requests.forEach((cb) => cb("", err))
+    requests = []
+    systemEventEmitter.emit(systemEvent.InvalidToken)
+    return Promise.reject(err)
 }
 
 const generateResponseInterceptors = (client: WrapAxiosInstance) => {
     return [
         (response: AxiosResponse) => {
             const { config, status } = response
-            const { code } = response.data
+            const { code = 0 } = response.data
             const { headers } = config
             const locale = (headers.get("Locale") || SystemLocale.EN) as SystemLocale
             if (status >= 500) {
-                if (window.location.pathname !== "/500") {
-                    globalRouter.navigate?.("/500")
-                }
+                systemEventEmitter.emit(systemEvent.ServerError)
                 return Promise.reject(ServerErrorMessage[locale])
             } else if (code == 10003) {
-                // token错误，尝试刷新token
                 const { refreshToken } = user.useLoginStore.getState()
                 if (refreshToken) {
                     if (!isRefreshing) {
                         isRefreshing = true
+                        const originToken = config.headers["Authorization"]
+                        const { token } = user.useLoginStore.getState()
+                        if (!!originToken && !!token && originToken !== token) {
+                            config.headers["Authorization"] = token
+                            const retry = client(config)
+                            requests.forEach((cb) => cb(token))
+                            requests = []
+                            return retry
+                        }
                         return userService
                             .refreshToken()
                             .then(({ data }) => {
@@ -59,7 +67,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                                 const msg = isError(err) ? err.message : err
                                 requests.forEach((cb) => cb("", msg))
                                 requests = []
-                                publishInvalidTokenEvent(msg)
+                                systemEventEmitter.emit(systemEvent.InvalidToken)
                             })
                             .finally(() => {
                                 isRefreshing = false
@@ -77,19 +85,14 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
                         })
                     }
                 } else {
-                    requests.forEach((cb) => cb("", NotExistRefreshToken[locale]))
-                    requests = []
-                    publishInvalidTokenEvent(NotExistRefreshToken[locale])
+                    return invalidTokenHandle(NotExistRefreshToken[locale])
                 }
             } else if (code === 10000) {
                 return response.data.data
             } else if (code == 10006) {
-                // 长token失效
-                requests.forEach((cb) => cb("", InvalidRefreshToken[locale]))
-                requests = []
-                publishInvalidTokenEvent(InvalidRefreshToken[locale])
+                return invalidTokenHandle(InvalidRefreshToken[locale])
             } else {
-                return Promise.reject(response.data.message || response.data.msg)
+                return Promise.reject(response?.data?.message || response?.data?.msg || "")
             }
         },
         (error: any) => {

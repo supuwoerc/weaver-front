@@ -64,6 +64,7 @@ export const emptyPlaceholder = "-"
 
 export enum systemEvent {
     InvalidToken = "invalid-token",
+    ServerError = "server-error",
 }
 
 export const systemEventEmitter = new EventEmitter()
