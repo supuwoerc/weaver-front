@@ -1,14 +1,19 @@
 import { InternalAxiosRequestConfig } from "axios"
 import { WrapAxiosInstance } from ".."
 import { system, user } from "@/store"
+import { tokenPrefix, tokenKey, localeKey, refreshTokenKey } from "@/constant/axios"
+
+export const buildToken = (token: string) => {
+    return tokenPrefix + token
+}
 
 const generateRequestInterceptors = (_client: WrapAxiosInstance) => {
     return [
         (config: InternalAxiosRequestConfig) => {
             const { token } = user.useLoginStore.getState()
             const { locale } = system.useSystemConfigStore.getState()
-            config.headers["Authorization"] = "Bearer " + token
-            config.headers["Locale"] = locale
+            config.headers[tokenKey] = buildToken(token ?? "")
+            config.headers[localeKey] = locale
             return config
         },
         (error: any) => {
@@ -22,9 +27,9 @@ const generateRefreshInterceptors = (_client: WrapAxiosInstance) => {
         (config: InternalAxiosRequestConfig) => {
             const { token, refreshToken } = user.useLoginStore.getState()
             const { locale } = system.useSystemConfigStore.getState()
-            config.headers["Authorization"] = "Bearer " + (token ?? "")
-            config.headers["Locale"] = locale
-            config.headers["Refresh-Token"] = refreshToken ?? ""
+            config.headers[tokenKey] = buildToken(token ?? "")
+            config.headers[localeKey] = locale
+            config.headers[refreshTokenKey] = refreshToken ?? ""
             return config
         },
         (error: any) => {

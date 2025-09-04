@@ -12,3 +12,11 @@ const refreshTokenClient = generateAxiosClient(
 export { defaultClient, refreshTokenClient }
 
 export default defaultClient
+
+export const tokenPrefix = "Bearer "
+
+export const tokenKey = "Authorization"
+
+export const refreshTokenKey = "Refresh-Token"
+
+export const localeKey = "Locale"

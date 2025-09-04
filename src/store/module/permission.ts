@@ -18,9 +18,6 @@ export const usePermissionStore = create<TPermissionStore>()(
         devtools(
             persist(() => initialPermissionState, {
                 name: PERMISSION_STORE_NAME,
-                partialize: (state) => ({
-                    permissions: state.permissions,
-                }),
             }),
             {
                 name: PERMISSION_STORE_NAME,
