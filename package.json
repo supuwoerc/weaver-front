@@ -129,7 +129,7 @@
     "license": "ISC",
     "engines": {
         "node": "22.16.0",
-        "pnpm": ">=10.11.0"
+        "pnpm": "10.15.1"
     },
     "volta": {
         "node": "22.16.0"
