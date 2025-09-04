@@ -1,6 +1,6 @@
 import { UserPermission } from "@/service/permission"
 import { create } from "zustand"
-import { devtools, persist } from "zustand/middleware"
+import { devtools } from "zustand/middleware"
 import { immer } from "zustand/middleware/immer"
 
 type TPermissionStore = {
@@ -15,15 +15,10 @@ const PERMISSION_STORE_NAME = "permissionStore"
 
 export const usePermissionStore = create<TPermissionStore>()(
     immer(
-        devtools(
-            persist(() => initialPermissionState, {
-                name: PERMISSION_STORE_NAME,
-            }),
-            {
-                name: PERMISSION_STORE_NAME,
-                enabled: true,
-            },
-        ),
+        devtools(() => initialPermissionState, {
+            name: PERMISSION_STORE_NAME,
+            enabled: true,
+        }),
     ),
 )
 
