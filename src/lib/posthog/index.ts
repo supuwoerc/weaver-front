@@ -14,7 +14,7 @@ export interface User {
 }
 
 class PostHogClient {
-    private client: PostHog | null = null
+    private client: PostHog
 
     private env: ImportMetaEnv["VITE_APP_ENV"] = appEnv.VITE_APP_ENV
 
@@ -41,6 +41,8 @@ class PostHogClient {
             )
             PostHogClient.instance = this
             return this
+        } else {
+            this.client = PostHogClient.instance.client
         }
         return PostHogClient.instance
     }
