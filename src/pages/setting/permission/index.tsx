@@ -218,9 +218,12 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
         )
     }
     const queryKey = generateQueryKey()
-    const { data, isFetching } = useQuery(queryKey, ({ queryKey }) => {
-        const params = getArrayItem(queryKey, -1) as GetPermissionListRequest
-        return permissionService.getPermissionList(params)
+    const { data, isFetching } = useQuery({
+        queryKey,
+        queryFn: ({ queryKey }) => {
+            const params = getArrayItem(queryKey, -1) as GetPermissionListRequest
+            return permissionService.getPermissionList(params)
+        },
     })
     useEffect(() => {
         if (data) {
@@ -244,7 +247,9 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
             })
             setPagination(nextPagination)
             setQueryParams(nextQueryParams)
-            client.invalidateQueries(generateQueryKey(nextQueryParams))
+            client.invalidateQueries({
+                queryKey: generateQueryKey(nextQueryParams),
+            })
         },
         [client, generateQueryKey, keyword, pagination, queryParams],
     )

@@ -15,16 +15,15 @@ interface VerificationModalProps {
 const queryKey = ["captcha", "generate"]
 const defaultTime = 60
 const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHandle }) => {
-    const { data, isFetching, error } = useQuery(
+    const { data, isFetching, error } = useQuery({
         queryKey,
-        () => {
+        queryFn: () => {
             return captchaService.getSignUpCaptcha()
         },
-        {
-            cacheTime: 0,
-            enabled: visible,
-        },
-    )
+        cacheTime: 0,
+        enabled: visible,
+    })
+
     const alt = (error as Error)?.message ?? ""
     const client = useQueryClient()
     const [code, setCode] = useState("")
@@ -35,7 +34,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({ visible, finishHa
             clearTimeout(timer.current)
         }
         setTime(defaultTime)
-        client.invalidateQueries(queryKey)
+        client.invalidateQueries({ queryKey })
     }, [client])
     useEffect(() => {
         if (visible) {

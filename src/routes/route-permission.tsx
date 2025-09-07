@@ -35,19 +35,17 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         }
     }, [navigate, token, isNeedLogin, location])
 
-    const { data } = useQuery(
-        ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { location: location }],
-        () => {
+    const { data } = useQuery({
+        queryKey: ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { location: location }],
+        queryFn: () => {
             return Promise.all([
                 userService.getUserInfo(),
                 permissionService.getUserRouteAndMenuPermissions(),
             ])
         },
-        {
-            cacheTime: 0,
-            enabled: isNeedLogin && isString(token) && token !== "" && isNull(userInfo),
-        },
-    )
+        cacheTime: 0,
+        enabled: isNeedLogin && isString(token) && token !== "" && isNull(userInfo),
+    })
 
     // 设置用户账户&权限信息
     useEffect(() => {

@@ -90,15 +90,14 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
             },
         },
     )
-    const { data, isFetching } = useQuery<PermissionDetail>(
-        ["permission", "detail", { id: permissionId }],
-        () => {
+    const { data, isFetching } = useQuery<PermissionDetail>({
+        queryKey: ["permission", "detail", { id: permissionId }],
+        queryFn: () => {
             return permissionService.getPermisisonDetail({ id: permissionId! })
         },
-        {
-            enabled: visible && Boolean(permissionId),
-        },
-    )
+        enabled: visible && Boolean(permissionId),
+    })
+
     const [roles, setRoles] = useState<Array<PermissionDetailRole>>(data?.roles ?? [])
     useEffect(() => {
         if (data) {

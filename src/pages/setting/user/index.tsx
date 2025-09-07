@@ -173,9 +173,12 @@ const UserSetting: React.FC<UserSettingProps> = () => {
         },
         [queryParams],
     )
-    const { data, isFetching } = useQuery(generateQueryKey(), ({ queryKey }) => {
-        const params = getArrayItem(queryKey, -1) as GetUserListRequest
-        return userService.getUserList(params)
+    const { data, isFetching } = useQuery({
+        queryKey: generateQueryKey(),
+        queryFn: ({ queryKey }) => {
+            const params = getArrayItem(queryKey, -1) as GetUserListRequest
+            return userService.getUserList(params)
+        },
     })
     useEffect(() => {
         if (data) {
@@ -215,7 +218,7 @@ const UserSetting: React.FC<UserSettingProps> = () => {
             })
             setPagination(nextPagination)
             setQueryParams(nextQueryParams)
-            client.invalidateQueries(generateQueryKey(nextQueryParams))
+            client.invalidateQueries({ queryKey: generateQueryKey(nextQueryParams) })
         },
         [client, generateQueryKey, keyword, pagination, queryParams],
     )

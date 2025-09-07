@@ -74,15 +74,13 @@ const RoleEditor: React.FC<RoleEditorProps> = ({ visible, readonly, roleId, onOk
             },
         },
     )
-    const { data, isFetching } = useQuery<RoleDetail>(
-        ["role", "detail", { id: roleId }],
-        () => {
+    const { data, isFetching } = useQuery<RoleDetail>({
+        queryKey: ["role", "detail", { id: roleId }],
+        queryFn: () => {
             return roleService.getRoleDetail({ id: roleId! })
         },
-        {
-            enabled: visible && Boolean(roleId),
-        },
-    )
+        enabled: visible && Boolean(roleId),
+    })
     const [permissions, setPermissions] = useState<RoleDetailPermission[]>(data?.permissions ?? [])
     useEffect(() => {
         if (data) {

@@ -18,8 +18,11 @@ const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
     >({})
     const locale = system.useSystemConfigStore((state) => state.locale)
     useEffect(() => {
-        qc.fetchQuery(["provider", "intl"], () => {
-            return loadLocale(locale)
+        qc.fetchQuery({
+            queryKey: ["provider", "intl"],
+            queryFn: () => {
+                return loadLocale(locale)
+            },
         }).then(setIntlSetting)
     }, [qc, locale])
 
