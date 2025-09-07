@@ -1,9 +1,13 @@
 import useUser from "@/hooks/use-user"
+import { UserEvent } from "@/lib/posthog/event"
+import { user } from "@/store"
 import { Divider, Dropdown, Menu, Space } from "@arco-design/web-react"
 import { IconSettings, IconUser, IconPoweroff } from "@arco-design/web-react/icon"
 import { css } from "@emotion/react"
+import { usePostHog } from "posthog-js/react"
 import { FormattedMessage } from "react-intl"
 import { useNavigate } from "react-router-dom"
+import { useShallow } from "zustand/shallow"
 
 interface AccountMenuProps {}
 const AccountMenu: React.FC<AccountMenuProps> = () => {
@@ -11,6 +15,12 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
     const { logout } = useUser(null, null, () => {
         navigate("/login")
     })
+    const posthog = usePostHog()
+    const { email } = user.useLoginStore(
+        useShallow((state) => ({
+            email: state?.userInfo?.email,
+        })),
+    )
     const onClickMenuItemHandle = (key: string) => {
         switch (key) {
             case "profile":
@@ -21,6 +31,7 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
                 break
             case "logout":
                 logout()
+                posthog.capture(UserEvent.LOGOUT, { email: email })
                 break
         }
     }

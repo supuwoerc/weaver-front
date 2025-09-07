@@ -12,6 +12,8 @@ import md5 from "md5"
 import { appEnv } from "@/constant/system"
 import VerificationModal from "@/components/verification-modal"
 import { useTranslator } from "@/hooks/use-translator"
+import { usePostHog } from "posthog-js/react"
+import { UserEvent } from "@/lib/posthog/event"
 
 const FormItem = Form.Item
 
@@ -57,10 +59,12 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         form.clearFields()
         setSearchParams({ tab: isLogin ? TabType.signup : TabType.login })
     }
+    const posthog = usePostHog()
     const submitHandle = (v: FormData) => {
         v.password = md5(v.password)
         if (isLogin) {
             login(v)
+            posthog.capture(UserEvent.LOGIN, { email: v.email })
         } else {
             setVisible(true)
         }
@@ -75,6 +79,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
             email,
         }
         signup(params)
+        posthog.capture(UserEvent.SIGNUP, { email: params.email })
     }
     useEffect(() => {
         if (appEnv.DEV && isLogin) {

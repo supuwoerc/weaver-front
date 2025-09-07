@@ -1,6 +1,6 @@
-import posthog, { PostHog, PostHogConfig, Properties } from "posthog-js" // 核心库
+import posthog, { PostHog, PostHogConfig } from "posthog-js" // 核心库
 import { appEnv } from "@/constant/system"
-import { getEventCategory, PostHogEvent } from "./event"
+import { beforeSend } from "./before-send"
 
 export interface PostHogClientConfig {
     token: string
@@ -14,30 +14,35 @@ export interface User {
 }
 
 class PostHogClient {
-    private client: PostHog
+    private client: PostHog | null = null
 
     private env: ImportMetaEnv["VITE_APP_ENV"] = appEnv.VITE_APP_ENV
-
-    private user: User | null = null
 
     private static instance: PostHogClient
 
     constructor(config: PostHogClientConfig) {
-        this.client = posthog.init(
-            config.token,
-            {
-                ...config.config,
-                defaults: config.config.defaults ?? "2025-05-24",
-                loaded: (instance) => {
-                    config.config.loaded?.(instance)
-                    instance.register({ env: this.env })
-                    if (this.env === "dev") {
-                        instance.debug(true)
-                    }
+        if (!PostHogClient.instance) {
+            this.client = posthog.init(
+                config.token,
+                {
+                    ...config.config,
+                    defaults: config.config.defaults ?? "2025-05-24",
+                    loaded: (instance) => {
+                        config.config.loaded?.(instance)
+                        instance.register({ env: this.env })
+                        if (this.env === "dev") {
+                            instance.debug(true)
+                        }
+                    },
+                    before_send: beforeSend,
+                    autocapture: false,
                 },
-            },
-            config?.name,
-        )
+                config?.name,
+            )
+            PostHogClient.instance = this
+            return this
+        }
+        return PostHogClient.instance
     }
 
     public static getInstance(config?: PostHogClientConfig): PostHogClient {
@@ -53,46 +58,6 @@ class PostHogClient {
 
     public getClient() {
         return this.client
-    }
-
-    // 设置用户身份
-    public identify(user: User) {
-        this.client.identify(user.email, user)
-    }
-
-    // 保持数据收集，但清除用户身份
-    public reset(reset_device_id = true) {
-        this.client.reset(reset_device_id)
-    }
-
-    // 停止数据收集，但保持用户身份
-    public optOutCapturing() {
-        if (this.client.has_opted_in_capturing()) {
-            this.client.opt_out_capturing()
-        }
-    }
-
-    // 开始数据收集
-    public optInCapturing() {
-        if (this.client.has_opted_in_capturing()) {
-            this.client.opt_in_capturing()
-        }
-    }
-
-    // 事件捕获
-    public capture(name: PostHogEvent, properties?: Properties | null) {
-        const props = {
-            ...properties,
-            user: this.user,
-            type: getEventCategory(name),
-            distinct_id: this.client.get_distinct_id(),
-        }
-        this.client.capture(name, props)
-    }
-
-    // 手动捕获异常
-    public captureException(error: unknown, additionalProperties?: Properties) {
-        this.client.captureException(error, additionalProperties)
     }
 }
 

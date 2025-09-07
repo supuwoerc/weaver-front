@@ -1,6 +1,7 @@
 import { languageList } from "@/constant/language-select"
 import { SystemLocale } from "@/constant/system"
 import loadLocale from "@/lib/intl"
+import { SystemSettingEvent } from "@/lib/posthog/event"
 import { system } from "@/store"
 import { getIntl } from "@/utils"
 import { Button, Dropdown, Menu, Message } from "@arco-design/web-react"
@@ -17,8 +18,9 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
     const posthog = usePostHog()
     const onSelectHandle = (key: string) => {
         if (locale !== (key as SystemLocale)) {
-            posthog.capture("")
+            posthog.capture(SystemSettingEvent.LANGUAGE_SELECT, { locale: key })
             system.setSystemLocale(key as SystemLocale)
+
             loadLocale(key as SystemLocale).then(({ mapping, locale }) => {
                 const intl = getIntl(locale, mapping!)
                 const label = key === SystemLocale.CN ? "中文" : "English"

@@ -1,3 +1,5 @@
+import { CaptureResult } from "posthog-js"
+
 export const SystemSettingEvent = {
     LANGUAGE_SELECT: "system.language_select",
     THEME_SELECT: "system.theme_select",
@@ -5,9 +7,9 @@ export const SystemSettingEvent = {
 } as const
 
 export const UserEvent = {
+    SIGNUP: "user.signup",
     LOGIN: "user.login",
     LOGOUT: "user.logout",
-    RESET_PASSWORD: "user.reset_password",
 } as const
 
 // 类型定义
@@ -18,8 +20,12 @@ export type UserEvent = (typeof UserEvent)[keyof typeof UserEvent]
 export type PostHogEvent = SystemSettingEvent | UserEvent
 
 // 获取事件分类
-export const getEventCategory = (event: PostHogEvent): string => {
-    if (event in SystemSettingEvent) return "system"
-    if (event in UserEvent) return "user"
-    return "unknown"
+export const getEventCategory = (event: CaptureResult["event"] | PostHogEvent): string | null => {
+    if (Object.values(SystemSettingEvent).includes(event as SystemSettingEvent)) {
+        return "system"
+    }
+    if (Object.values(UserEvent).includes(event as UserEvent)) {
+        return "user"
+    }
+    return null
 }

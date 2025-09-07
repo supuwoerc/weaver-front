@@ -5,6 +5,8 @@ import { Space } from "@arco-design/web-react"
 import ThemeSelect from "@/components/theme-select"
 import { IconMenuFold, IconMenuUnfold } from "@arco-design/web-react/icon"
 import { system } from "@/store"
+import { usePostHog } from "posthog-js/react"
+import { SystemSettingEvent } from "@/lib/posthog/event"
 
 interface NavbarProps {}
 
@@ -13,11 +15,17 @@ const Navbar: React.FC<NavbarProps> = () => {
     const props = {
         fontSize: 20,
     }
+    const posthog = usePostHog()
     return (
         <NavbarContainer>
             <div
                 className="trigger"
-                onClick={() => system.setSystemSidebarCollapsed(!sidebarCollapsed)}
+                onClick={() => {
+                    system.setSystemSidebarCollapsed(!sidebarCollapsed)
+                    posthog.capture(SystemSettingEvent.SIDEBAR_COLLAPSE, {
+                        collapsed: !sidebarCollapsed,
+                    })
+                }}
             >
                 {!sidebarCollapsed ? <IconMenuFold {...props} /> : <IconMenuUnfold {...props} />}
             </div>

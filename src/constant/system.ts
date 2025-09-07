@@ -70,7 +70,7 @@ export enum systemEvent {
 
 export const systemEventEmitter = new EventEmitter()
 
-export const postHogClient = new PostHogClient({
+export const postHogClient = PostHogClient.getInstance({
     token: appEnv.VITE_APP_POSTHOG_KEY,
     config: {
         api_host: appEnv.VITE_APP_POSTHOG_HOST,

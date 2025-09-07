@@ -9,6 +9,7 @@ import { isString } from "@supuwoerc/utils"
 import { useShallow } from "zustand/shallow"
 import { AuthType } from "@/constant/router"
 import { isNull } from "lodash-es"
+import { usePostHog } from "posthog-js/react"
 
 interface RoutePermissionProps {}
 
@@ -47,18 +48,24 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         enabled: isNeedLogin && isString(token) && token !== "" && isNull(userInfo),
     })
 
+    const posthog = usePostHog()
+
     // 设置用户账户&权限信息
     useEffect(() => {
         if (data && data.length === 2) {
             const [userInfo, permissions] = data
             if (userInfo) {
                 user.setUserInfo(userInfo)
+                posthog.identify(userInfo.email, {
+                    id: userInfo.id,
+                    email: userInfo.email,
+                })
             }
             if (permissions) {
                 permission.setPermissions(permissions)
             }
         }
-    }, [data])
+    }, [data, posthog])
 
     if (!isNeedLogin || !isNull(userInfo)) {
         return <>{children}</>
