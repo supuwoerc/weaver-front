@@ -79,7 +79,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     useEffect(() => {
         if (appEnv.DEV && isLogin) {
             form.setFieldValue("email", "2293172479@qq.com")
-            form.setFieldValue("password", "_Admin123")
+            form.setFieldValue("password", "_Abc111111")
         }
     }, [form, isLogin])
     useEffect(() => {
@@ -139,6 +139,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
                 </FormItem>
                 <FormItem
                     field="password"
+                    className={"ph-no-capture ph-no-capture "} // posthog ignore element
                     rules={[
                         {
                             validator(value, callback) {

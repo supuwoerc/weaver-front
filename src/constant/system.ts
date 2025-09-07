@@ -1,6 +1,7 @@
 import { getAppEnv } from "@/utils"
 import { NavigateFunction } from "react-router-dom"
 import EventEmitter from "eventemitter3"
+import PostHogClient from "@/lib/posthog"
 
 export enum SystemLocale {
     CN = "CN",
@@ -68,3 +69,10 @@ export enum systemEvent {
 }
 
 export const systemEventEmitter = new EventEmitter()
+
+export const postHogClient = new PostHogClient({
+    token: appEnv.VITE_APP_POSTHOG_KEY,
+    config: {
+        api_host: appEnv.VITE_APP_POSTHOG_HOST,
+    },
+})
