@@ -5,6 +5,7 @@ import { system } from "@/store"
 import { getIntl } from "@/utils"
 import { Button, Dropdown, Menu, Message } from "@arco-design/web-react"
 import { IconLanguage } from "@arco-design/web-react/icon"
+import { usePostHog } from "posthog-js/react"
 import { CSSProperties } from "react"
 
 interface LanguageSelectProps {
@@ -13,8 +14,10 @@ interface LanguageSelectProps {
 
 const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
     const locale = system.useSystemConfigStore((state) => state.locale)
+    const posthog = usePostHog()
     const onSelectHandle = (key: string) => {
         if (locale !== (key as SystemLocale)) {
+            posthog.capture("")
             system.setSystemLocale(key as SystemLocale)
             loadLocale(key as SystemLocale).then(({ mapping, locale }) => {
                 const intl = getIntl(locale, mapping!)

@@ -1,5 +1,6 @@
 import posthog, { PostHog, PostHogConfig, Properties } from "posthog-js" // 核心库
 import { appEnv } from "@/constant/system"
+import { getEventCategory, PostHogEvent } from "./event"
 
 export interface PostHogClientConfig {
     token: string
@@ -79,12 +80,14 @@ class PostHogClient {
     }
 
     // 事件捕获
-    public capture(event: { name: string; properties?: Record<string, any> }) {
-        this.client.capture(event.name, {
-            ...event.properties,
+    public capture(name: PostHogEvent, properties?: Properties | null) {
+        const props = {
+            ...properties,
             user: this.user,
+            type: getEventCategory(name),
             distinct_id: this.client.get_distinct_id(),
-        })
+        }
+        this.client.capture(name, props)
     }
 
     // 手动捕获异常
