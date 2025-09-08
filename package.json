@@ -2,7 +2,7 @@
     "name": "weaver-front",
     "private": true,
     "description": "weaver-front",
-    "version": "0.0.0",
+    "version": "0.0.1-alpha.0",
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
