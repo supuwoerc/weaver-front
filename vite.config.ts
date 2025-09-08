@@ -7,12 +7,11 @@ import path from "path"
 import eslint from "vite-plugin-eslint"
 import { loadEnv } from "vite"
 import svgr from "vite-plugin-svgr"
-import cdnSetting from "./setting"
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
     const env = loadEnv(mode, process.cwd())
-    const base = cdnSetting[env.VITE_APP_ENV]
+    const base = env.VITE_APP_BASE
     return defineConfig({
         // vitest只做组件的单元测试,页面的测试由cypress完成
         test: {
