@@ -2,7 +2,7 @@
     "name": "weaver-front",
     "private": true,
     "description": "weaver-front",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
@@ -17,7 +17,19 @@
         "test:staged": "vitest --run",
         "cy:open": "cypress open",
         "coverage": "vitest run --coverage",
-        "release": "release-it"
+        "release": "release-it",
+        "release:major": "release-it major",
+        "release:major:alpha": "release-it major --preRelease=alpha",
+        "release:major:beta": "release-it major --preRelease=beta",
+        "release:major:rc": "release-it major --preRelease=rc",
+        "release:minor": "release-it major",
+        "release:minor:alpha": "release-it minor --preRelease=alpha",
+        "release:minor:beta": "release-it minor --preRelease=beta",
+        "release:minor:rc": "release-it minor --preRelease=rc",
+        "release:patch": "release-it patch",
+        "release:patch:alpha": "release-it patch --preRelease=alpha",
+        "release:patch:beta": "release-it patch --preRelease=beta",
+        "release:patch:rc": "release-it patch --preRelease=rc"
     },
     "lint-staged": {
         "*.{jsx,ts,tsx}": [
