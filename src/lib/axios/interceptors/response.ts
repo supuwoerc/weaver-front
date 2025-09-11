@@ -10,7 +10,6 @@ import {
 } from "@/constant/system"
 import userService from "@/service/user"
 import { user } from "@/store"
-import { isError } from "lodash-es"
 import { localeKey, tokenKey } from "@/constant/axios"
 import { buildToken } from "./request"
 
@@ -57,14 +56,10 @@ const refreshTokenHandle = (client: WrapAxiosInstance, config: InternalAxiosRequ
                     requests = []
                     return retry
                 } else {
-                    return Promise.reject(data.message)
+                    return invalidTokenHandle(data.message)
                 }
             })
             .catch((err) => {
-                const msg = isError(err) ? err.message : err
-                requests.forEach((cb) => cb("", msg))
-                requests = []
-                systemEventEmitter.emit(systemEvent.InvalidToken)
                 return Promise.reject(err)
             })
             .finally(() => {
