@@ -1,5 +1,5 @@
 import { lazy } from "react"
-import { cloneDeep, isString } from "lodash-es"
+import { cloneDeep, isEqual, isString } from "lodash-es"
 import { create } from "zustand"
 import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
 import routes from "@/routes/config"
@@ -16,6 +16,8 @@ const NotFound = lazy(() => import("@/pages/404/index"))
 const DefaultLayout = lazy(() => import("@/layout/default/index"))
 
 type TSystemRouteStore = {
+    _isLogin: boolean
+    _permissions: Array<UserPermission>
     menuRoutes: CustomRouteObject[]
     syncPermissionRoutes: CustomRouteObject[]
 }
@@ -71,13 +73,24 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
     return { syncMenus, syncPermissionRoutes }
 }
 
-export const useSystemRouteStore = create<TSystemRouteStore>()((set) => {
+export const useSystemRouteStore = create<TSystemRouteStore>()((set, get) => {
     const generateRoutes = () => {
         const token = useLoginStore.getState().token
         const isLogin = isString(token) && token !== ""
         const permissions = usePermissionStore.getState().permissions
         const { syncMenus, syncPermissionRoutes } = processPermissions(isLogin, permissions)
-        return { menuRoutes: syncMenus, syncPermissionRoutes }
+        const prevState = get()
+        const preIsLogin = prevState?._isLogin
+        const prePermissions = prevState?._permissions
+        if (preIsLogin === isLogin && isEqual(prePermissions, permissions)) {
+            return prevState
+        }
+        return {
+            _isLogin: isLogin,
+            _permissions: permissions,
+            menuRoutes: syncMenus,
+            syncPermissionRoutes,
+        }
     }
 
     const initialState = generateRoutes()
