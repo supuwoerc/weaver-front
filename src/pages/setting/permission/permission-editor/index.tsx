@@ -9,6 +9,7 @@ import {
     Empty,
     Alert,
     Select,
+    Button,
 } from "@arco-design/web-react"
 import FormItem from "@arco-design/web-react/es/Form/form-item"
 import { useEffect, useState } from "react"
@@ -29,6 +30,7 @@ interface PermissionEditorProps {
     visible: boolean
     readonly: boolean
     permissionId?: number
+    onEdit?: () => void
     onOk?: () => void
     onCancel?: () => void
 }
@@ -36,6 +38,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
     visible,
     readonly,
     permissionId,
+    onEdit,
     onOk,
     onCancel,
 }) => {
@@ -146,7 +149,13 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
                 setRoles([])
             }}
             confirmLoading={confirmLoading}
-            footer={readonly ? null : undefined}
+            footer={
+                readonly ? (
+                    <Button type="primary" onClick={onEdit}>
+                        <FormattedMessage id="common.edit" />
+                    </Button>
+                ) : undefined
+            }
         >
             <Spin loading={Boolean(permissionId) && isFetching} style={{ width: "100%" }}>
                 <Form form={form} layout="vertical">

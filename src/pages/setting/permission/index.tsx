@@ -118,6 +118,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                 {
                     title: intlMapping.columnOperation,
                     dataIndex: "operation",
+                    width: 150,
                     render: (_, item: PermissionListRow) => (
                         <Space>
                             <Button
@@ -127,14 +128,6 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                                 onClick={() => detailHandle(item.id)}
                             >
                                 <FormattedMessage id="common.detail" />
-                            </Button>
-                            <Button
-                                type="outline"
-                                shape="round"
-                                size="mini"
-                                onClick={() => editHandle(item.id)}
-                            >
-                                <FormattedMessage id="common.edit" />
                             </Button>
                             <Button
                                 type="outline"
@@ -166,11 +159,6 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
     const detailHandle = (id: number) => {
         setPermissionId(id)
         setReadonly(true)
-        setVisible(true)
-    }
-    const editHandle = (id: number) => {
-        setPermissionId(id)
-        setReadonly(false)
         setVisible(true)
     }
     const [pagination, setPagination] = useState<PaginationProps>({
@@ -310,6 +298,9 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                     visible={visible}
                     readonly={readonly}
                     permissionId={permissionId}
+                    onEdit={() => {
+                        setReadonly(false)
+                    }}
                     onOk={() => {
                         setPermissionId(undefined)
                         setReadonly(false)
