@@ -68,10 +68,6 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         setReadonly(true)
         setVisible(true)
     }
-    const editHandle = (id: number) => {
-        setRoleId(id)
-        setVisible(true)
-    }
     const columns = useMemo<TableColumnProps<RoleListRow>[]>(() => {
         const result: TableColumnProps<RoleListRow>[] = [
             {
@@ -102,6 +98,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                 {
                     title: intlMapping.columnOperation,
                     dataIndex: "operation",
+                    width: 150,
                     render: (_, item: RoleListRow) => (
                         <Space>
                             <Button
@@ -111,14 +108,6 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                                 onClick={() => detailHandle(item.id)}
                             >
                                 <FormattedMessage id="common.detail" />
-                            </Button>
-                            <Button
-                                type="outline"
-                                shape="round"
-                                size="mini"
-                                onClick={() => editHandle(item.id)}
-                            >
-                                <FormattedMessage id="common.edit" />
                             </Button>
                             <Button
                                 type="outline"
@@ -291,6 +280,9 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                         setRoleId(undefined)
                         setReadonly(false)
                         setVisible(false)
+                    }}
+                    onEdit={() => {
+                        setReadonly(false)
                     }}
                 />
             )}

@@ -7,6 +7,7 @@ import {
 } from "@/service/role"
 import {
     Alert,
+    Button,
     Drawer,
     Empty,
     Form,
@@ -27,10 +28,18 @@ interface RoleEditorProps {
     visible: boolean
     readonly: boolean
     roleId?: number
+    onEdit?: () => void
     onOk?: () => void
     onCancel?: () => void
 }
-const RoleEditor: React.FC<RoleEditorProps> = ({ visible, readonly, roleId, onOk, onCancel }) => {
+const RoleEditor: React.FC<RoleEditorProps> = ({
+    visible,
+    readonly,
+    roleId,
+    onEdit,
+    onOk,
+    onCancel,
+}) => {
     const intlMapping = useTranslator({
         modalTitleDetail: "role.modal.title.detail",
         modalTitleAdd: "role.modal.title.add",
@@ -128,7 +137,13 @@ const RoleEditor: React.FC<RoleEditorProps> = ({ visible, readonly, roleId, onOk
                 setPermissions([])
             }}
             confirmLoading={confirmLoading}
-            footer={readonly ? null : undefined}
+            footer={
+                readonly ? (
+                    <Button type="primary" onClick={onEdit}>
+                        <FormattedMessage id="common.edit" />
+                    </Button>
+                ) : undefined
+            }
         >
             <Spin loading={Boolean(roleId) && isFetching} style={{ width: "100%" }}>
                 <Form form={form} layout="vertical">
