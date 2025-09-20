@@ -1,43 +1,44 @@
 import { ConfigProvider } from "@arco-design/web-react"
 import Intl from "./intl"
 import { BrowserRouter } from "react-router-dom"
-import { PropsWithChildren, useEffect, useState } from "react"
+import { PropsWithChildren } from "react"
 import loadLocale from "@/lib/intl"
 import { system } from "@/store"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { getIntl } from "@/utils"
 import { NuqsAdapter } from "nuqs/adapters/react"
 import { TransitionProvider } from "./transition"
+import { useNetworkState } from "react-use"
+import Offline from "@/components/offline"
 
 interface UnderlayProps {}
 
 const Underlay: React.FC<PropsWithChildren<UnderlayProps>> = ({ children }) => {
-    const qc = useQueryClient()
-    const [intlSetting, setIntlSetting] = useState<
-        Partial<ThenType<ReturnType<typeof loadLocale>>>
-    >({})
     const locale = system.useSystemConfigStore((state) => state.locale)
-    useEffect(() => {
-        qc.fetchQuery({
-            queryKey: ["provider", "intl"],
-            queryFn: () => {
-                return loadLocale(locale)
-            },
-        }).then(setIntlSetting)
-    }, [qc, locale])
+    const networkState = useNetworkState()
+    const { data, isFetching } = useQuery({
+        queryKey: ["provider", "intl", { locale: locale }],
+        queryFn: () => {
+            return loadLocale(locale)
+        },
+    })
 
-    const isLoaded = intlSetting.arcoLocale && intlSetting.locale && intlSetting.mapping
-    if (!isLoaded) {
+    const isLoaded = data && data.arcoLocale && data.locale && data.mapping
+    if (isFetching || !isLoaded) {
         return null
     }
-    const intlInstance = getIntl(intlSetting.locale!, intlSetting.mapping!)
+    const intlInstance = getIntl(data!.locale!, data!.mapping!)
 
     return (
-        <ConfigProvider locale={intlSetting.arcoLocale}>
+        <ConfigProvider locale={data?.arcoLocale}>
             <Intl locale={intlInstance.locale} messages={intlInstance.messages}>
                 <NuqsAdapter>
                     <TransitionProvider>
-                        <BrowserRouter>{children}</BrowserRouter>
+                        {!networkState.online ? (
+                            <Offline />
+                        ) : (
+                            <BrowserRouter>{children}</BrowserRouter>
+                        )}
                     </TransitionProvider>
                 </NuqsAdapter>
             </Intl>

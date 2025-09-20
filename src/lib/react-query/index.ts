@@ -7,11 +7,13 @@ export const generateQueryConfig = (onError: (err: unknown) => void): DefaultOpt
             refetchOnWindowFocus: false,
             retry: false,
             onError: onError,
+            networkMode: "offlineFirst",
         },
         mutations: {
             useErrorBoundary: false,
             retry: false,
             onError: onError,
+            networkMode: "offlineFirst",
         },
     }
 }
