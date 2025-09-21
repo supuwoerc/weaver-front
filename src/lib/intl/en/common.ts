@@ -29,6 +29,8 @@ const enUS: SystemLocaleMapping = {
     "common.table.created_at": "Created at",
     "common.table.updated_at": "Updated at",
     "common.table.operation": "Operation",
+
+    "common.colon": ":",
 }
 
 export default enUS

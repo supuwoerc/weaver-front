@@ -29,6 +29,8 @@ const zhCN: SystemLocaleMapping = {
     "common.table.created_at": "创建时间",
     "common.table.updated_at": "更新时间",
     "common.table.operation": "操作",
+
+    "common.colon": "：",
 }
 
 export default zhCN
