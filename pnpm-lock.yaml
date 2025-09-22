@@ -135,6 +135,9 @@ importers:
       '@release-it/conventional-changelog':
         specifier: ^8.0.1
         version: 8.0.2(release-it@17.11.0(typescript@5.8.3))
+      '@tanstack/eslint-plugin-query':
+        specifier: ^4.39.1
+        version: 4.39.1(eslint@8.57.1)
       '@testing-library/dom':
         specifier: ^10.4.0
         version: 10.4.1
@@ -1418,6 +1421,11 @@ packages:
     engines: {node: '>=14'}
     peerDependencies:
       '@svgr/core': '*'
+
+  '@tanstack/eslint-plugin-query@4.39.1':
+    resolution: {integrity: sha512-5YDX4mdRC0hllHKp531CnScFWZU7aFrJ1aTyyuaB6+z0/i0JfcKuckSTYaji3vUk82GALM90eWwHFVRAch+7tQ==}
+    peerDependencies:
+      eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
 
   '@tanstack/match-sorter-utils@8.19.4':
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
@@ -6170,6 +6178,10 @@ snapshots:
       svg-parser: 2.0.4
     transitivePeerDependencies:
       - supports-color
+
+  '@tanstack/eslint-plugin-query@4.39.1(eslint@8.57.1)':
+    dependencies:
+      eslint: 8.57.1
 
   '@tanstack/match-sorter-utils@8.19.4':
     dependencies:

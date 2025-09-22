@@ -12,6 +12,7 @@ module.exports = {
         "plugin:react-hooks/recommended",
         "plugin:prettier/recommended", //  引入prettier规则,避免产生冲突
         "plugin:jest-dom/recommended",
+        "plugin:@tanstack/eslint-plugin-query/recommended", // react-query的推荐规则
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
@@ -21,7 +22,7 @@ module.exports = {
         ecmaVersion: "latest",
         sourceType: "module",
     },
-    plugins: ["react-refresh", "jest-dom"],
+    plugins: ["react-refresh", "jest-dom", "@tanstack/query"],
     rules: {
         "@typescript-eslint/no-unused-vars": ["off"],
         semi: "off",
