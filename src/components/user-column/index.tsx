@@ -17,17 +17,17 @@ const UserColumn: FC<UserColumnProps> = ({ avatar, nickname, email, departments 
             title={<FormattedMessage id="user.infoEditor.info.title" />}
             content={
                 <div>
-                    <p>
+                    <div>
                         <FormattedMessage id="user.infoEditor.form.nickname" />
                         <FormattedMessage id="common.colon" />
                         <span>{nickname || emptyPlaceholder}</span>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <FormattedMessage id="user.infoEditor.form.email" />
                         <FormattedMessage id="common.colon" />
                         <span>{email || emptyPlaceholder}</span>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <FormattedMessage id="user.table.column.dept" />
                         <FormattedMessage id="common.colon" />
                         <Space>
@@ -39,7 +39,7 @@ const UserColumn: FC<UserColumnProps> = ({ avatar, nickname, email, departments 
                                   ))
                                 : emptyPlaceholder}
                         </Space>
-                    </p>
+                    </div>
                 </div>
             }
         >
