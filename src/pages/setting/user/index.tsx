@@ -19,6 +19,9 @@ import { useTranslator } from "@/hooks/use-translator"
 import UserEditor from "./user-editor"
 import userService, { GetUserListRequest, UserListRow } from "@/service/user"
 import { emptyPlaceholder } from "@/constant/system"
+import { UserStatus, UserStatusColorMap, UserStatusOptions } from "@/constant/user"
+import { useOptionsTranslator } from "@/hooks/use-options-translator"
+import { keyBy } from "lodash-es"
 
 const Row = Grid.Row
 const Col = Grid.Col
@@ -34,6 +37,7 @@ const UserSetting: React.FC<UserSettingProps> = () => {
         columnAvatar: "user.table.column.avatar",
         columnName: "user.table.column.name",
         columnEmail: "user.table.column.email",
+        columnStatus: "user.table.column.status",
         columnRoles: "user.table.column.roles",
         columnDept: "user.table.column.dept",
         columnOperation: "common.table.operation",
@@ -48,6 +52,10 @@ const UserSetting: React.FC<UserSettingProps> = () => {
         setUserId(id)
         setVisible(true)
     }
+    const userStatusOptions = useOptionsTranslator<UserStatus>(UserStatusOptions)
+    const userStatusOptionMap = useMemo(() => {
+        return keyBy(userStatusOptions, "value")
+    }, [userStatusOptions])
     const columns = useMemo<TableColumnProps<UserListRow>[]>(() => {
         const result: TableColumnProps<UserListRow>[] = [
             {
@@ -74,6 +82,15 @@ const UserSetting: React.FC<UserSettingProps> = () => {
             {
                 title: intlMapping.columnEmail,
                 dataIndex: "email",
+            },
+            {
+                title: intlMapping.columnStatus,
+                dataIndex: "status",
+                render: (status) => (
+                    <Tag color={UserStatusColorMap.get(status)}>
+                        {userStatusOptionMap[status]?.label || emptyPlaceholder}
+                    </Tag>
+                ),
             },
             {
                 title: intlMapping.columnRoles,
@@ -141,7 +158,7 @@ const UserSetting: React.FC<UserSettingProps> = () => {
             },
         ]
         return result
-    }, [intlMapping])
+    }, [intlMapping, userStatusOptionMap])
     const [pagination, setPagination] = useState<PaginationProps>({
         sizeCanChange: true,
         showTotal: true,

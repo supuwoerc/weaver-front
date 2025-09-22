@@ -16,3 +16,8 @@ type PageRequest = {
     limit: number
     offset: number
 }
+
+type ColorOption<T> = {
+    value: T
+    color: string
+}

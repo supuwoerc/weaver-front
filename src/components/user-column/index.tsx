@@ -11,7 +11,7 @@ interface UserColumnProps {
     departments?: Array<string> | null
 }
 
-const UserColumn: FC<UserColumnProps> = ({ avatar, nickname, email, departments = ["ABC"] }) => {
+const UserColumn: FC<UserColumnProps> = ({ avatar, nickname, email, departments }) => {
     return (
         <Popover
             title={<FormattedMessage id="user.infoEditor.info.title" />}

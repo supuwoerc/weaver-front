@@ -22,6 +22,10 @@ const enUS: SystemLocaleMapping = {
     "user.table.column.email": "Email",
     "user.table.column.roles": "Roles",
     "user.table.column.dept": "Departments",
+    "user.table.column.status": "Status",
+    "user.status.inactive": "Inactive",
+    "user.status.normal": "Normal",
+    "user.status.disabled": "Disbaled",
 }
 
 export default enUS

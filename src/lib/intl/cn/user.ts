@@ -22,6 +22,10 @@ const zhCN: SystemLocaleMapping = {
     "user.table.column.email": "邮箱",
     "user.table.column.roles": "角色",
     "user.table.column.dept": "部门",
+    "user.table.column.status": "状态",
+    "user.status.inactive": "未激活",
+    "user.status.normal": "正常",
+    "user.status.disabled": "禁用",
 }
 
 export default zhCN
