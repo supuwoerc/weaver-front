@@ -15,7 +15,6 @@ import { FormattedMessage } from "react-intl"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
-import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/use-translator"
 import CommonSettingContainer from "@/components/common-setting-container"
 import PermissionEditor from "./permission-editor"
@@ -57,7 +56,8 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
         tips: "common.tips",
         deleteTips: "common.delete.tips",
     })
-    const deleteHandle = useMutation(permissionService.deletePermission, {
+    const deleteHandle = useMutation({
+        mutationFn: permissionService.deletePermission,
         onMutate() {
             setTableLoading(true)
         },
@@ -185,8 +185,8 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                 {
                     ...queryParams,
                     ...patch,
-                },
-            ]
+                } as GetPermissionListRequest,
+            ] as const
         },
         [queryParams],
     )
@@ -209,8 +209,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
     const { data, isFetching } = useQuery({
         queryKey,
         queryFn: ({ queryKey }) => {
-            const params = getArrayItem(queryKey, -1) as GetPermissionListRequest
-            return permissionService.getPermissionList(params)
+            return permissionService.getPermissionList(queryKey[3])
         },
     })
     useEffect(() => {

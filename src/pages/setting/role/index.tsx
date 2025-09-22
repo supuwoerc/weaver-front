@@ -16,7 +16,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import roleService, { GetRoleListRequest, RoleListRow } from "@/service/role"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
-import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/use-translator"
 import RoleEditor from "./role-editor"
 import UserColumn from "@/components/user-column"
@@ -51,7 +50,8 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
         deleteTips: "common.delete.tips",
         columnOperator: "common.table.operator",
     })
-    const deleteHandle = useMutation(roleService.deleteRole, {
+    const deleteHandle = useMutation({
+        mutationFn: roleService.deleteRole,
         onMutate() {
             setTableLoading(true)
         },
@@ -160,16 +160,15 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                 {
                     ...queryParams,
                     ...patch,
-                },
-            ]
+                } as GetRoleListRequest,
+            ] as const
         },
         [queryParams],
     )
     const { data, isFetching } = useQuery({
         queryKey: generateQueryKey(),
         queryFn: ({ queryKey }) => {
-            const params = getArrayItem(queryKey, -1) as GetRoleListRequest
-            return roleService.getRoleList(params)
+            return roleService.getRoleList(queryKey[3])
         },
     })
     useEffect(() => {

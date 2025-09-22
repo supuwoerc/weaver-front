@@ -68,31 +68,29 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
     )
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm<CreatePermissionRequest | UpdatePermissionRequest>()
-    const upsertHandle = useMutation(
-        (params: CreatePermissionRequest | UpdatePermissionRequest) => {
+    const upsertHandle = useMutation({
+        mutationFn: (params: CreatePermissionRequest | UpdatePermissionRequest) => {
             if ("id" in params) {
                 return permissionService.updatePermission(params)
             }
             return permissionService.createPermission(params)
         },
-        {
-            onMutate() {
-                setConfirmLoading(true)
-            },
-            onSuccess(_, variables) {
-                onOk?.()
-                form.clearFields()
-                if ("id" in variables) {
-                    Message.success(intlMapping.updateSuccess)
-                } else {
-                    Message.success(intlMapping.addSuccess)
-                }
-            },
-            onSettled() {
-                setConfirmLoading(false)
-            },
+        onMutate() {
+            setConfirmLoading(true)
         },
-    )
+        onSuccess(_, variables) {
+            onOk?.()
+            form.clearFields()
+            if ("id" in variables) {
+                Message.success(intlMapping.updateSuccess)
+            } else {
+                Message.success(intlMapping.addSuccess)
+            }
+        },
+        onSettled() {
+            setConfirmLoading(false)
+        },
+    })
     const { data, isFetching } = useQuery<PermissionDetail>({
         queryKey: ["permission", "detail", { id: permissionId }],
         queryFn: () => {

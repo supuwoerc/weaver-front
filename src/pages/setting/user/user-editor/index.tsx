@@ -49,31 +49,29 @@ const RoleEditor: React.FC<RoleEditorProps> = ({ visible, readonly, roleId, onOk
     })
     const [confirmLoading, setConfirmLoading] = useState(false)
     const [form] = Form.useForm()
-    const upsertHandle = useMutation(
-        (params: CreateRoleRequest | UpdateRoleRequest) => {
+    const upsertHandle = useMutation({
+        mutationFn: (params: CreateRoleRequest | UpdateRoleRequest) => {
             if ("id" in params) {
                 return roleService.updateRole(params)
             }
             return roleService.createRole(params)
         },
-        {
-            onMutate() {
-                setConfirmLoading(true)
-            },
-            onSuccess(_, variables) {
-                onOk?.()
-                form.clearFields()
-                if ("id" in variables) {
-                    Message.success(intlMapping.updateSuccess)
-                } else {
-                    Message.success(intlMapping.addSuccess)
-                }
-            },
-            onSettled() {
-                setConfirmLoading(false)
-            },
+        onMutate() {
+            setConfirmLoading(true)
         },
-    )
+        onSuccess(_, variables) {
+            onOk?.()
+            form.clearFields()
+            if ("id" in variables) {
+                Message.success(intlMapping.updateSuccess)
+            } else {
+                Message.success(intlMapping.addSuccess)
+            }
+        },
+        onSettled() {
+            setConfirmLoading(false)
+        },
+    })
     const { data, isFetching } = useQuery<RoleDetail>({
         queryKey: ["role", "detail", { id: roleId }],
         queryFn: () => {

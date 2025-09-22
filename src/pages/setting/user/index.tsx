@@ -15,7 +15,6 @@ import { FormattedMessage } from "react-intl"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Grid } from "@arco-design/web-react"
 import { produce } from "immer"
-import { getArrayItem } from "@supuwoerc/utils"
 import { useTranslator } from "@/hooks/use-translator"
 import UserEditor from "./user-editor"
 import userService, { GetUserListRequest, UserListRow } from "@/service/user"
@@ -168,16 +167,15 @@ const UserSetting: React.FC<UserSettingProps> = () => {
                 {
                     ...queryParams,
                     ...patch,
-                },
-            ]
+                } as GetUserListRequest,
+            ] as const
         },
         [queryParams],
     )
     const { data, isFetching } = useQuery({
         queryKey: generateQueryKey(),
         queryFn: ({ queryKey }) => {
-            const params = getArrayItem(queryKey, -1) as GetUserListRequest
-            return userService.getUserList(params)
+            return userService.getUserList(queryKey[3])
         },
     })
     useEffect(() => {

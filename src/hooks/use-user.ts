@@ -12,7 +12,8 @@ export default function useUser(
     const intl = useIntl()
     const [loginLoading, setLoginLoading] = useState(false)
     const [signupLoading, setSignupLoading] = useState(false)
-    const loginHandle = useMutation(userService.login, {
+    const loginHandle = useMutation({
+        mutationFn: userService.login,
         onMutate() {
             setLoginLoading(true)
         },
@@ -35,7 +36,8 @@ export default function useUser(
             setLoginLoading(false)
         },
     })
-    const signupHandle = useMutation(userService.signup, {
+    const signupHandle = useMutation({
+        mutationFn: userService.signup,
         onMutate() {
             setSignupLoading(true)
         },
@@ -52,7 +54,8 @@ export default function useUser(
             setSignupLoading(false)
         },
     })
-    const logoutHandle = useMutation(userService.logout, {
+    const logoutHandle = useMutation({
+        mutationFn: userService.logout,
         onSuccess() {
             userStore.useLoginStore.persist.clearStorage()
             userStore.clear()
