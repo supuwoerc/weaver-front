@@ -278,7 +278,10 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                     columns={columns}
                     data={data?.list}
                     rowKey={"id"}
-                    loading={isFetching || tableLoading}
+                    loading={{
+                        loading: isFetching || tableLoading,
+                        delay: 500,
+                    }}
                     pagination={pagination}
                     onChange={tableChangeHandle}
                     rowSelection={{

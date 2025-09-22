@@ -250,7 +250,10 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     rowKey={"id"}
                     columns={columns}
                     data={data?.list}
-                    loading={isFetching || tableLoading}
+                    loading={{
+                        loading: isFetching || tableLoading,
+                        delay: 500,
+                    }}
                     onChange={tableChangeHandle}
                     pagination={pagination}
                     rowSelection={{
