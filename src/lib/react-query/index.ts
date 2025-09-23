@@ -1,22 +1,33 @@
-import { QueryClient, DefaultOptions } from "@tanstack/react-query"
+import { QueryClient, DefaultOptions, QueryCache, MutationCache } from "@tanstack/react-query"
 
-export const generateQueryConfig = (onError: (err: unknown) => void): DefaultOptions => {
+// https://tkdodo.eu/blog/breaking-react-querys-api-on-purpose#a-bad-api
+export const generateQueryConfig = (): DefaultOptions => {
     return {
         queries: {
             useErrorBoundary: false,
             refetchOnWindowFocus: false,
             retry: false,
-            onError: onError,
             networkMode: "offlineFirst",
         },
         mutations: {
             useErrorBoundary: false,
             retry: false,
-            onError: onError,
             networkMode: "offlineFirst",
         },
     }
 }
-export const generateQueryClient = (onError: (err: unknown) => void): QueryClient => {
-    return new QueryClient({ defaultOptions: generateQueryConfig(onError) })
+
+export const generateQueryClient = (
+    onQueryError: QueryCache["config"]["onError"],
+    onMutationError: MutationCache["config"]["onError"],
+) => {
+    return new QueryClient({
+        defaultOptions: generateQueryConfig(),
+        queryCache: new QueryCache({
+            onError: onQueryError,
+        }),
+        mutationCache: new MutationCache({
+            onError: onMutationError,
+        }),
+    })
 }

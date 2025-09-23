@@ -11,13 +11,15 @@ import { isError } from "lodash-es"
 
 interface AppProviderProps {}
 
-const qc = generateQueryClient((err) => {
+const toastErrorMessage = (err: unknown) => {
     if (isError(err)) {
         Message.error(`${err.message}`)
     } else {
         Message.error(`${err}`)
     }
-})
+}
+
+const qc = generateQueryClient(toastErrorMessage, toastErrorMessage)
 
 const AppProvider: FC<PropsWithChildren<AppProviderProps>> = ({ children }) => {
     return (
