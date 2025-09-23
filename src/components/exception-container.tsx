@@ -13,6 +13,7 @@ const Exception = styled.div`
     .info {
         box-sizing: border-box;
         height: 200px;
+        max-width: 300px;
         padding: 20px 0.5em;
         padding-bottom: 40px;
         margin-left: 1em;

@@ -1,13 +1,21 @@
 import { Spin } from "@arco-design/web-react"
 import { css } from "@emotion/react"
+import { isNumber } from "lodash-es"
 import { useEffect, useState } from "react"
 import { FormattedMessage } from "react-intl"
 
 interface LoadingFallbackProps {
     fullscreen?: boolean
     delay?: number
+    minHeight?: string | number
+    showTip?: boolean
 }
-const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen, delay = 200 }) => {
+const LoadingFallback: React.FC<LoadingFallbackProps> = ({
+    fullscreen,
+    minHeight,
+    delay = 200,
+    showTip = false,
+}) => {
     const [showLoading, setShowLoading] = useState(false)
     useEffect(() => {
         const timer = setTimeout(() => setShowLoading(true), delay)
@@ -22,6 +30,7 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen, delay = 2
                 text-align: center;
                 width: ${fullscreen ? "100vw" : "100%"};
                 height: ${fullscreen ? "100vh" : "100%"};
+                min-height: ${isNumber(minHeight) ? `${minHeight}px` : minHeight};
                 position: relative;
                 .arco-spin {
                     position: absolute;
@@ -30,7 +39,7 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({ fullscreen, delay = 2
                 }
             `}
         >
-            <Spin size={40} tip={<FormattedMessage id="common.loading" />} />
+            <Spin size={40} tip={showTip ? <FormattedMessage id="common.loading" /> : null} />
         </div>
     )
 }

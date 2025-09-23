@@ -1,19 +1,18 @@
-import { lazy } from "react"
 import { cloneDeep, isEqual, isString } from "lodash-es"
 import { create } from "zustand"
 import routes from "@/routes"
 import { CustomRouteObject } from "@/types/routes"
-import lazyload from "@/components/lazyload"
 import { usePermissionStore } from "./permission"
 import { PermissionType } from "@/constant/permission"
 import { UserPermission } from "@/service/permission"
 import { useLoginStore } from "./user"
 import { AuthType } from "@/constant/router"
-import { getMenuRoutes, getPermissionRoutes } from "@/routes/utils"
-
-const Forbidden = lazy(() => import("@/pages/403/index"))
-const NotFound = lazy(() => import("@/pages/404/index"))
-const DefaultLayout = lazy(() => import("@/layout/default/index"))
+import {
+    getMenuRoutes,
+    getPermissionRoutes,
+    loadComponent,
+    loadComponnetWithProgress,
+} from "@/routes/utils"
 
 type TSystemRouteStore = {
     _isLogin: boolean
@@ -38,13 +37,13 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
         isLogin,
         routePermission,
         cloneDeep(routes),
-        lazyload(Forbidden),
+        () => import("@/pages/403/index"),
     )
 
     if (isLogin) {
         syncPermissionRoutes.push({
             path: "",
-            element: lazyload(DefaultLayout),
+            lazy: loadComponent(() => import("@/layout/default/index"))(),
             handle: {
                 hidden: true,
                 auth: AuthType.Anonymous,
@@ -54,7 +53,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
                 {
                     path: "*",
                     handle: { title: "router.notFound", auth: AuthType.Anonymous, hidden: true },
-                    element: lazyload(NotFound),
+                    lazy: loadComponnetWithProgress(() => import("@/pages/404/index"))(),
                 },
             ],
         })
@@ -66,7 +65,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
                 auth: AuthType.Anonymous,
                 title: "router.notFound",
             },
-            element: lazyload(NotFound),
+            lazy: loadComponnetWithProgress(() => import("@/pages/404/index"))(),
         })
     }
 

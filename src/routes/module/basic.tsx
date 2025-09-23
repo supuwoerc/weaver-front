@@ -1,9 +1,8 @@
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
-import FullscreenLayout from "@/layout/fullscreen"
-import DefaultLayout from "@/layout/default"
 import { AuthType } from "@/constant/router"
-import { loadWithProgress } from "."
+import { loadComponent, loadComponnetWithProgress } from "../utils"
+import RouteErrorElement from "../components/route-error-element"
 
 const basicRoutes: CustomRouteObject[] = [
     {
@@ -24,11 +23,12 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.login",
                     auth: AuthType.Anonymous,
                 },
-                element: <FullscreenLayout />,
+                errorElement: <RouteErrorElement />,
+                lazy: loadComponent(() => import("@/layout/fullscreen/index"))(),
                 children: [
                     {
                         path: "",
-                        lazy: loadWithProgress(() => import("@/pages/login"))(),
+                        lazy: loadComponnetWithProgress(() => import("@/pages/login"))(),
                     },
                 ],
             },
@@ -38,11 +38,12 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.signup",
                     auth: AuthType.Anonymous,
                 },
-                element: <FullscreenLayout />,
+                errorElement: <RouteErrorElement />,
+                lazy: loadComponent(() => import("@/layout/fullscreen/index"))(),
                 children: [
                     {
                         path: "",
-                        lazy: loadWithProgress(() => import("@/pages/login"))(),
+                        lazy: loadComponnetWithProgress(() => import("@/pages/login"))(),
                     },
                 ],
             },
@@ -52,11 +53,18 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.resetPassword",
                     auth: AuthType.Anonymous,
                 },
-                element: <FullscreenLayout color={"var(--color-text-1)"} to="/login" />,
+                errorElement: <RouteErrorElement />,
+                lazy: loadComponent(() => import("@/layout/fullscreen/index"), {
+                    color: "var(--color-text-1)",
+                    to: "/login",
+                })(),
                 children: [
                     {
                         path: "",
-                        lazy: loadWithProgress(() => import("@/pages/reset-password/index"))(),
+                        errorElement: <RouteErrorElement />,
+                        lazy: loadComponnetWithProgress(
+                            () => import("@/pages/reset-password/index"),
+                        )(),
                     },
                 ],
             },
@@ -66,11 +74,13 @@ const basicRoutes: CustomRouteObject[] = [
                     title: "router.serverError",
                     auth: AuthType.Anonymous,
                 },
-                element: <DefaultLayout />,
+                errorElement: <RouteErrorElement />,
+                lazy: loadComponent(() => import("@/layout/default/index"))(),
                 children: [
                     {
                         path: "",
-                        lazy: loadWithProgress(() => import("@/pages/500/index"))(),
+                        errorElement: <RouteErrorElement />,
+                        lazy: loadComponnetWithProgress(() => import("@/pages/500/index"))(),
                     },
                 ],
             },

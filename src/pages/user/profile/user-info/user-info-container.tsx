@@ -5,9 +5,12 @@ export interface UserInfoContainerProps {
 }
 
 const UserInfoContainer = styled.div<UserInfoContainerProps>`
-    min-height: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
     .simple-info {
-        height: 140px;
+        height: 130px;
+        flex: 0 0 auto;
         background-image: url(${(props) => props.backageImage});
         background-repeat: no-repeat;
         background-size: cover;
@@ -42,6 +45,8 @@ const UserInfoContainer = styled.div<UserInfoContainerProps>`
         }
     }
     .operations {
+        flex: 1;
+        overflow-y: auto;
         padding: var(--main-padding) 6%;
     }
 `
