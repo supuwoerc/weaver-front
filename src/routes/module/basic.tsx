@@ -1,14 +1,9 @@
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
 import FullscreenLayout from "@/layout/fullscreen"
-import lazyload from "@/components/lazyload/index"
 import DefaultLayout from "@/layout/default"
 import { AuthType } from "@/constant/router"
-import { lazyloadWithProgress } from "@/utils/progress"
-
-const Login = lazyloadWithProgress(() => import("@/pages/login"))
-const ServerError = lazyloadWithProgress(() => import("@/pages/500/index"))
-const ResetPassword = lazyloadWithProgress(() => import("@/pages/reset-password/index"))
+import { loadWithProgress } from "."
 
 const basicRoutes: CustomRouteObject[] = [
     {
@@ -33,7 +28,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyload(Login),
+                        lazy: loadWithProgress(() => import("@/pages/login"))(),
                     },
                 ],
             },
@@ -47,7 +42,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyload(Login),
+                        lazy: loadWithProgress(() => import("@/pages/login"))(),
                     },
                 ],
             },
@@ -61,7 +56,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyload(ResetPassword),
+                        lazy: loadWithProgress(() => import("@/pages/reset-password/index"))(),
                     },
                 ],
             },
@@ -75,7 +70,7 @@ const basicRoutes: CustomRouteObject[] = [
                 children: [
                     {
                         path: "",
-                        element: lazyload(ServerError),
+                        lazy: loadWithProgress(() => import("@/pages/500/index"))(),
                     },
                 ],
             },

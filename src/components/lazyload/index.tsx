@@ -2,7 +2,7 @@ import LoadingFallback from "@/components/loading-fallback"
 import { Suspense } from "react"
 
 /**
- * 自react-router v6.4+之后react-router支持了路由级别的lazyload,所以此处的lazyload只用于大型页面内部的组件懒加载
+ * 自react-router v6.4+之后react-router支持了路由级别的lazyload,如果需要fallback则使用此方法
  * @param Component 懒加载组件
  * @param fallback fallback
  */

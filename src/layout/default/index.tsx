@@ -8,8 +8,10 @@ import Sidebar from "./sidebar"
 import { routes, system } from "@/store"
 import { getParents } from "@supuwoerc/utils"
 import Logo from "@/components/logo"
-import { TransitionContext } from "@/providers/transition"
 import gsap from "gsap"
+import { TransitionContext } from "@/providers/underlay"
+import RouteTitle from "@/layout/route-title"
+import RoutePermission from "@/layout/route-permission"
 
 interface DefaultLayoutProps {}
 
@@ -27,106 +29,110 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
     }, [location.pathname, menuRoutes])
 
     return (
-        <Layout
-            css={css`
-                height: 100%;
-                position: relative;
-            `}
-        >
-            <Logo
-                color={"var(--color-text-1)"}
-                style={{
-                    height: 62, // 多设置2px来遮挡菜单的阴影
-                    justifyContent: "center",
-                    position: "fixed",
-                    left: 0,
-                    top: 0,
-                    background: "var(--color-bg-2)",
-                    width: sidebarCollapsed ? "48px" : "200px",
-                    zIndex: 2,
-                }}
-                onlyLogo={sidebarCollapsed}
-            />
-            <Layout.Sider
-                collapsible
-                collapsed={sidebarCollapsed}
-                trigger={null}
-                style={{
-                    boxShadow: "var(--common-shadow)",
-                    height: "calc(100% - 60px)",
-                    marginTop: 60,
-                }}
+        <>
+            <Layout
+                css={css`
+                    height: 100%;
+                    position: relative;
+                `}
             >
-                <Sidebar menuRoutes={menuRoutes} routePath={routePath} />
-            </Layout.Sider>
-            <Layout>
-                <Layout.Header>
-                    <Navbar />
-                </Layout.Header>
-                <Layout.Content
-                    css={css`
-                        flex: 1;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        overflow-y: auto;
-                        overflow-x: hidden;
-                        min-width: 980px;
-                    `}
+                <Logo
+                    color={"var(--color-text-1)"}
+                    style={{
+                        height: 62, // 多设置2px来遮挡菜单的阴影
+                        justifyContent: "center",
+                        position: "fixed",
+                        left: 0,
+                        top: 0,
+                        background: "var(--color-bg-2)",
+                        width: sidebarCollapsed ? "48px" : "200px",
+                        zIndex: 2,
+                    }}
+                    onlyLogo={sidebarCollapsed}
+                />
+                <Layout.Sider
+                    collapsible
+                    collapsed={sidebarCollapsed}
+                    trigger={null}
+                    style={{
+                        boxShadow: "var(--common-shadow)",
+                        height: "calc(100% - 60px)",
+                        marginTop: 60,
+                    }}
                 >
-                    <SwitchTransition mode="out-in">
-                        <Transition
-                            key={location.pathname}
-                            timeout={300}
-                            onEnter={(node: HTMLElement) => {
-                                toggleCompleted(false)
-                                gsap.set(node, {
-                                    x: translateX,
-                                    opacity: 0,
-                                })
-                                gsap.timeline({
-                                    delay: 0,
-                                    paused: true,
-                                    onComplete: () => toggleCompleted(true),
-                                })
-                                    .to(node, {
-                                        x: 0,
-                                        duration: duration,
-                                        opacity: 1,
-                                    })
-                                    .play()
-                            }}
-                            onExit={(node) => {
-                                gsap.timeline({ paused: true, delay: 0 })
-                                    .to(node, {
+                    <Sidebar menuRoutes={menuRoutes} routePath={routePath} />
+                </Layout.Sider>
+                <Layout>
+                    <Layout.Header>
+                        <Navbar />
+                    </Layout.Header>
+                    <Layout.Content
+                        css={css`
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                            min-width: 980px;
+                        `}
+                    >
+                        <SwitchTransition mode="out-in">
+                            <Transition
+                                key={location.pathname}
+                                timeout={300}
+                                onEnter={(node: HTMLElement) => {
+                                    toggleCompleted(false)
+                                    gsap.set(node, {
                                         x: translateX,
-                                        duration: duration,
                                         opacity: 0,
                                     })
-                                    .play()
-                            }}
-                        >
-                            {() => (
-                                <div
-                                    style={{
-                                        flex: 1,
-                                        boxSizing: "border-box",
-                                    }}
-                                >
+                                    gsap.timeline({
+                                        delay: 0,
+                                        paused: true,
+                                        onComplete: () => toggleCompleted(true),
+                                    })
+                                        .to(node, {
+                                            x: 0,
+                                            duration: duration,
+                                            opacity: 1,
+                                        })
+                                        .play()
+                                }}
+                                onExit={(node) => {
+                                    gsap.timeline({ paused: true, delay: 0 })
+                                        .to(node, {
+                                            x: translateX,
+                                            duration: duration,
+                                            opacity: 0,
+                                        })
+                                        .play()
+                                }}
+                            >
+                                {() => (
                                     <div
-                                        css={css`
-                                            height: 100%;
-                                        `}
+                                        style={{
+                                            flex: 1,
+                                            boxSizing: "border-box",
+                                        }}
                                     >
-                                        {currentOutlet}
+                                        <div
+                                            css={css`
+                                                height: 100%;
+                                            `}
+                                        >
+                                            <RouteTitle>
+                                                <RoutePermission>{currentOutlet}</RoutePermission>
+                                            </RouteTitle>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </Transition>
-                    </SwitchTransition>
-                </Layout.Content>
+                                )}
+                            </Transition>
+                        </SwitchTransition>
+                    </Layout.Content>
+                </Layout>
             </Layout>
-        </Layout>
+        </>
     )
 }
 export default DefaultLayout

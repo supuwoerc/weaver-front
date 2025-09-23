@@ -1,8 +1,7 @@
 import { lazy } from "react"
 import { cloneDeep, isEqual, isString } from "lodash-es"
 import { create } from "zustand"
-import { getPermissionRoutes, getMenuRoutes } from "@/utils/permission"
-import routes from "@/routes/config"
+import routes from "@/routes/routes"
 import { CustomRouteObject } from "@/types/routes"
 import lazyload from "@/components/lazyload"
 import { usePermissionStore } from "./permission"
@@ -10,6 +9,7 @@ import { PermissionType } from "@/constant/permission"
 import { UserPermission } from "@/service/permission"
 import { useLoginStore } from "./user"
 import { AuthType } from "@/constant/router"
+import { getMenuRoutes, getPermissionRoutes } from "@/routes/utils"
 
 const Forbidden = lazy(() => import("@/pages/403/index"))
 const NotFound = lazy(() => import("@/pages/404/index"))

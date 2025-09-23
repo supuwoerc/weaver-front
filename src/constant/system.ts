@@ -1,5 +1,4 @@
 import { getAppEnv } from "@/utils"
-import { NavigateFunction } from "react-router-dom"
 import EventEmitter from "eventemitter3"
 import PostHogClient from "@/lib/posthog"
 
@@ -56,10 +55,6 @@ export const InvalidRefreshToken = new Proxy(
 export const appEnv = getAppEnv()
 
 export const appIsDevEnv = appEnv.VITE_APP_ENV === "dev"
-
-export const globalRouter = { navigate: null } as {
-    navigate: null | NavigateFunction
-}
 
 export const emptyPlaceholder = "-"
 

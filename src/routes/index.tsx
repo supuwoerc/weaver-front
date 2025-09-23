@@ -1,15 +1,13 @@
 import { useLocation, useNavigate } from "react-router-dom"
-import RouteTitle from "./route-title"
-import RoutePermission from "./route-permission"
-import RouteView from "./route-view"
-import { globalRouter, systemEvent, systemEventEmitter } from "@/constant/system"
+import RoutePermission from "../layout/route-permission"
+import { systemEvent, systemEventEmitter } from "@/constant/system"
 import { useCallback, useEffect } from "react"
 import { user } from "@/store"
 
+// FIXME:聚合到其他组件
 const AppRoutes = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    globalRouter.navigate = navigate
 
     const logout = useCallback(() => {
         user.useLoginStore.persist.clearStorage()
@@ -31,12 +29,6 @@ const AppRoutes = () => {
         }
     }, [logout, serverError])
 
-    return (
-        <RoutePermission>
-            <RouteTitle>
-                <RouteView />
-            </RouteTitle>
-        </RoutePermission>
-    )
+    return <RoutePermission></RoutePermission>
 }
 export default AppRoutes

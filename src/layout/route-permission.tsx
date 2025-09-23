@@ -1,7 +1,7 @@
 import { user, permission } from "@/store"
 import { PropsWithChildren, useEffect } from "react"
 import { matchRoutes, useLocation, useNavigate } from "react-router-dom"
-import routes from "./config"
+import routes from "../routes/routes"
 import { useQuery } from "@tanstack/react-query"
 import userService from "@/service/user"
 import permissionService from "@/service/permission"
@@ -35,7 +35,6 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
             navigate("/")
         }
     }, [navigate, token, isNeedLogin, location])
-
     const { data } = useQuery({
         queryKey: ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { location: location }],
         queryFn: () => {

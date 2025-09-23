@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react"
+import { FC } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { generateQueryClient } from "@/lib/react-query"
@@ -21,14 +21,14 @@ const toastErrorMessage = (err: unknown) => {
 
 const qc = generateQueryClient(toastErrorMessage, toastErrorMessage)
 
-const AppProvider: FC<PropsWithChildren<AppProviderProps>> = ({ children }) => {
+const AppProvider: FC<AppProviderProps> = () => {
     return (
         <>
             <GlobalStyle />
             <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <QueryClientProvider client={qc}>
                     <ReactQueryDevtools initialIsOpen={false} />
-                    <Underlay>{children}</Underlay>
+                    <Underlay />
                 </QueryClientProvider>
             </ErrorBoundary>
         </>

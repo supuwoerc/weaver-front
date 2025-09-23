@@ -2,14 +2,8 @@ import { IconSettings } from "@arco-design/web-react/icon"
 import DefaultLayout from "@/layout/default/index"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
-import lazyload from "@/components/lazyload"
 import { AuthType } from "@/constant/router"
-import { lazyloadWithProgress } from "@/utils/progress"
-
-const UserSetting = lazyloadWithProgress(() => import("@/pages/setting/user/index"))
-const DepartmentSetting = lazyloadWithProgress(() => import("@/pages/setting/department/index"))
-const RoleSetting = lazyloadWithProgress(() => import("@/pages/setting/role/index"))
-const PermissionSetting = lazyloadWithProgress(() => import("@/pages/setting/permission/index"))
+import { loadWithProgress } from "."
 
 const settingRoutes: CustomRouteObject[] = [
     {
@@ -24,22 +18,22 @@ const settingRoutes: CustomRouteObject[] = [
             {
                 path: "user",
                 handle: { title: "router.setting.user", auth: AuthType.PermissionRequired },
-                element: lazyload(UserSetting),
+                lazy: loadWithProgress(() => import("@/pages/setting/user/index"))(),
             },
             {
                 path: "department",
                 handle: { title: "router.setting.department", auth: AuthType.PermissionRequired },
-                element: lazyload(DepartmentSetting),
+                lazy: loadWithProgress(() => import("@/pages/setting/department/index"))(),
             },
             {
                 path: "role",
                 handle: { title: "router.setting.role", auth: AuthType.PermissionRequired },
-                element: lazyload(RoleSetting),
+                lazy: loadWithProgress(() => import("@/pages/setting/role/index"))(),
             },
             {
                 path: "permission",
                 handle: { title: "router.setting.permission", auth: AuthType.PermissionRequired },
-                element: lazyload(PermissionSetting),
+                lazy: loadWithProgress(() => import("@/pages/setting/permission/index"))(),
             },
             {
                 path: "",
