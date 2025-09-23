@@ -15,7 +15,7 @@ const settingRoutes: CustomRouteObject[] = [
     {
         path: "/setting",
         element: <DefaultLayout />,
-        meta: {
+        handle: {
             title: "router.setting",
             auth: AuthType.PermissionRequired,
             icon: <IconSettings />,
@@ -23,22 +23,22 @@ const settingRoutes: CustomRouteObject[] = [
         children: [
             {
                 path: "user",
-                meta: { title: "router.setting.user", auth: AuthType.PermissionRequired },
+                handle: { title: "router.setting.user", auth: AuthType.PermissionRequired },
                 element: lazyload(UserSetting),
             },
             {
                 path: "department",
-                meta: { title: "router.setting.department", auth: AuthType.PermissionRequired },
+                handle: { title: "router.setting.department", auth: AuthType.PermissionRequired },
                 element: lazyload(DepartmentSetting),
             },
             {
                 path: "role",
-                meta: { title: "router.setting.role", auth: AuthType.PermissionRequired },
+                handle: { title: "router.setting.role", auth: AuthType.PermissionRequired },
                 element: lazyload(RoleSetting),
             },
             {
                 path: "permission",
-                meta: { title: "router.setting.permission", auth: AuthType.PermissionRequired },
+                handle: { title: "router.setting.permission", auth: AuthType.PermissionRequired },
                 element: lazyload(PermissionSetting),
             },
             {

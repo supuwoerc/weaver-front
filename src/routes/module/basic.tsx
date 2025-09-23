@@ -13,7 +13,7 @@ const ResetPassword = lazyloadWithProgress(import("@/pages/reset-password/index"
 const basicRoutes: CustomRouteObject[] = [
     {
         path: "/",
-        meta: {
+        handle: {
             hidden: true,
             auth: AuthType.Anonymous,
         },
@@ -25,7 +25,7 @@ const basicRoutes: CustomRouteObject[] = [
             },
             {
                 path: "login",
-                meta: {
+                handle: {
                     title: "router.login",
                     auth: AuthType.Anonymous,
                 },
@@ -39,7 +39,7 @@ const basicRoutes: CustomRouteObject[] = [
             },
             {
                 path: "signup",
-                meta: {
+                handle: {
                     title: "router.signup",
                     auth: AuthType.Anonymous,
                 },
@@ -53,7 +53,7 @@ const basicRoutes: CustomRouteObject[] = [
             },
             {
                 path: "reset-password",
-                meta: {
+                handle: {
                     title: "router.resetPassword",
                     auth: AuthType.Anonymous,
                 },
@@ -67,7 +67,7 @@ const basicRoutes: CustomRouteObject[] = [
             },
             {
                 path: "500",
-                meta: {
+                handle: {
                     title: "router.serverError",
                     auth: AuthType.Anonymous,
                 },

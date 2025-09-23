@@ -13,7 +13,7 @@ const RouteTitle: React.FC<PropsWithChildren<RouteTitleProps>> = ({ children }) 
     const pageTitle = useMemo(() => {
         const matchs = matchRoutes(systemRoutes, location) ?? []
         const validMatchs = matchs.map((item) => {
-            return item.route.meta?.title
+            return item.route.handle?.title
         })
         const titles = validMatchs.filter(Boolean)
         const title = titles.pop()

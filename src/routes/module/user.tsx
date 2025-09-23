@@ -12,7 +12,7 @@ const userRoutes: CustomRouteObject[] = [
     {
         path: "/user",
         element: <DefaultLayout />,
-        meta: {
+        handle: {
             title: "router.user",
             auth: AuthType.LoginRequired,
             icon: <IconUser />,
@@ -20,7 +20,7 @@ const userRoutes: CustomRouteObject[] = [
         children: [
             {
                 path: "profile",
-                meta: { title: "router.user.profile", auth: AuthType.LoginRequired },
+                handle: { title: "router.user.profile", auth: AuthType.LoginRequired },
                 element: lazyload(UserProfile),
             },
             {

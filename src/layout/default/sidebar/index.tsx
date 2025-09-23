@@ -42,8 +42,8 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                                 key={item.path!}
                                 title={
                                     <>
-                                        {item.meta?.icon ?? <IconApps />}
-                                        <FormattedMessage id={item.meta?.title} />
+                                        {item.handle?.icon ?? <IconApps />}
+                                        <FormattedMessage id={item.handle?.title} />
                                     </>
                                 }
                             >
@@ -51,8 +51,8 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                                     item.children.map((sub) => {
                                         return (
                                             <MenuItem key={sub.path!}>
-                                                {sub.meta?.title ? (
-                                                    <FormattedMessage id={sub.meta?.title} />
+                                                {sub.handle?.title ? (
+                                                    <FormattedMessage id={sub.handle?.title} />
                                                 ) : null}
                                             </MenuItem>
                                         )

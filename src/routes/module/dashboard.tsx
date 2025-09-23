@@ -13,7 +13,7 @@ const dashboardRoutes: CustomRouteObject[] = [
     {
         path: "/dashboard",
         element: <DefaultLayout />,
-        meta: {
+        handle: {
             title: "router.dashboard",
             auth: AuthType.LoginRequired,
             icon: <IconDashboard />,
@@ -21,12 +21,12 @@ const dashboardRoutes: CustomRouteObject[] = [
         children: [
             {
                 path: "workplace",
-                meta: { title: "router.dashboard.workplace", auth: AuthType.LoginRequired },
+                handle: { title: "router.dashboard.workplace", auth: AuthType.LoginRequired },
                 element: lazyload(Workplace),
             },
             {
                 path: "todo",
-                meta: { title: "router.dashboard.todo", auth: AuthType.LoginRequired },
+                handle: { title: "router.dashboard.todo", auth: AuthType.LoginRequired },
                 element: lazyload(Todo),
             },
             {

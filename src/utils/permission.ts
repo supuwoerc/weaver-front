@@ -18,13 +18,13 @@ export function getMenuRoutes(
 ): Array<CustomRouteObject> {
     return routes.filter((route) => {
         let hasPermission = false
-        const authMode = route.meta?.auth ?? AuthType.Anonymous
+        const authMode = route.handle?.auth ?? AuthType.Anonymous
         if (authMode === AuthType.Anonymous) {
             hasPermission = true
         } else if (authMode === AuthType.LoginRequired) {
             hasPermission = isLogin
         } else if (authMode === AuthType.PermissionRequired) {
-            hasPermission = permissions.some((item) => item.resource === route.meta?.title)
+            hasPermission = permissions.some((item) => item.resource === route.handle?.title)
         }
         // 先检查是否有路径
         const hasPath = !!route.path
@@ -41,7 +41,7 @@ export function getMenuRoutes(
         } else {
             delete route.children
         }
-        if (existPermission && !route.meta?.hidden && hasPath) {
+        if (existPermission && !route.handle?.hidden && hasPath) {
             if (route.path) {
                 route.path = path.join(parentPath, route.path)
             } else {
@@ -72,7 +72,7 @@ export function getPermissionRoutes(
             route.path = path.join(parentPath, route.path)
         }
         let hasPermission = false
-        const authMode = route.meta?.auth ?? AuthType.Anonymous
+        const authMode = route.handle?.auth ?? AuthType.Anonymous
         if (authMode === AuthType.Anonymous) {
             hasPermission = true
         } else if (authMode === AuthType.LoginRequired) {

@@ -24,7 +24,7 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
     const location = useLocation()
     const ret = matchRoutes(routes, location)
     const isNeedLogin = (ret ?? []).some((item) => {
-        return (item.route.meta?.auth ?? AuthType.Anonymous) !== AuthType.Anonymous
+        return (item.route.handle?.auth ?? AuthType.Anonymous) !== AuthType.Anonymous
     })
 
     // 检查登录状态

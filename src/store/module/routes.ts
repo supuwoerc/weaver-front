@@ -45,7 +45,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
         syncPermissionRoutes.push({
             path: "",
             element: lazyload(DefaultLayout),
-            meta: {
+            handle: {
                 hidden: true,
                 auth: AuthType.Anonymous,
                 title: "router.notFound",
@@ -53,7 +53,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
             children: [
                 {
                     path: "*",
-                    meta: { title: "router.notFound", auth: AuthType.Anonymous, hidden: true },
+                    handle: { title: "router.notFound", auth: AuthType.Anonymous, hidden: true },
                     element: lazyload(NotFound),
                 },
             ],
@@ -61,7 +61,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
     } else {
         syncPermissionRoutes.push({
             path: "*",
-            meta: {
+            handle: {
                 hidden: true,
                 auth: AuthType.Anonymous,
                 title: "router.notFound",
