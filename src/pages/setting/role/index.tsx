@@ -252,7 +252,6 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     data={data?.list}
                     loading={{
                         loading: isFetching || tableLoading,
-                        delay: 500,
                     }}
                     onChange={tableChangeHandle}
                     pagination={pagination}
