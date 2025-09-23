@@ -1,6 +1,6 @@
 import { user, permission } from "@/store"
 import { PropsWithChildren, useEffect } from "react"
-import { matchRoutes, useLocation, useNavigate } from "react-router-dom"
+import { matchRoutes, Navigate, useLocation } from "react-router-dom"
 import routes from "../routes"
 import { useQuery } from "@tanstack/react-query"
 import userService from "@/service/user"
@@ -20,21 +20,12 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
             token: state.token,
         })),
     )
-    const navigate = useNavigate()
     const location = useLocation()
     const ret = matchRoutes(routes, location)
     const isNeedLogin = (ret ?? []).some((item) => {
         return (item.route.handle?.auth ?? AuthType.Anonymous) !== AuthType.Anonymous
     })
 
-    // 检查登录状态
-    useEffect(() => {
-        if (!token && isNeedLogin) {
-            navigate("/login")
-        } else if (token && ["/login", "/signup"].includes(location.pathname)) {
-            navigate("/")
-        }
-    }, [navigate, token, isNeedLogin, location])
     const { data } = useQuery({
         queryKey: ["user", "getUserInfo", "getUserRouteAndMenuPermissions", { location: location }],
         queryFn: () => {
@@ -66,6 +57,12 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
         }
     }, [data, posthog])
 
+    if (!token && isNeedLogin) {
+        return <Navigate to={"/login"} />
+    }
+    if (token && ["/login", "/signup"].includes(location.pathname)) {
+        return <Navigate to={"/"} />
+    }
     if (!isNeedLogin || !isNull(userInfo)) {
         return <>{children}</>
     }
