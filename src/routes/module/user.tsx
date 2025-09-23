@@ -6,7 +6,7 @@ import lazyload from "@/components/lazyload"
 import { AuthType } from "@/constant/router"
 import { lazyloadWithProgress } from "@/utils/progress"
 
-const UserProfile = lazyloadWithProgress(import("@/pages/user/profile/index"))
+const UserProfile = lazyloadWithProgress(() => import("@/pages/user/profile/index"))
 
 const userRoutes: CustomRouteObject[] = [
     {

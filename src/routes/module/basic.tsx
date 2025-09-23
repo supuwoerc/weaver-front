@@ -6,9 +6,9 @@ import DefaultLayout from "@/layout/default"
 import { AuthType } from "@/constant/router"
 import { lazyloadWithProgress } from "@/utils/progress"
 
-const Login = lazyloadWithProgress(import("@/pages/login"))
-const ServerError = lazyloadWithProgress(import("@/pages/500/index"))
-const ResetPassword = lazyloadWithProgress(import("@/pages/reset-password/index"))
+const Login = lazyloadWithProgress(() => import("@/pages/login"))
+const ServerError = lazyloadWithProgress(() => import("@/pages/500/index"))
+const ResetPassword = lazyloadWithProgress(() => import("@/pages/reset-password/index"))
 
 const basicRoutes: CustomRouteObject[] = [
     {

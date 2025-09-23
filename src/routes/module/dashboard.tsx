@@ -6,8 +6,8 @@ import lazyload from "@/components/lazyload"
 import { AuthType } from "@/constant/router"
 import { lazyloadWithProgress } from "@/utils/progress"
 
-const Workplace = lazyloadWithProgress(import("@/pages/dashboard/workplace/index"))
-const Todo = lazyloadWithProgress(import("@/pages/dashboard/todo/index"))
+const Workplace = lazyloadWithProgress(() => import("@/pages/dashboard/workplace/index"))
+const Todo = lazyloadWithProgress(() => import("@/pages/dashboard/todo/index"))
 
 const dashboardRoutes: CustomRouteObject[] = [
     {
