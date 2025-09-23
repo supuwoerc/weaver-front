@@ -1,26 +1,18 @@
-import { Skeleton, SkeletonTextProps, Spin } from "@arco-design/web-react"
 import { css } from "@emotion/react"
-import { CSSProperties, PropsWithChildren, FC } from "react"
+import { CSSProperties, PropsWithChildren, FC, Suspense } from "react"
+import LoadingFallback from "../loading-fallback"
 
 interface BasicCardProps {
     style?: CSSProperties
     className?: string
-    loading?: boolean
-    text?: SkeletonTextProps | boolean
-    skeleton?: boolean
     delay?: number
-    sync?: boolean
 }
 
 const BasicCard: FC<PropsWithChildren<BasicCardProps>> = ({
     style,
     children,
     className,
-    loading = true,
-    text = { rows: 5, width: ["100%", "90%", "100%", "70%", "60%"] },
-    skeleton = false,
-    delay = 200,
-    sync = true,
+    delay,
 }) => {
     return (
         <div
@@ -33,17 +25,11 @@ const BasicCard: FC<PropsWithChildren<BasicCardProps>> = ({
                 box-shadow: var(--common-shadow);
             `}
         >
-            {sync ? (
-                children
-            ) : skeleton ? (
-                <Skeleton loading={loading} animation text={text} style={{ padding: "5%" }}>
-                    {children}
-                </Skeleton>
-            ) : (
-                <Spin loading={loading} delay={delay} style={{ width: "100%" }} size={32}>
-                    {children}
-                </Spin>
-            )}
+            <Suspense
+                fallback={<LoadingFallback delay={delay} minHeight={style?.minHeight ?? 150} />}
+            >
+                {children}
+            </Suspense>
         </div>
     )
 }
