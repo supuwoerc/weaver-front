@@ -9,6 +9,7 @@ import LanguageSelect from "@/components/language-select"
 import ThemeSelect from "@/components/theme-select"
 import RouteTitle from "@/layout/route-title"
 import RoutePermission from "@/layout/route-permission"
+import RouteEventListener from "../route-event-listener"
 
 interface FullscreenLayoutProps {
     color?: Partial<Record<ResponsiveKey, string>> | string
@@ -24,7 +25,7 @@ const FullscreenLayout: React.FC<FullscreenLayoutProps> = ({
     const currentOutlet = useOutlet()
     return (
         <>
-            <RouteTitle />
+            <RouteEventListener />
             <Layout
                 css={css`
                     height: 100%;

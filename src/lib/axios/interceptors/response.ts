@@ -86,7 +86,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
             const { code = 0 } = response.data
             const { headers } = config
             const locale = (headers.get(localeKey) || SystemLocale.EN) as SystemLocale
-            if (status != 200) {
+            if (status !== 200) {
                 systemEventEmitter.emit(systemEvent.ServerError)
                 return Promise.reject(ServerErrorMessage[locale])
             }

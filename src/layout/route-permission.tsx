@@ -1,7 +1,7 @@
 import { user, permission } from "@/store"
 import { PropsWithChildren, useEffect } from "react"
 import { matchRoutes, useLocation, useNavigate } from "react-router-dom"
-import routes from "../routes/routes"
+import routes from "../routes"
 import { useQuery } from "@tanstack/react-query"
 import userService from "@/service/user"
 import permissionService from "@/service/permission"

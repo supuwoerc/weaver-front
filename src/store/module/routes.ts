@@ -1,7 +1,7 @@
 import { lazy } from "react"
 import { cloneDeep, isEqual, isString } from "lodash-es"
 import { create } from "zustand"
-import routes from "@/routes/routes"
+import routes from "@/routes"
 import { CustomRouteObject } from "@/types/routes"
 import lazyload from "@/components/lazyload"
 import { usePermissionStore } from "./permission"

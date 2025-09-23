@@ -12,6 +12,7 @@ import gsap from "gsap"
 import { TransitionContext } from "@/providers/underlay"
 import RouteTitle from "@/layout/route-title"
 import RoutePermission from "@/layout/route-permission"
+import RouteEventListener from "../route-event-listener"
 
 interface DefaultLayoutProps {}
 
@@ -30,6 +31,7 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = () => {
 
     return (
         <>
+            <RouteEventListener />
             <Layout
                 css={css`
                     height: 100%;
