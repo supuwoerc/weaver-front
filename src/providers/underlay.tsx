@@ -1,9 +1,7 @@
 import { ConfigProvider } from "@arco-design/web-react"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import loadLocale, { SystemLocaleMapping } from "@/lib/intl"
 import { permission, routes, system, user } from "@/store"
-import { useQuery } from "@tanstack/react-query"
-import { getIntl } from "@/utils"
+import { useQueries } from "@tanstack/react-query"
 import { NuqsAdapter } from "nuqs/adapters/react"
 import { useNetworkState } from "react-use"
 import Offline from "@/components/offline"
@@ -14,18 +12,8 @@ import permissionService from "@/service/permission"
 import { usePostHog } from "posthog-js/react"
 import { useShallow } from "zustand/shallow"
 import { isNull, isString } from "@supuwoerc/utils"
-
-interface IntlProviderProps {
-    locale: string
-    messages: SystemLocaleMapping
-}
-const Intl: FC<PropsWithChildren<IntlProviderProps>> = ({ locale, messages, children }) => {
-    return (
-        <IntlProvider locale={locale} messages={messages}>
-            {children}
-        </IntlProvider>
-    )
-}
+import loadLocale, { systemLocale2IntlLocale, SystemLocaleMapping } from "@/lib/intl"
+import { SystemLocale } from "@/constant/system"
 
 export const TransitionContext = createContext({
     completed: false,
@@ -50,8 +38,17 @@ export const TransitionProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 const Underlay: React.FC = () => {
-    const locale = system.useSystemConfigStore((state) => state.locale)
-    const networkState = useNetworkState()
+    const { locale, intlLocale, localeMessages, arcoLocale } = system.useSystemConfigStore(
+        useShallow((state) => {
+            return {
+                locale: state.locale,
+                intlLocale: systemLocale2IntlLocale(state.locale),
+                localeMessages: state.localeMessages,
+                arcoLocale: state.arcoLocale,
+            }
+        }),
+    )
+
     const { userInfo, token } = user.useLoginStore(
         useShallow((state) => ({
             userInfo: state.userInfo,
@@ -59,43 +56,40 @@ const Underlay: React.FC = () => {
         })),
     )
 
-    const { data, isFetching } = useQuery({
-        queryKey: ["provider", "intl", { locale: locale }],
-        queryFn: () => {
-            return loadLocale(locale)
-        },
-    })
+    const networkState = useNetworkState()
 
-    const { data: userPermissionInfo, isFetching: userPermissionInfoFetching } = useQuery({
-        queryKey: ["user", "getUserInfo", "getUserRouteAndMenuPermissions"],
-        queryFn: () => {
-            return Promise.all([
-                userService.getUserInfo(),
-                permissionService.getUserRouteAndMenuPermissions(),
-            ])
-        },
-        cacheTime: 0,
-        enabled: isString(token) && token !== "" && isNull(userInfo),
+    const [loginUserQuery, userPermissionQuery] = useQueries({
+        queries: [
+            {
+                queryKey: ["user", "getUserInfo"],
+                queryFn: () => userService.getUserInfo(),
+                cacheTime: 0,
+                enabled: isString(token) && token !== "" && isNull(userInfo),
+            },
+            {
+                queryKey: ["user", "getUserRouteAndMenuPermissions"],
+                queryFn: () => permissionService.getUserRouteAndMenuPermissions(),
+                cacheTime: 0,
+                enabled: isString(token) && token !== "" && isNull(userInfo),
+            },
+        ],
     })
 
     const posthog = usePostHog()
 
     // 设置用户账户&权限信息
     useEffect(() => {
-        if (userPermissionInfo && userPermissionInfo.length === 2) {
-            const [userInfo, permissions] = userPermissionInfo
-            if (userInfo) {
-                user.setUserInfo(userInfo)
-                posthog.identify(userInfo.email, {
-                    id: userInfo.id,
-                    email: userInfo.email,
-                })
-            }
-            if (permissions) {
-                permission.setPermissions(permissions)
-            }
+        if (loginUserQuery.data) {
+            user.setUserInfo(loginUserQuery.data)
+            posthog.identify(loginUserQuery.data.email, {
+                id: loginUserQuery.data.id,
+                email: loginUserQuery.data.email,
+            })
         }
-    }, [userPermissionInfo, posthog])
+        if (userPermissionQuery.data) {
+            permission.setPermissions(userPermissionQuery.data)
+        }
+    }, [loginUserQuery.data, userPermissionQuery.data, posthog])
 
     const syncRoutes = routes.useSystemRouteStore((state) => state.syncPermissionRoutes)
 
@@ -103,31 +97,66 @@ const Underlay: React.FC = () => {
         return createBrowserRouter(syncRoutes)
     }, [syncRoutes])
 
-    const isLoaded = data && data.arcoLocale && data.locale && data.mapping
-    if (isFetching || userPermissionInfoFetching || !isLoaded) {
+    const [loadLocaleErr, setLoadLocaleErr] = useState(null)
+
+    useEffect(() => {
+        if (!arcoLocale || !localeMessages) {
+            // 首次初始化
+            loadLocale(locale)
+                .then(({ mapping, arcoLocale }) => {
+                    system.setSystemLocale(locale as SystemLocale)
+                    system.setSystemArcoLocale(arcoLocale)
+                    system.setSystemLocaleMessages(mapping as SystemLocaleMapping)
+                })
+                .catch(setLoadLocaleErr)
+        }
+    }, [arcoLocale, localeMessages, locale])
+
+    if (loadLocaleErr) {
+        throw loadLocaleErr // 抛出错误给错误边界处理
+    }
+
+    if (!arcoLocale || !localeMessages) {
         return null
     }
-    const intlInstance = getIntl(data!.locale!, data!.mapping!)
 
     return (
-        <ConfigProvider locale={data?.arcoLocale}>
-            <Intl locale={intlInstance.locale} messages={intlInstance.messages}>
+        <ConfigProvider locale={arcoLocale!}>
+            <IntlProvider locale={intlLocale} messages={localeMessages!}>
                 <NuqsAdapter>
                     <TransitionProvider>
-                        {!networkState.online ? (
-                            <Offline />
-                        ) : (
-                            <RouterProvider
-                                router={router}
-                                future={{
-                                    v7_startTransition: true,
-                                }}
-                            />
-                        )}
+                        <RouteView
+                            online={networkState.online}
+                            ready={!(userPermissionQuery.isFetching || loginUserQuery.isFetching)}
+                            router={router}
+                        />
                     </TransitionProvider>
                 </NuqsAdapter>
-            </Intl>
+            </IntlProvider>
         </ConfigProvider>
+    )
+}
+
+interface RouteViewProps {
+    online?: boolean
+    ready: boolean
+    router: ReturnType<typeof createBrowserRouter>
+}
+
+const RouteView: FC<RouteViewProps> = ({ ready, online, router }) => {
+    if (!ready) {
+        return null
+    }
+    if (!online) {
+        return <Offline />
+    }
+    return (
+        <RouterProvider
+            router={router}
+            future={{
+                v7_startTransition: true,
+            }}
+        />
     )
 }
 

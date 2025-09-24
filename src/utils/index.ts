@@ -22,20 +22,20 @@ export function sleep(s: number) {
     })
 }
 
+const intlCache = createIntlCache()
+
 /**
  * 获取intl实例
  * @param locale 语言key
  * @param messages 语言映射
  * @returns
  */
-export function getIntl(locale: string, messages: SystemLocaleMapping) {
-    const cache = createIntlCache()
-    const intl = createIntl(
+export function getIntl(locale: string, messages: SystemLocaleMapping, cache = intlCache) {
+    return createIntl(
         {
             locale,
             messages,
         },
         cache,
     )
-    return intl
 }

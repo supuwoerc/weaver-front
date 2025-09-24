@@ -37,7 +37,7 @@ describe("getIntl function", () => {
         const messages = { greeting: "Hello" }
         const cache = {}
         ;(createIntlCache as Mock).mockReturnValue(cache)
-        const intl = getIntl(locale, messages)
+        const intl = getIntl(locale, messages, cache as any)
         expect(createIntlCache).toHaveBeenCalledTimes(1)
         expect(createIntl).toHaveBeenCalledWith({ locale, messages }, cache)
         expect(intl).toEqual({ locale, messages, cache })
@@ -48,7 +48,7 @@ describe("getIntl function", () => {
         const messages = { farewell: "再见" }
         const cache = {}
         ;(createIntlCache as Mock).mockReturnValue(cache)
-        const intl = getIntl(locale, messages)
+        const intl = getIntl(locale, messages, cache as any)
         expect(createIntl).toHaveBeenCalledWith({ locale, messages }, cache)
         expect(intl.locale).toBe(locale)
         expect(intl.messages).toBe(messages)

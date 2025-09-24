@@ -2,17 +2,23 @@ import { create } from "zustand"
 import { SystemLocale, appIsDevEnv } from "@/constant/system"
 import { devtools, persist } from "zustand/middleware"
 import { immer } from "zustand/middleware/immer"
+import { SystemLocaleMapping } from "@/lib/intl"
+import { Locale } from "@arco-design/web-react/es/locale/interface"
 
 type TSystemConfigStore = {
-    locale: SystemLocale
     sidebarCollapsed: boolean
     theme: "dark" | "light"
+    locale: SystemLocale
+    localeMessages: SystemLocaleMapping | null
+    arcoLocale: Locale | null
 }
 
 const initialSystemConfig: TSystemConfigStore = {
-    locale: SystemLocale.CN,
     sidebarCollapsed: false,
     theme: "light",
+    locale: SystemLocale.CN,
+    localeMessages: null,
+    arcoLocale: null,
 }
 
 const SYSTEM_CONFIG_STORE_NAME = "systemConfigStore"
@@ -20,7 +26,14 @@ const SYSTEM_CONFIG_STORE_NAME = "systemConfigStore"
 export const useSystemConfigStore = create<TSystemConfigStore>()(
     immer(
         devtools(
-            persist(() => initialSystemConfig, { name: SYSTEM_CONFIG_STORE_NAME }),
+            persist(() => initialSystemConfig, {
+                name: SYSTEM_CONFIG_STORE_NAME,
+                partialize: (state) => ({
+                    locale: state.locale,
+                    theme: state.sidebarCollapsed,
+                    sidebarCollapsed: state.theme,
+                }),
+            }),
             {
                 name: SYSTEM_CONFIG_STORE_NAME,
                 enabled: appIsDevEnv,
@@ -32,6 +45,18 @@ export const useSystemConfigStore = create<TSystemConfigStore>()(
 export const setSystemLocale = (locale: SystemLocale) => {
     useSystemConfigStore.setState((state) => {
         state.locale = locale
+    })
+}
+
+export const setSystemLocaleMessages = (messages: SystemLocaleMapping) => {
+    useSystemConfigStore.setState((state) => {
+        state.localeMessages = messages
+    })
+}
+
+export const setSystemArcoLocale = (locale: Locale) => {
+    useSystemConfigStore.setState((state) => {
+        state.arcoLocale = locale
     })
 }
 

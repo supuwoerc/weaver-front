@@ -56,7 +56,7 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
             <Divider style={{ margin: "2px 0" }} />
             <Menu.Item key="logout">
                 <Space>
-                    {!logoutLoading ? <IconPoweroff /> : <IconLoading spin />}
+                    {!logoutLoading ? <IconPoweroff /> : <IconLoading />}
                     <FormattedMessage id="system.logout" />
                 </Space>
             </Menu.Item>

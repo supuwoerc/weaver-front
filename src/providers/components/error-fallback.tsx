@@ -12,7 +12,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
             <div className="info">
                 <div className="desc">
                     <div className="title">Error</div>
-                    <div className="tips">{error.message || "Unknown error"}</div>
+                    <div className="tips">{error.message || `${error}` || "Unknown error"}</div>
                 </div>
                 <Button className="btn" type="primary" onClick={() => resetErrorBoundary()}>
                     Retry

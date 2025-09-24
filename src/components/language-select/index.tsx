@@ -1,6 +1,6 @@
 import { languageList } from "@/constant/language-select"
 import { SystemLocale } from "@/constant/system"
-import loadLocale from "@/lib/intl"
+import loadLocale, { SystemLocaleMapping } from "@/lib/intl"
 import { SystemSettingEvent } from "@/lib/posthog/event"
 import { system } from "@/store"
 import { getIntl } from "@/utils"
@@ -19,19 +19,23 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({ style }) => {
     const onSelectHandle = (key: string) => {
         if (locale !== (key as SystemLocale)) {
             posthog.capture(SystemSettingEvent.LANGUAGE_SELECT, { locale: key })
-            system.setSystemLocale(key as SystemLocale)
-
-            loadLocale(key as SystemLocale).then(({ mapping, locale }) => {
-                const intl = getIntl(locale, mapping!)
-                const label = key === SystemLocale.CN ? "中文" : "English"
-                const msg = `${intl.formatMessage(
-                    {
-                        id: "system.language.switch",
-                    },
-                    { locale: label },
-                )}`
-                Message.info(msg)
-            })
+            loadLocale(key as SystemLocale)
+                .then(({ mapping, locale, arcoLocale }) => {
+                    const intl = getIntl(locale, mapping!)
+                    const msg = intl.formatMessage(
+                        {
+                            id: "system.language.switch",
+                        },
+                        { locale: key === SystemLocale.CN ? "中文" : "English" },
+                    )
+                    system.setSystemLocale(key as SystemLocale)
+                    system.setSystemArcoLocale(arcoLocale)
+                    system.setSystemLocaleMessages(mapping as SystemLocaleMapping)
+                    Message.info(msg)
+                })
+                .catch((err) => {
+                    Message.error(`${err}`)
+                })
         }
     }
     return (
