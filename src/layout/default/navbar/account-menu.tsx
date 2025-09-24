@@ -2,17 +2,20 @@ import useUser from "@/hooks/use-user"
 import { UserEvent } from "@/lib/posthog/event"
 import { user } from "@/store"
 import { Divider, Dropdown, Menu, Space } from "@arco-design/web-react"
-import { IconSettings, IconUser, IconPoweroff } from "@arco-design/web-react/icon"
+import { IconSettings, IconUser, IconPoweroff, IconLoading } from "@arco-design/web-react/icon"
 import { css } from "@emotion/react"
 import { usePostHog } from "posthog-js/react"
+import { useState } from "react"
 import { FormattedMessage } from "react-intl"
 import { useNavigate } from "react-router-dom"
 import { useShallow } from "zustand/shallow"
 
 interface AccountMenuProps {}
 const AccountMenu: React.FC<AccountMenuProps> = () => {
+    const [logoutLoading, setLogoutLoading] = useState(false)
     const navigate = useNavigate()
     const { logout } = useUser(null, null, () => {
+        setLogoutLoading(false)
         navigate("/login")
     })
     const posthog = usePostHog()
@@ -30,9 +33,10 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
                 navigate("/setting")
                 break
             case "logout":
+                setLogoutLoading(true)
                 logout()
                 posthog.capture(UserEvent.LOGOUT, { email: email })
-                break
+                return false // 避免自动隐藏菜单
         }
     }
     const dropList = (
@@ -52,7 +56,7 @@ const AccountMenu: React.FC<AccountMenuProps> = () => {
             <Divider style={{ margin: "2px 0" }} />
             <Menu.Item key="logout">
                 <Space>
-                    <IconPoweroff />
+                    {!logoutLoading ? <IconPoweroff /> : <IconLoading spin />}
                     <FormattedMessage id="system.logout" />
                 </Space>
             </Menu.Item>
