@@ -16,7 +16,7 @@ interface AppProviderProps {}
 const toastErrorMessage = (err: unknown) => {
     if (isError(err)) {
         Message.error(`${err.message}`)
-    } else {
+    } else if (err) {
         Message.error(`${err}`)
     }
 }

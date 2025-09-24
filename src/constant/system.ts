@@ -9,23 +9,8 @@ export enum SystemLocale {
 
 export const ServerErrorMessage = new Proxy(
     {
-        [SystemLocale.CN]: "Server error, please try again later",
-        [SystemLocale.EN]: "服务器错误，请稍后再试",
-    },
-    {
-        get(target, p) {
-            if (!Reflect.has(target, p)) {
-                return Reflect.get(target, SystemLocale.EN)
-            }
-            return Reflect.get(target, p)
-        },
-    },
-)
-
-export const NotExistRefreshToken = new Proxy(
-    {
-        [SystemLocale.CN]: "Not exist RefreshToken, please log in again",
-        [SystemLocale.EN]: "不存在刷新令牌，请重新登录",
+        [SystemLocale.CN]: "服务器错误，请稍后再试",
+        [SystemLocale.EN]: "Server error, please try again later",
     },
     {
         get(target, p) {
@@ -39,8 +24,8 @@ export const NotExistRefreshToken = new Proxy(
 
 export const InvalidRefreshToken = new Proxy(
     {
-        [SystemLocale.CN]: "Invalid RefreshToken, please log in again",
-        [SystemLocale.EN]: "刷新令牌无效，请重新登录",
+        [SystemLocale.CN]: "登录过期，请重新登录",
+        [SystemLocale.EN]: "Login expired, please log in again",
     },
     {
         get(target, p) {

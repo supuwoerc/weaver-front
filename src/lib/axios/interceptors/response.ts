@@ -3,7 +3,6 @@ import { WrapAxiosInstance } from ".."
 import {
     ServerErrorMessage,
     SystemLocale,
-    NotExistRefreshToken,
     InvalidRefreshToken,
     systemEvent,
     systemEventEmitter,
@@ -35,9 +34,10 @@ const refreshTokenHandle = (client: WrapAxiosInstance, config: InternalAxiosRequ
     }
     const { refreshToken } = user.useLoginStore.getState()
     if (!refreshToken) {
-        const { headers } = config
-        const locale = (headers.get(localeKey) || SystemLocale.EN) as SystemLocale
-        return invalidTokenHandle(NotExistRefreshToken[locale])
+        requests.forEach((cb) => cb(""))
+        requests = []
+        systemEventEmitter.emit(systemEvent.InvalidToken)
+        return Promise.reject()
     }
     if (!isRefreshing) {
         isRefreshing = true
@@ -68,7 +68,7 @@ const refreshTokenHandle = (client: WrapAxiosInstance, config: InternalAxiosRequ
     } else {
         return new Promise((resolve, reject) => {
             requests.push((token: string, err?: string) => {
-                if (err) {
+                if (err || token === "") {
                     reject(err)
                 } else {
                     config.headers[tokenKey] = token
