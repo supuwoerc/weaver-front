@@ -31,7 +31,7 @@ class PostHogClient {
                         config.config.loaded?.(instance)
                         instance.register({ env: this.env })
                         if (this.env === "dev") {
-                            instance.debug(true)
+                            instance.debug(false)
                         }
                     },
                     before_send: beforeSend,

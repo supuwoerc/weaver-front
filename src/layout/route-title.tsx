@@ -1,27 +1,27 @@
 import { PropsWithChildren, useEffect, useMemo } from "react"
 import { useIntl } from "react-intl"
-import { matchRoutes, useLocation } from "react-router-dom"
+import { UIMatch, useMatches } from "react-router-dom"
 import { appEnv } from "@/constant/system"
-import { routes } from "@/store"
+import { RouteHandle } from "@/types/routes"
 
 interface RouteTitleProps {}
 
 const RouteTitle: React.FC<PropsWithChildren<RouteTitleProps>> = ({ children }) => {
     const intl = useIntl()
-    const systemRoutes = routes.useSystemRouteStore((state) => state.syncPermissionRoutes)
-    const location = useLocation()
+    const matchs = useMatches() as UIMatch<unknown, RouteHandle["handle"]>[]
+
     const pageTitle = useMemo(() => {
-        const matchs = matchRoutes(systemRoutes, location) ?? []
         const validMatchs = matchs.map((item) => {
-            return item.route.handle?.title
+            return item.handle?.title
         })
         const titles = validMatchs.filter(Boolean)
-        const title = titles.pop()
-        return title ?? appEnv.VITE_APP_TITLE
-    }, [location, systemRoutes])
+        return titles.pop() ?? appEnv.VITE_APP_TITLE
+    }, [matchs])
+
     useEffect(() => {
         document.title = intl.formatMessage({ id: pageTitle })
-    }, [intl, pageTitle, location.pathname, location.hash, location.search])
+    }, [intl, pageTitle, matchs])
+
     return <>{children}</>
 }
 
