@@ -1,9 +1,9 @@
-import { SystemLocale } from "@/constant/system"
+import { systemLocale } from "@/constant/system"
 
 export interface StorageState {
     token: string
     refreshToken: string
-    language: SystemLocale
+    language: systemLocale
     collapse: string
     theme: string
 }

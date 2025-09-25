@@ -22,7 +22,7 @@ import permissionService, {
     UpdatePermissionRequest,
 } from "@/service/permission"
 import { FormattedMessage } from "react-intl"
-import { PermissionType, ResourceTypeOptions } from "@/constant/permission"
+import { permissionType, ResourceTypeOptions } from "@/constant/permission"
 import { useOptionsTranslator } from "@/hooks/use-options-translator"
 import { useTranslator } from "@/hooks/use-translator"
 
@@ -60,7 +60,7 @@ const PermissionEditor: React.FC<PermissionEditorProps> = ({
         validateError: "common.validate.error",
         warning: "common.warning",
     })
-    const typeOptions = useOptionsTranslator<PermissionType>(
+    const typeOptions = useOptionsTranslator<permissionType>(
         ResourceTypeOptions.map((item) => {
             item.disabled = readonly
             return item

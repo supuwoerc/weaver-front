@@ -2,7 +2,7 @@ import { user } from "@/store"
 import { PropsWithChildren } from "react"
 import { Navigate, UIMatch, useMatches } from "react-router-dom"
 import { useShallow } from "zustand/shallow"
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import { RouteHandle } from "@/types/routes"
 
 interface RoutePermissionProps {}
@@ -15,7 +15,7 @@ const RoutePermission: React.FC<PropsWithChildren<RoutePermissionProps>> = ({ ch
     )
     const ret = useMatches() as UIMatch<unknown, RouteHandle["handle"]>[]
     const isNeedLogin = (ret ?? []).some((item) => {
-        return (item.handle?.auth ?? AuthType.Anonymous) !== AuthType.Anonymous
+        return (item.handle?.auth ?? authType.anonymous) !== authType.anonymous
     })
 
     if (!token && isNeedLogin) {

@@ -1,36 +1,36 @@
 import { Option } from "@/hooks/use-options-translator"
-export enum UserGender {
-    Male,
-    Female,
+export enum userGender {
+    male,
+    female,
 }
 
 export const emailRegexp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
 
 export const passwordRegexp = /^^(?=.*[0-9])(?=.*[a-zA-Z])[0-9A-Za-z~!@#$%^&*._?]{8,15}$/
 
-export enum UserStatus {
-    Inactive = 1,
-    Normal,
-    Disabled,
+export enum userStatus {
+    inactive = 1,
+    normal,
+    disabled,
 }
 
 export const UserStatusColorMap = new Map([
-    [UserStatus.Inactive, "red"],
-    [UserStatus.Normal, "arcoblue"],
-    [UserStatus.Disabled, "gray"],
+    [userStatus.inactive, "red"],
+    [userStatus.normal, "arcoblue"],
+    [userStatus.disabled, "gray"],
 ])
 
-export const UserStatusOptions: Array<Option<UserStatus>> = [
+export const UserStatusOptions: Array<Option<userStatus>> = [
     {
         label: "user.status.inactive",
-        value: UserStatus.Inactive,
+        value: userStatus.inactive,
     },
     {
         label: "user.status.normal",
-        value: UserStatus.Normal,
+        value: userStatus.normal,
     },
     {
         label: "user.status.disabled",
-        value: UserStatus.Disabled,
+        value: userStatus.disabled,
     },
 ]

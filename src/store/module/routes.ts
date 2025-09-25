@@ -3,10 +3,10 @@ import { create } from "zustand"
 import routes from "@/routes"
 import { CustomRouteObject } from "@/types/routes"
 import { usePermissionStore } from "./permission"
-import { PermissionType } from "@/constant/permission"
+import { permissionType } from "@/constant/permission"
 import { UserPermission } from "@/service/permission"
 import { useLoginStore } from "./user"
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import {
     getMenuRoutes,
     getPermissionRoutes,
@@ -25,10 +25,10 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
     const menuPermission: Array<UserPermission> = []
     const routePermission: Array<UserPermission> = []
     permissions.forEach((item) => {
-        if (item.type == PermissionType.ViewMenu) {
+        if (item.type == permissionType.viewMenu) {
             menuPermission.push(item)
         }
-        if (item.type == PermissionType.ViewRoute) {
+        if (item.type == permissionType.viewRoute) {
             routePermission.push(item)
         }
     })
@@ -46,13 +46,13 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
             lazy: loadComponent(() => import("@/layout/default/index"))(),
             handle: {
                 hidden: true,
-                auth: AuthType.Anonymous,
+                auth: authType.anonymous,
                 title: "router.notFound",
             },
             children: [
                 {
                     path: "*",
-                    handle: { title: "router.notFound", auth: AuthType.Anonymous, hidden: true },
+                    handle: { title: "router.notFound", auth: authType.anonymous, hidden: true },
                     lazy: loadComponnetWithProgress(() => import("@/pages/404/index"))(),
                 },
             ],
@@ -62,7 +62,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
             path: "*",
             handle: {
                 hidden: true,
-                auth: AuthType.Anonymous,
+                auth: authType.anonymous,
                 title: "router.notFound",
             },
             lazy: loadComponnetWithProgress(() => import("@/pages/404/index"))(),

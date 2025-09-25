@@ -1,4 +1,4 @@
-import { FileType, fileType2Accept, fileType2ListType } from "@/constant/components/upload-modal"
+import { fileType, fileType2Accept, fileType2ListType } from "@/constant/components/upload-modal"
 import { Modal, Upload, Grid, Skeleton, Empty, Button } from "@arco-design/web-react"
 import Cropper, { CropperHandle } from "./cropper"
 import { useRef, useState } from "react"
@@ -18,7 +18,7 @@ import { BaseButtonProps } from "@arco-design/web-react/es/Button/interface"
 interface UploadModalProps {
     title: string
     visible: boolean
-    type: FileType
+    type: fileType
     multiple?: boolean
     limit?: number
     onOk: (items: Array<UploadItem>, files: Array<File | undefined>) => void
@@ -43,7 +43,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
         })
         if (!isNil(cropperRef.current)) {
             switch (type) {
-                case FileType.ImageWithCropper:
+                case fileType.imageWithCropper:
                     onOk(fileList, [await cropperRef.current.getImage()])
                     return
                 default:
@@ -54,16 +54,16 @@ const UploadModal: React.FC<UploadModalProps> = ({
             onOk(fileList, originFileList)
         }
     }
-    const isImageCropMode = [FileType.ImageWithCropper].includes(type)
+    const isImageCropMode = [fileType.imageWithCropper].includes(type)
     const listType = fileType2ListType[type]
     const accept = fileType2Accept[type]
-    const multiple = [FileType.MultipleImage, FileType.MultipleFile].includes(type)
+    const multiple = [fileType.multipleImage, fileType.multipleFile].includes(type)
     const triggerMap = {
-        [FileType.MultipleImage]: [<FileDirUpload />, <ButtonUpload />],
-        [FileType.Image]: [<FileDirUpload />, undefined],
-        [FileType.ImageWithCropper]: [undefined, undefined],
-        [FileType.File]: [<FileDirUpload />, undefined],
-        [FileType.MultipleFile]: [<FileDirUpload />, <ButtonUpload />],
+        [fileType.multipleImage]: [<FileDirUpload />, <ButtonUpload />],
+        [fileType.image]: [<FileDirUpload />, undefined],
+        [fileType.imageWithCropper]: [undefined, undefined],
+        [fileType.File]: [<FileDirUpload />, undefined],
+        [fileType.multipleFile]: [<FileDirUpload />, <ButtonUpload />],
     }
     return (
         <Modal

@@ -1,7 +1,7 @@
 import { IconDashboard } from "@arco-design/web-react/icon"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import { loadComponent, loadComponnetWithProgress } from "../utils"
 import RouteErrorElement from "../components/route-error-element"
 
@@ -11,13 +11,13 @@ const dashboardRoutes: CustomRouteObject[] = [
         lazy: loadComponent(() => import("@/layout/default/index"))(),
         handle: {
             title: "router.dashboard",
-            auth: AuthType.LoginRequired,
+            auth: authType.loginRequired,
             icon: <IconDashboard />,
         },
         children: [
             {
                 path: "workplace",
-                handle: { title: "router.dashboard.workplace", auth: AuthType.LoginRequired },
+                handle: { title: "router.dashboard.workplace", auth: authType.loginRequired },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponnetWithProgress(
                     () => import("@/pages/dashboard/workplace/index"),
@@ -25,7 +25,7 @@ const dashboardRoutes: CustomRouteObject[] = [
             },
             {
                 path: "todo",
-                handle: { title: "router.dashboard.todo", auth: AuthType.LoginRequired },
+                handle: { title: "router.dashboard.todo", auth: authType.loginRequired },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponnetWithProgress(() => import("@/pages/dashboard/todo/index"))(),
             },

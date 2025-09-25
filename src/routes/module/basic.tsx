@@ -1,6 +1,6 @@
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate, Outlet } from "react-router-dom"
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import { loadComponent, loadComponnetWithProgress } from "../utils"
 import RouteErrorElement from "../components/route-error-element"
 
@@ -9,7 +9,7 @@ const basicRoutes: CustomRouteObject[] = [
         path: "/",
         handle: {
             hidden: true,
-            auth: AuthType.Anonymous,
+            auth: authType.anonymous,
         },
         element: <Outlet />,
         children: [
@@ -21,7 +21,7 @@ const basicRoutes: CustomRouteObject[] = [
                 path: "login",
                 handle: {
                     title: "router.login",
-                    auth: AuthType.Anonymous,
+                    auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponent(() => import("@/layout/fullscreen/index"))(),
@@ -36,7 +36,7 @@ const basicRoutes: CustomRouteObject[] = [
                 path: "signup",
                 handle: {
                     title: "router.signup",
-                    auth: AuthType.Anonymous,
+                    auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponent(() => import("@/layout/fullscreen/index"))(),
@@ -51,7 +51,7 @@ const basicRoutes: CustomRouteObject[] = [
                 path: "reset-password",
                 handle: {
                     title: "router.resetPassword",
-                    auth: AuthType.Anonymous,
+                    auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponent(() => import("@/layout/fullscreen/index"), {
@@ -72,7 +72,7 @@ const basicRoutes: CustomRouteObject[] = [
                 path: "500",
                 handle: {
                     title: "router.serverError",
-                    auth: AuthType.Anonymous,
+                    auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponent(() => import("@/layout/default/index"))(),

@@ -2,7 +2,7 @@ import { AxiosResponse, InternalAxiosRequestConfig } from "axios"
 import { WrapAxiosInstance } from ".."
 import {
     ServerErrorMessage,
-    SystemLocale,
+    systemLocale,
     InvalidRefreshToken,
     systemEvent,
     systemEventEmitter,
@@ -85,7 +85,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
             const { config, status } = response
             const { code = 0 } = response.data
             const { headers } = config
-            const locale = (headers.get(localeKey) || SystemLocale.EN) as SystemLocale
+            const locale = (headers.get(localeKey) || systemLocale.en) as systemLocale
             if (status !== 200) {
                 systemEventEmitter.emit(systemEvent.ServerError)
                 return Promise.reject(ServerErrorMessage[locale])

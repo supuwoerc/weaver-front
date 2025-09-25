@@ -1,5 +1,5 @@
-export enum AuthType {
-    Anonymous = 1,
-    LoginRequired,
-    PermissionRequired,
+export enum authType {
+    anonymous = 1,
+    loginRequired,
+    permissionRequired,
 }

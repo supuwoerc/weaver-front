@@ -1,18 +1,18 @@
-import { SystemLocale } from "@/constant/system"
+import { systemLocale } from "@/constant/system"
 import { Locale } from "@arco-design/web-react/es/locale/interface"
 import { ResolvedIntlConfig } from "react-intl"
 
 export type SystemLocaleMapping = ResolvedIntlConfig["messages"]
 
-async function loadLocale(target: SystemLocale) {
+async function loadLocale(target: systemLocale) {
     let mapping: SystemLocaleMapping | null = null
     let arcoLocale!: Locale
     switch (target) {
-        case SystemLocale.CN:
+        case systemLocale.cn:
             mapping = (await import("./cn")).default
             arcoLocale = (await import("@arco-design/web-react/es/locale/zh-CN")).default
             break
-        case SystemLocale.EN:
+        case systemLocale.en:
             mapping = (await import("./en")).default
             arcoLocale = (await import("@arco-design/web-react/es/locale/en-US")).default
             break
@@ -26,8 +26,8 @@ async function loadLocale(target: SystemLocale) {
 
 export default loadLocale
 
-export const systemLocale2IntlLocale = (locale: SystemLocale) => {
-    if (locale === SystemLocale.CN) {
+export const systemLocale2IntlLocale = (locale: systemLocale) => {
+    if (locale === systemLocale.cn) {
         return "zh-CN" as const
     }
     return "en-US" as const

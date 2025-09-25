@@ -1,4 +1,4 @@
-import { UserGender } from "@/constant/user"
+import { userGender } from "@/constant/user"
 import { Nullable } from "vitest"
 
 interface UserInfo {
@@ -6,7 +6,7 @@ interface UserInfo {
     email: string
     nickname: string | null
     avatar: string | null
-    gender: UserGender | null
+    gender: userGender | null
     birthday: string | null
     about: string | null
     created_at: string

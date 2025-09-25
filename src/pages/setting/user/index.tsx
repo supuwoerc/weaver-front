@@ -19,7 +19,7 @@ import { useTranslator } from "@/hooks/use-translator"
 import UserEditor from "./user-editor"
 import userService, { GetUserListRequest, UserListRow } from "@/service/user"
 import { emptyPlaceholder } from "@/constant/system"
-import { UserStatus, UserStatusColorMap, UserStatusOptions } from "@/constant/user"
+import { userStatus, UserStatusColorMap, UserStatusOptions } from "@/constant/user"
 import { useOptionsTranslator } from "@/hooks/use-options-translator"
 import { keyBy } from "lodash-es"
 
@@ -52,7 +52,7 @@ const UserSetting: React.FC<UserSettingProps> = () => {
         setUserId(id)
         setVisible(true)
     }
-    const userStatusOptions = useOptionsTranslator<UserStatus>(UserStatusOptions)
+    const userStatusOptions = useOptionsTranslator<userStatus>(UserStatusOptions)
     const userStatusOptionMap = useMemo(() => {
         return keyBy(userStatusOptions, "value")
     }, [userStatusOptions])

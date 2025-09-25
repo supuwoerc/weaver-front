@@ -13,7 +13,7 @@ import { usePostHog } from "posthog-js/react"
 import { useShallow } from "zustand/shallow"
 import { isNull, isString } from "@supuwoerc/utils"
 import loadLocale, { systemLocale2IntlLocale, SystemLocaleMapping } from "@/lib/intl"
-import { SystemLocale } from "@/constant/system"
+import { systemLocale } from "@/constant/system"
 
 export const TransitionContext = createContext({
     completed: false,
@@ -104,7 +104,7 @@ const Underlay: React.FC = () => {
             // 首次初始化
             loadLocale(locale)
                 .then(({ mapping, arcoLocale }) => {
-                    system.setSystemLocale(locale as SystemLocale)
+                    system.setSystemLocale(locale as systemLocale)
                     system.setSystemArcoLocale(arcoLocale)
                     system.setSystemLocaleMessages(mapping as SystemLocaleMapping)
                 })

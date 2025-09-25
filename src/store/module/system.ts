@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { SystemLocale, appIsDevEnv } from "@/constant/system"
+import { systemLocale, appIsDevEnv } from "@/constant/system"
 import { devtools, persist } from "zustand/middleware"
 import { immer } from "zustand/middleware/immer"
 import { SystemLocaleMapping } from "@/lib/intl"
@@ -8,7 +8,7 @@ import { Locale } from "@arco-design/web-react/es/locale/interface"
 type TSystemConfigStore = {
     sidebarCollapsed: boolean
     theme: "dark" | "light"
-    locale: SystemLocale
+    locale: systemLocale
     localeMessages: SystemLocaleMapping | null
     arcoLocale: Locale | null
 }
@@ -16,7 +16,7 @@ type TSystemConfigStore = {
 const initialSystemConfig: TSystemConfigStore = {
     sidebarCollapsed: false,
     theme: "light",
-    locale: SystemLocale.CN,
+    locale: systemLocale.cn,
     localeMessages: null,
     arcoLocale: null,
 }
@@ -42,7 +42,7 @@ export const useSystemConfigStore = create<TSystemConfigStore>()(
     ),
 )
 
-export const setSystemLocale = (locale: SystemLocale) => {
+export const setSystemLocale = (locale: systemLocale) => {
     useSystemConfigStore.setState((state) => {
         state.locale = locale
     })

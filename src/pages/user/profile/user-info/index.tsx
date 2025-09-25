@@ -9,7 +9,7 @@ import { useIntl } from "react-intl"
 import { useShallow } from "zustand/shallow"
 import UploadModal from "@/components/upload-modal"
 import { useState } from "react"
-import { FileType } from "@/constant/components/upload-modal"
+import { fileType } from "@/constant/components/upload-modal"
 import { UploadItem } from "@arco-design/web-react/es/Upload"
 
 interface UserInfoProps {}
@@ -84,7 +84,7 @@ const UserInfo: React.FC<UserInfoProps> = () => {
             <UploadModal
                 title="上传头像" // TODO:国际化设置
                 visible={uploaderVisible}
-                type={FileType.MultipleFile}
+                type={fileType.multipleFile}
                 onOk={handleUploaderConfirm}
                 onCancel={() => setUploaderVisible(false)}
             />

@@ -1,4 +1,4 @@
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import { UserPermission } from "@/service/permission"
 import { CustomRouteObject } from "@/types/routes"
 import path from "path-browserify"
@@ -57,12 +57,12 @@ export function getMenuRoutes(
 ): Array<CustomRouteObject> {
     return routes.filter((route) => {
         let hasPermission = false
-        const authMode = route.handle?.auth ?? AuthType.Anonymous
-        if (authMode === AuthType.Anonymous) {
+        const authMode = route.handle?.auth ?? authType.anonymous
+        if (authMode === authType.anonymous) {
             hasPermission = true
-        } else if (authMode === AuthType.LoginRequired) {
+        } else if (authMode === authType.loginRequired) {
             hasPermission = isLogin
-        } else if (authMode === AuthType.PermissionRequired) {
+        } else if (authMode === authType.permissionRequired) {
             hasPermission = permissions.some((item) => item.resource === route.handle?.title)
         }
         // 先检查是否有路径
@@ -111,12 +111,12 @@ export function getPermissionRoutes(
             route.path = path.join(parentPath, route.path)
         }
         let hasPermission = false
-        const authMode = route.handle?.auth ?? AuthType.Anonymous
-        if (authMode === AuthType.Anonymous) {
+        const authMode = route.handle?.auth ?? authType.anonymous
+        if (authMode === authType.anonymous) {
             hasPermission = true
-        } else if (authMode === AuthType.LoginRequired) {
+        } else if (authMode === authType.loginRequired) {
             hasPermission = isLogin
-        } else if (authMode === AuthType.PermissionRequired) {
+        } else if (authMode === authType.permissionRequired) {
             hasPermission = permissions.some((item) => item.resource === route.path)
         }
         const childFilterResult = getPermissionRoutes(

@@ -1,12 +1,12 @@
-import { SystemLocale } from "./system"
+import { systemLocale } from "./system"
 
 export const languageList = [
     {
         label: "中文",
-        value: SystemLocale.CN,
+        value: systemLocale.cn,
     },
     {
         label: "English",
-        value: SystemLocale.EN,
+        value: systemLocale.en,
     },
 ]

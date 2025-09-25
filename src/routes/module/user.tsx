@@ -1,7 +1,7 @@
 import { IconUser } from "@arco-design/web-react/icon"
 import { CustomRouteObject } from "@/types/routes"
 import { Navigate } from "react-router-dom"
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import { loadComponent, loadComponnetWithProgress } from "../utils"
 import RouteErrorElement from "../components/route-error-element"
 
@@ -11,13 +11,13 @@ const userRoutes: CustomRouteObject[] = [
         lazy: loadComponent(() => import("@/layout/default/index"))(),
         handle: {
             title: "router.user",
-            auth: AuthType.LoginRequired,
+            auth: authType.loginRequired,
             icon: <IconUser />,
         },
         children: [
             {
                 path: "profile",
-                handle: { title: "router.user.profile", auth: AuthType.LoginRequired },
+                handle: { title: "router.user.profile", auth: authType.loginRequired },
                 errorElement: <RouteErrorElement />,
                 lazy: loadComponnetWithProgress(() => import("@/pages/user/profile/index"))(),
             },

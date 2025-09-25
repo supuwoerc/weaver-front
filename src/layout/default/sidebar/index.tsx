@@ -3,7 +3,7 @@ import { IconApps } from "@arco-design/web-react/icon"
 import SidebarContainer from "./sidebar-container"
 import { FormattedMessage } from "react-intl"
 import { useMemo, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
 
 const MenuItem = Menu.Item
@@ -14,6 +14,7 @@ interface SidebarProps {
 }
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
+    const location = useLocation()
 
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
@@ -21,7 +22,9 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     }, [routePath])
     const [openKeys, setOpenKeys] = useState<Array<string>>(selectedKeys.slice(0, -1))
     const onClickMenuItemHandle = (key: string) => {
-        navigate(key)
+        if (location.pathname !== key) {
+            navigate(key)
+        }
     }
     const onClickSubMenuHandle = (_key: string, openKeys: string[]) => {
         setOpenKeys(openKeys)

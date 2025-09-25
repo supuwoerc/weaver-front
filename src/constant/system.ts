@@ -1,21 +1,24 @@
 import { getAppEnv } from "@/utils"
 import EventEmitter from "eventemitter3"
 import PostHogClient from "@/lib/posthog"
+import { Message } from "@arco-design/web-react"
+import { isError } from "lodash-es"
+import { generateQueryClient } from "@/lib/react-query"
 
-export enum SystemLocale {
-    CN = "CN",
-    EN = "EN",
+export enum systemLocale {
+    cn = "cn",
+    en = "en",
 }
 
 export const ServerErrorMessage = new Proxy(
     {
-        [SystemLocale.CN]: "服务器错误，请稍后再试",
-        [SystemLocale.EN]: "Server error, please try again later",
+        [systemLocale.cn]: "服务器错误，请稍后再试",
+        [systemLocale.en]: "Server error, please try again later",
     },
     {
         get(target, p) {
             if (!Reflect.has(target, p)) {
-                return Reflect.get(target, SystemLocale.EN)
+                return Reflect.get(target, systemLocale.en)
             }
             return Reflect.get(target, p)
         },
@@ -24,13 +27,13 @@ export const ServerErrorMessage = new Proxy(
 
 export const InvalidRefreshToken = new Proxy(
     {
-        [SystemLocale.CN]: "登录过期，请重新登录",
-        [SystemLocale.EN]: "Login expired, please log in again",
+        [systemLocale.cn]: "登录过期，请重新登录",
+        [systemLocale.en]: "Login expired, please log in again",
     },
     {
         get(target, p) {
             if (!Reflect.has(target, p)) {
-                return Reflect.get(target, SystemLocale.EN)
+                return Reflect.get(target, systemLocale.en)
             }
             return Reflect.get(target, p)
         },
@@ -56,3 +59,13 @@ export const postHogClient = PostHogClient.getInstance({
         api_host: appEnv.VITE_APP_POSTHOG_HOST,
     },
 })
+
+const toastErrorMessage = (err: unknown) => {
+    if (isError(err)) {
+        Message.error(`${err.message}`)
+    } else if (err) {
+        Message.error(`${err}`)
+    }
+}
+
+export const reactQueryClient = generateQueryClient(toastErrorMessage, toastErrorMessage)

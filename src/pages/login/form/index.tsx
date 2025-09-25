@@ -23,11 +23,11 @@ interface LoginOrSignupFormProps {
 
 type FormData = (LoginRequest | SignupRequest) & { confirmPassword?: string }
 
-const enum TabType {
+const enum tabType {
     login = "login",
     signup = "signup",
 }
-const TabArr = [TabType.login, TabType.signup]
+const TabArr = [tabType.login, tabType.signup]
 const TabKey = "tab"
 const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const [form] = Form.useForm<FormData>()
@@ -38,7 +38,7 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
     const pathnameIsLogin = location.pathname == "/login"
     const pathnameIsSignup = location.pathname == "/signup"
     const isLogin = useMemo(() => {
-        return tab === TabType.login || (pathnameIsLogin && !TabArr.includes(tab as TabType))
+        return tab === tabType.login || (pathnameIsLogin && !TabArr.includes(tab as tabType))
     }, [tab, pathnameIsLogin])
     const intlMapping = useTranslator({
         loginPrimaryBtn: "login.login.btn.login",
@@ -53,11 +53,11 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         passwordError: "login.error.password",
     })
     const { login, signup, loginLoading, signupLoading } = useUser(null, () => {
-        setSearchParams({ [TabKey]: TabType.login })
+        setSearchParams({ [TabKey]: tabType.login })
     })
     const clickToggleHandle = () => {
         form.clearFields()
-        setSearchParams({ tab: isLogin ? TabType.signup : TabType.login })
+        setSearchParams({ tab: isLogin ? tabType.signup : tabType.login })
     }
     const posthog = usePostHog()
     const submitHandle = (v: FormData) => {
@@ -88,12 +88,12 @@ const LoginOrSignupForm: React.FC<LoginOrSignupFormProps> = ({ type }) => {
         }
     }, [form, isLogin])
     useEffect(() => {
-        const excludeType = !TabArr.includes(searchParams.get(TabKey) as TabType)
+        const excludeType = !TabArr.includes(searchParams.get(TabKey) as tabType)
         if (pathnameIsLogin && excludeType) {
-            setSearchParams({ [TabKey]: TabType.login })
+            setSearchParams({ [TabKey]: tabType.login })
         }
         if (pathnameIsSignup && excludeType) {
-            setSearchParams({ [TabKey]: TabType.signup })
+            setSearchParams({ [TabKey]: tabType.signup })
         }
     }, [pathnameIsLogin, pathnameIsSignup, searchParams, setSearchParams])
 

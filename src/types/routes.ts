@@ -1,4 +1,4 @@
-import { AuthType } from "@/constant/router"
+import { authType } from "@/constant/router"
 import { IndexRouteObject, NonIndexRouteObject } from "react-router-dom"
 
 export interface RouteHandle {
@@ -6,7 +6,7 @@ export interface RouteHandle {
         title?: string
         icon?: React.ReactNode
         hidden?: boolean
-        auth: AuthType // 页面鉴权类型
+        auth: authType // 页面鉴权类型
     }
 }
 
