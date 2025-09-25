@@ -18,7 +18,7 @@ let requests: Array<(token: string, err?: string) => void> = []
 const invalidTokenHandle = (err: string) => {
     requests.forEach((cb) => cb("", err))
     requests = []
-    systemEventEmitter.emit(systemEvent.InvalidToken)
+    systemEventEmitter.emit(systemEvent.invalidToken)
     return Promise.reject(err)
 }
 
@@ -36,7 +36,7 @@ const refreshTokenHandle = (client: WrapAxiosInstance, config: InternalAxiosRequ
     if (!refreshToken) {
         requests.forEach((cb) => cb(""))
         requests = []
-        systemEventEmitter.emit(systemEvent.InvalidToken)
+        systemEventEmitter.emit(systemEvent.invalidToken)
         return Promise.reject()
     }
     if (!isRefreshing) {
@@ -87,7 +87,7 @@ const generateResponseInterceptors = (client: WrapAxiosInstance) => {
             const { headers } = config
             const locale = (headers.get(localeKey) || systemLocale.en) as systemLocale
             if (status !== 200) {
-                systemEventEmitter.emit(systemEvent.ServerError)
+                systemEventEmitter.emit(systemEvent.serverError)
                 return Promise.reject(ServerErrorMessage[locale])
             }
             switch (code) {

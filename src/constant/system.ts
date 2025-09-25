@@ -47,8 +47,10 @@ export const appIsDevEnv = appEnv.VITE_APP_ENV === "dev"
 export const emptyPlaceholder = "-"
 
 export enum systemEvent {
-    InvalidToken = "invalid-token",
-    ServerError = "server-error",
+    invalidToken = "invalidToken",
+    serverError = "serverError",
+    nprogressStart = "nprogressStart",
+    nprogressDone = "nprogressDone",
 }
 
 export const systemEventEmitter = new EventEmitter()

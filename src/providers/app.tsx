@@ -17,9 +17,9 @@ const AppProvider: FC<AppProviderProps> = () => {
     }, [])
 
     useEffect(() => {
-        systemEventEmitter.addListener(systemEvent.InvalidToken, logout)
+        systemEventEmitter.addListener(systemEvent.invalidToken, logout)
         return () => {
-            systemEventEmitter.removeListener(systemEvent.InvalidToken, logout)
+            systemEventEmitter.removeListener(systemEvent.invalidToken, logout)
         }
     }, [logout])
 

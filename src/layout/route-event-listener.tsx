@@ -13,9 +13,9 @@ const RouteEventListener: React.FC = () => {
     }, [navigate, location])
 
     useEffect(() => {
-        systemEventEmitter.addListener(systemEvent.ServerError, serverError)
+        systemEventEmitter.addListener(systemEvent.serverError, serverError)
         return () => {
-            systemEventEmitter.removeListener(systemEvent.ServerError, serverError)
+            systemEventEmitter.removeListener(systemEvent.serverError, serverError)
         }
     }, [serverError])
 
