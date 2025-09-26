@@ -49,8 +49,6 @@ export const emptyPlaceholder = "-"
 export enum systemEvent {
     invalidToken = "invalidToken",
     serverError = "serverError",
-    nprogressStart = "nprogressStart",
-    nprogressDone = "nprogressDone",
 }
 
 export const systemEventEmitter = new EventEmitter()
