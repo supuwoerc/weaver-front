@@ -8,7 +8,7 @@ import RouteErrorElement from "../components/route-error-element"
 const userRoutes: CustomRouteObject[] = [
     {
         path: "/user",
-        lazy: loadComponent(() => import("@/layout/default/index"))(),
+        lazy: loadComponent(() => import("@/layout/default/index")),
         handle: {
             title: "router.user",
             auth: authType.loginRequired,
@@ -19,7 +19,7 @@ const userRoutes: CustomRouteObject[] = [
                 path: "profile",
                 handle: { title: "router.user.profile", auth: authType.loginRequired },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponnetWithProgress(() => import("@/pages/user/profile/index"))(),
+                lazy: loadComponnetWithProgress(() => import("@/pages/user/profile/index")),
             },
             {
                 path: "",

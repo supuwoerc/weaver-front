@@ -7,16 +7,16 @@ import nprogress from "nprogress"
 
 /**
  * 路由懒加载(伴随进度条)
- * @param p 加载组件的promise
+ * @param loadComponent 加载组件的promise
  * @returns 路由懒加载promise(伴随进度条)
  */
 export const loadComponnetWithProgress = <T extends ComponentType<any>>(
-    p: () => Promise<{ default: T }>,
+    loadComponent: () => Promise<{ default: T }>,
     props?: ComponentProps<T>,
 ) => {
-    return () => () => {
+    return () => {
         nprogress.start()
-        return p()
+        return loadComponent()
             .then((m) => ({
                 element: createElement(m.default, props),
             }))
@@ -28,15 +28,15 @@ export const loadComponnetWithProgress = <T extends ComponentType<any>>(
 
 /**
  * 路由懒加载(不伴随进度条)
- * @param p 加载组件的promise
+ * @param loadComponent 加载组件的promise
  * @returns 路由懒加载promise(不伴随进度条)
  */
 export const loadComponent = <T extends ComponentType<any>>(
-    p: () => Promise<{ default: T }>,
+    loadComponent: () => Promise<{ default: T }>,
     props?: ComponentProps<T>,
 ) => {
-    return () => () => {
-        return p().then((m) => ({
+    return () => {
+        return loadComponent().then((m) => ({
             element: createElement(m.default, props),
         }))
     }
@@ -128,7 +128,7 @@ export function getPermissionRoutes(
         )
         const existPermission = hasPermission || childFilterResult.length > 0
         if (!existPermission) {
-            route.lazy = loadComponnetWithProgress(forbidden)()
+            route.lazy = loadComponnetWithProgress(forbidden)
         }
         route.children = childFilterResult
         return route

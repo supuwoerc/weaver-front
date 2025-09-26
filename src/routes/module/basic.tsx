@@ -24,11 +24,11 @@ const basicRoutes: CustomRouteObject[] = [
                     auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponent(() => import("@/layout/fullscreen/index"))(),
+                lazy: loadComponent(() => import("@/layout/fullscreen/index")),
                 children: [
                     {
                         path: "",
-                        lazy: loadComponnetWithProgress(() => import("@/pages/login"))(),
+                        lazy: loadComponnetWithProgress(() => import("@/pages/login")),
                     },
                 ],
             },
@@ -39,11 +39,11 @@ const basicRoutes: CustomRouteObject[] = [
                     auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponent(() => import("@/layout/fullscreen/index"))(),
+                lazy: loadComponent(() => import("@/layout/fullscreen/index")),
                 children: [
                     {
                         path: "",
-                        lazy: loadComponnetWithProgress(() => import("@/pages/login"))(),
+                        lazy: loadComponnetWithProgress(() => import("@/pages/login")),
                     },
                 ],
             },
@@ -57,14 +57,14 @@ const basicRoutes: CustomRouteObject[] = [
                 lazy: loadComponent(() => import("@/layout/fullscreen/index"), {
                     color: "var(--color-text-1)",
                     to: "/login",
-                })(),
+                }),
                 children: [
                     {
                         path: "",
                         errorElement: <RouteErrorElement />,
                         lazy: loadComponnetWithProgress(
                             () => import("@/pages/reset-password/index"),
-                        )(),
+                        ),
                     },
                 ],
             },
@@ -75,12 +75,12 @@ const basicRoutes: CustomRouteObject[] = [
                     auth: authType.anonymous,
                 },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponent(() => import("@/layout/default/index"))(),
+                lazy: loadComponent(() => import("@/layout/default/index")),
                 children: [
                     {
                         path: "",
                         errorElement: <RouteErrorElement />,
-                        lazy: loadComponnetWithProgress(() => import("@/pages/500/index"))(),
+                        lazy: loadComponnetWithProgress(() => import("@/pages/500/index")),
                     },
                 ],
             },

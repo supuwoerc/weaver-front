@@ -43,7 +43,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
     if (isLogin) {
         syncPermissionRoutes.push({
             path: "",
-            lazy: loadComponent(() => import("@/layout/default/index"))(),
+            lazy: loadComponent(() => import("@/layout/default/index")),
             handle: {
                 hidden: true,
                 auth: authType.anonymous,
@@ -53,7 +53,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
                 {
                     path: "*",
                     handle: { title: "router.notFound", auth: authType.anonymous, hidden: true },
-                    lazy: loadComponnetWithProgress(() => import("@/pages/404/index"))(),
+                    lazy: loadComponnetWithProgress(() => import("@/pages/404/index")),
                 },
             ],
         })
@@ -65,7 +65,7 @@ const processPermissions = (isLogin: boolean, permissions: Array<UserPermission>
                 auth: authType.anonymous,
                 title: "router.notFound",
             },
-            lazy: loadComponnetWithProgress(() => import("@/pages/404/index"))(),
+            lazy: loadComponnetWithProgress(() => import("@/pages/404/index")),
         })
     }
 

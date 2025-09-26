@@ -10,7 +10,7 @@ import { reactQueryClient } from "@/constant/system"
 const settingRoutes: CustomRouteObject[] = [
     {
         path: "/setting",
-        lazy: loadComponent(() => import("@/layout/default/index"))(),
+        lazy: loadComponent(() => import("@/layout/default/index")),
         handle: {
             title: "router.setting",
             auth: authType.permissionRequired,
@@ -21,25 +21,25 @@ const settingRoutes: CustomRouteObject[] = [
                 path: "user",
                 handle: { title: "router.setting.user", auth: authType.permissionRequired },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponnetWithProgress(() => import("@/pages/setting/user/index"))(),
+                lazy: loadComponnetWithProgress(() => import("@/pages/setting/user/index")),
             },
             {
                 path: "department",
                 handle: { title: "router.setting.department", auth: authType.permissionRequired },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponnetWithProgress(() => import("@/pages/setting/department/index"))(),
+                lazy: loadComponnetWithProgress(() => import("@/pages/setting/department/index")),
             },
             {
                 path: "role",
                 handle: { title: "router.setting.role", auth: authType.permissionRequired },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponnetWithProgress(() => import("@/pages/setting/role/index"))(),
+                lazy: loadComponnetWithProgress(() => import("@/pages/setting/role/index")),
             },
             {
                 path: "permission",
                 handle: { title: "router.setting.permission", auth: authType.permissionRequired },
                 errorElement: <RouteErrorElement />,
-                lazy: loadComponnetWithProgress(() => import("@/pages/setting/permission/index"))(),
+                lazy: loadComponnetWithProgress(() => import("@/pages/setting/permission/index")),
                 loader: permissionOperationsLoader(reactQueryClient),
             },
             {

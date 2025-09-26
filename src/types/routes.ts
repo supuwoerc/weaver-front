@@ -18,3 +18,5 @@ type AppNonIndexRouteObject = Omit<NonIndexRouteObject, "children"> &
     }
 
 export type CustomRouteObject = AppIndexRouteObject | AppNonIndexRouteObject
+
+export type RouterLoader = CustomRouteObject["loader"]
