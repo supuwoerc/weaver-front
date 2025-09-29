@@ -6,6 +6,8 @@ export interface GetRoleListRequest extends PageRequest {
 export interface RoleListRow {
     id: number
     name: string
+    children?: RoleListRow[]
+    ancestors?: string
     created_at: string
     updated_at: string
     creator: Creator

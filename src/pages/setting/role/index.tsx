@@ -111,9 +111,10 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                             </Button>
                             <Button
                                 type="outline"
-                                status="danger"
+                                status={item.children?.length ? "default" : "danger"}
                                 shape="round"
                                 size="mini"
+                                disabled={Boolean(item.children?.length)}
                                 onClick={() =>
                                     Modal.confirm({
                                         title: intlMapping.tips,
