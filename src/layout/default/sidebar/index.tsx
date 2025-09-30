@@ -1,9 +1,9 @@
-import { Menu, Skeleton } from "@arco-design/web-react"
+import { Menu, Skeleton, Spin } from "@arco-design/web-react"
 import { IconApps } from "@arco-design/web-react/icon"
 import SidebarContainer from "./sidebar-container"
 import { FormattedMessage } from "react-intl"
 import { useMemo, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useNavigation } from "react-router-dom"
 import { CustomRouteObject } from "@/types/routes"
 
 const MenuItem = Menu.Item
@@ -15,6 +15,8 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const navigate = useNavigate()
     const location = useLocation()
+    const navigation = useNavigation()
+    const isLoading = navigation.state === "loading"
 
     const selectedKeys = useMemo(() => {
         const keys = (routePath ?? []).map((item) => item.path ?? "").filter(Boolean)
@@ -50,6 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                 return (
                     <MenuItem key={item.path!}>
                         {item.handle?.title ? <FormattedMessage id={item.handle?.title} /> : null}
+                        {isLoading && navigation.location.pathname === item.path && <Spin />}
                     </MenuItem>
                 )
             }
