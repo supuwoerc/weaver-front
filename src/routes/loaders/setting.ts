@@ -19,6 +19,7 @@ export const permissionOperationsLoader = (c: QueryClient): RouterLoader => {
                         })
                     })
                 }),
+            staleTime: Infinity,
         })
         return query
     }

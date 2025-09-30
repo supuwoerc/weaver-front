@@ -29,6 +29,45 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
     const onClickSubMenuHandle = (_key: string, openKeys: string[]) => {
         setOpenKeys(openKeys)
     }
+
+    const subMenuRender = (routes: CustomRouteObject[]) => {
+        return routes.map((item) => {
+            if (item.children?.length) {
+                return (
+                    <SubMenu
+                        key={item.path!}
+                        title={
+                            <>
+                                {item.handle?.icon ?? <IconApps />}
+                                <FormattedMessage id={item.handle?.title} />
+                            </>
+                        }
+                    >
+                        {item.children ? subMenuRender(item.children) : null}
+                    </SubMenu>
+                )
+            } else {
+                return (
+                    <MenuItem key={item.path!}>
+                        {item.handle?.title ? <FormattedMessage id={item.handle?.title} /> : null}
+                    </MenuItem>
+                )
+            }
+        })
+    }
+
+    const emptyRender = () => {
+        return (
+            <Skeleton
+                style={{
+                    marginTop: 20,
+                    padding: "0 6px",
+                }}
+                text={{ rows: 8, width: "100%" }}
+            />
+        )
+    }
+
     return (
         <SidebarContainer>
             <Menu
@@ -38,42 +77,10 @@ const Sidebar: React.FC<SidebarProps> = ({ routePath, menuRoutes }) => {
                 onClickMenuItem={onClickMenuItemHandle}
                 onClickSubMenu={onClickSubMenuHandle}
             >
-                {menuRoutes.length > 0 ? (
-                    menuRoutes.map((item) => {
-                        return (
-                            <SubMenu
-                                key={item.path!}
-                                title={
-                                    <>
-                                        {item.handle?.icon ?? <IconApps />}
-                                        <FormattedMessage id={item.handle?.title} />
-                                    </>
-                                }
-                            >
-                                {item.children &&
-                                    item.children.map((sub) => {
-                                        return (
-                                            <MenuItem key={sub.path!}>
-                                                {sub.handle?.title ? (
-                                                    <FormattedMessage id={sub.handle?.title} />
-                                                ) : null}
-                                            </MenuItem>
-                                        )
-                                    })}
-                            </SubMenu>
-                        )
-                    })
-                ) : (
-                    <Skeleton
-                        style={{
-                            marginTop: 20,
-                            padding: "0 6px",
-                        }}
-                        text={{ rows: 8, width: "100%" }}
-                    />
-                )}
+                {menuRoutes.length > 0 ? subMenuRender(menuRoutes) : emptyRender()}
             </Menu>
         </SidebarContainer>
     )
 }
+
 export default Sidebar
