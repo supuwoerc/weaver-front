@@ -14,13 +14,13 @@ export enum userStatus {
     disabled,
 }
 
-export const UserStatusColorMap = new Map([
+export const userStatusColorMap = new Map([
     [userStatus.inactive, "red"],
     [userStatus.normal, "arcoblue"],
     [userStatus.disabled, "gray"],
 ])
 
-export const UserStatusOptions: Array<Option<userStatus>> = [
+export const userStatusOptions: Array<Option<userStatus>> = [
     {
         label: "user.status.inactive",
         value: userStatus.inactive,

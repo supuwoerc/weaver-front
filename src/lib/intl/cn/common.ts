@@ -31,6 +31,9 @@ const zhCN: SystemLocaleMapping = {
     "common.table.operation": "操作",
 
     "common.colon": "：",
+
+    "common.create": "创建",
+    "common.export": "导出",
 }
 
 export default zhCN

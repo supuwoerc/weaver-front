@@ -8,12 +8,12 @@ import RouteErrorElement from "../components/route-error-element"
 const dashboardRoutes: CustomRouteObject[] = [
     {
         path: "/dashboard",
-        lazy: loadComponent(() => import("@/layout/default/index")),
         handle: {
             title: "router.dashboard",
             auth: authType.loginRequired,
             icon: <IconDashboard />,
         },
+        lazy: loadComponent(() => import("@/layout/default/index")),
         children: [
             {
                 path: "workplace",

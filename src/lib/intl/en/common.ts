@@ -31,6 +31,9 @@ const enUS: SystemLocaleMapping = {
     "common.table.operation": "Operation",
 
     "common.colon": ":",
+
+    "common.create": "Create",
+    "common.export": "Export",
 }
 
 export default enUS
