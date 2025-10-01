@@ -122,17 +122,15 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                     render: (_, item: PermissionListRow) => (
                         <Space>
                             <Button
-                                type="primary"
-                                shape="round"
+                                type="outline"
                                 size="mini"
                                 onClick={() => detailHandle(item.id)}
                             >
                                 <FormattedMessage id="common.detail" />
                             </Button>
                             <Button
-                                type="outline"
+                                type="dashed"
                                 status="danger"
-                                shape="round"
                                 size="mini"
                                 onClick={() =>
                                     Modal.confirm({

@@ -137,20 +137,10 @@ const UserSetting: React.FC<UserSettingProps> = () => {
                 dataIndex: "operation",
                 render: (_, item: UserListRow) => (
                     <Space>
-                        <Button
-                            type="primary"
-                            shape="round"
-                            size="mini"
-                            onClick={() => detailHandle(item.id)}
-                        >
+                        <Button type="outline" size="mini" onClick={() => detailHandle(item.id)}>
                             <FormattedMessage id="common.detail" />
                         </Button>
-                        <Button
-                            type="outline"
-                            shape="round"
-                            size="mini"
-                            onClick={() => editHandle(item.id)}
-                        >
+                        <Button type="dashed" size="mini" onClick={() => editHandle(item.id)}>
                             <FormattedMessage id="common.edit" />
                         </Button>
                     </Space>

@@ -102,17 +102,15 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     render: (_, item: RoleListRow) => (
                         <Space>
                             <Button
-                                type="primary"
-                                shape="round"
+                                type="outline"
                                 size="mini"
                                 onClick={() => detailHandle(item.id)}
                             >
                                 <FormattedMessage id="common.detail" />
                             </Button>
                             <Button
-                                type="outline"
+                                type="dashed"
                                 status={item.children?.length ? "default" : "danger"}
-                                shape="round"
                                 size="mini"
                                 disabled={Boolean(item.children?.length)}
                                 onClick={() =>
