@@ -1,6 +1,7 @@
 import {
     Button,
     Input,
+    Link,
     Message,
     Modal,
     PaginationProps,
@@ -121,17 +122,12 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                     width: 150,
                     render: (_, item: PermissionListRow) => (
                         <Space>
-                            <Button
-                                type="outline"
-                                size="mini"
-                                onClick={() => detailHandle(item.id)}
-                            >
+                            <Link hoverable={false} onClick={() => detailHandle(item.id)}>
                                 <FormattedMessage id="common.detail" />
-                            </Button>
-                            <Button
-                                type="dashed"
-                                status="danger"
-                                size="mini"
+                            </Link>
+                            <Link
+                                hoverable={false}
+                                status="error"
                                 onClick={() =>
                                     Modal.confirm({
                                         title: intlMapping.tips,
@@ -146,7 +142,7 @@ const PermissionSetting: React.FC<PermissionSettingProps> = ({
                                 }
                             >
                                 <FormattedMessage id="common.delete" />
-                            </Button>
+                            </Link>
                         </Space>
                     ),
                 },

@@ -1,6 +1,7 @@
 import {
     Button,
     Input,
+    Link,
     Message,
     Modal,
     PaginationProps,
@@ -101,18 +102,12 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                     width: 150,
                     render: (_, item: RoleListRow) => (
                         <Space>
-                            <Button
-                                type="outline"
-                                size="mini"
-                                onClick={() => detailHandle(item.id)}
-                            >
+                            <Link hoverable={false} onClick={() => detailHandle(item.id)}>
                                 <FormattedMessage id="common.detail" />
-                            </Button>
-                            <Button
-                                type="dashed"
-                                status={item.children?.length ? "default" : "danger"}
-                                size="mini"
-                                disabled={Boolean(item.children?.length)}
+                            </Link>
+                            <Link
+                                hoverable={false}
+                                status={item.children?.length ? "warning" : "error"}
                                 onClick={() =>
                                     Modal.confirm({
                                         title: intlMapping.tips,
@@ -127,7 +122,7 @@ const RoleSetting: React.FC<RoleSettingProps> = ({
                                 }
                             >
                                 <FormattedMessage id="common.delete" />
-                            </Button>
+                            </Link>
                         </Space>
                     ),
                 },

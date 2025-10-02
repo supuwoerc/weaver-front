@@ -1,7 +1,7 @@
 import {
     Avatar,
-    Button,
     Input,
+    Link,
     PaginationProps,
     Space,
     Table,
@@ -137,12 +137,12 @@ const UserSetting: React.FC<UserSettingProps> = () => {
                 dataIndex: "operation",
                 render: (_, item: UserListRow) => (
                     <Space>
-                        <Button type="outline" size="mini" onClick={() => detailHandle(item.id)}>
+                        <Link hoverable={false} onClick={() => detailHandle(item.id)}>
                             <FormattedMessage id="common.detail" />
-                        </Button>
-                        <Button type="dashed" size="mini" onClick={() => editHandle(item.id)}>
+                        </Link>
+                        <Link hoverable={false} onClick={() => editHandle(item.id)}>
                             <FormattedMessage id="common.edit" />
-                        </Button>
+                        </Link>
                     </Space>
                 ),
             },
