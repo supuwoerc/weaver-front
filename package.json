@@ -52,7 +52,8 @@
     "keywords": [
         "React",
         "TypeScript",
-        "Vite"
+        "Vite",
+        "ArcoDesign"
     ],
     "author": "zhangzhouou@gmail.com",
     "dependencies": {
@@ -92,9 +93,9 @@
         "react-intl": "^6.6.6",
         "react-router-dom": "^6.12.0",
         "react-transition-group": "^4.4.5",
-        "react-use": "^17.5.0",
-        "swapy": "^0.1.2",
-        "zustand": "^5.0.3"
+        "react-use": "^17.6.0",
+        "swapy": "^1.0.5",
+        "zustand": "^5.0.8"
     },
     "devDependencies": {
         "@arco-plugins/vite-react": "^1.3.3",
