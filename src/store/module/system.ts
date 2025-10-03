@@ -30,8 +30,8 @@ export const useSystemConfigStore = create<TSystemConfigStore>()(
                 name: SYSTEM_CONFIG_STORE_NAME,
                 partialize: (state) => ({
                     locale: state.locale,
-                    theme: state.sidebarCollapsed,
-                    sidebarCollapsed: state.theme,
+                    theme: state.theme,
+                    sidebarCollapsed: state.sidebarCollapsed,
                 }),
             }),
             {
