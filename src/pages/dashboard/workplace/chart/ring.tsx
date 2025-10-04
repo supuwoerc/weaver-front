@@ -1,4 +1,5 @@
 import { Legend, Pie, PieChart } from "@visactor/react-vchart"
+import { useId } from "react"
 
 interface RingProps {}
 
@@ -11,8 +12,9 @@ const data = [
 ]
 
 const Ring: React.FC<RingProps> = () => {
+    const id = useId()
     return (
-        <PieChart data={[{ id: "id0", values: data }]}>
+        <PieChart data={[{ id: id, values: data }]}>
             <Pie
                 categoryField="type"
                 valueField="value"

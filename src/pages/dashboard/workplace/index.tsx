@@ -64,7 +64,7 @@ const Workplace: React.FC<WorkplaceProps> = () => {
                         {item && (
                             <div className="item" data-swapy-item={itemId} key={itemId}>
                                 <div className="item-title">{item.title}</div>
-                                <item.chart />
+                                {swapyRef.current && <item.chart />}
                             </div>
                         )}
                     </div>
