@@ -1,16 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { FC, useEffect, useMemo, useRef, useState } from "react"
 import { createSwapy, SlotItemMapArray, Swapy, utils } from "swapy"
 import WorkplaceContainer from "./workplace-container"
+import SmoothedArea from "./chart/smoothed-area"
+import Bar from "./chart/bar"
+import Ring from "./chart/ring"
 
 interface Chart {
     id: string
     title: string
+    chart: FC<any>
 }
 
 const initialItems: Array<Chart> = [
-    { id: "1", title: "1" },
-    { id: "2", title: "2" },
-    { id: "3", title: "3" },
+    { id: "1", title: "测试图表", chart: SmoothedArea },
+    { id: "2", title: "测试图表", chart: Ring },
+    { id: "3", title: "测试图表", chart: Bar },
 ]
 
 interface WorkplaceProps {}
@@ -59,7 +63,8 @@ const Workplace: React.FC<WorkplaceProps> = () => {
                     <div className="slot" key={slotId} data-swapy-slot={slotId}>
                         {item && (
                             <div className="item" data-swapy-item={itemId} key={itemId}>
-                                <span>{item.title}</span>
+                                <div className="item-title">{item.title}</div>
+                                <item.chart />
                             </div>
                         )}
                     </div>

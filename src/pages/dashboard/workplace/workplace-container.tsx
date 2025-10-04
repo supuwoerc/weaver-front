@@ -10,16 +10,20 @@ const WorkplaceContainer = styled.div`
             position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            padding: 20px 0;
             width: 100%;
-            height: 100%;
-            height: 100px;
+            height: 260px;
             border-radius: 12px;
             background: var(--color-bg-2);
             overflow: hidden;
             box-shadow: var(--common-shadow);
+            .item-title {
+                height: 32px;
+                line-height: 32px;
+                padding: 0 1em;
+                font-weight: bold;
+                color: var(--color-text-1);
+            }
         }
         .slot[data-swapy-highlighted] {
             background: var(--color-secondary);
