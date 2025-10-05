@@ -6,6 +6,8 @@ import nprogress from "nprogress"
 import "nprogress/nprogress.css"
 import { PostHogProvider } from "posthog-js/react"
 import { initVChartArcoTheme } from "@visactor/vchart-arco-theme"
+import { TextPlugin } from "gsap/all"
+import gsap from "gsap"
 import { postHogClient } from "@/constant/system.ts"
 import dayjs from "dayjs"
 import "dayjs/locale/zh-cn"
@@ -26,6 +28,8 @@ nprogress.configure({
 const posthog = postHogClient.getClient()
 
 initVChartArcoTheme()
+
+gsap.registerPlugin(TextPlugin)
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <PostHogProvider client={posthog}>

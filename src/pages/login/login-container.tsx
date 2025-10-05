@@ -27,6 +27,9 @@ const LoginContainer = styled.div`
                                 font-weight: bold;
                             }
                         }
+                        .cover {
+                            width: max(50%, 320px);
+                        }
                     }
                 }
             }
