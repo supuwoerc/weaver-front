@@ -16,6 +16,7 @@ const WorkplaceContainer = styled.div`
             border-radius: 12px;
             overflow: hidden;
             box-shadow: var(--common-shadow);
+            background-color: var(--color-bg-1);
             .item-title {
                 height: 32px;
                 line-height: 32px;
