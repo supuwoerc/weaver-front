@@ -1,8 +1,8 @@
-import { VChart } from "@visactor/react-vchart"
+import { ISpec, VChart } from "@visactor/react-vchart"
 
 interface BarProps {}
 
-const spec = {
+const spec: ISpec = {
     type: "bar",
     data: [
         {
