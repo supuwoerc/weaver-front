@@ -18,11 +18,12 @@ const WorkplaceContainer = styled.div`
             box-shadow: var(--common-shadow);
             background: var(--color-bg-1);
             .item-title {
-                height: 32px;
-                line-height: 32px;
-                padding: 0 1em;
+                height: 46px;
+                line-height: 46px;
+                padding: 0 16px;
                 font-weight: bold;
                 color: var(--color-text-1);
+                background: var(--color-bg-2);
             }
         }
         .slot[data-swapy-highlighted] {

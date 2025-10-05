@@ -1,9 +1,30 @@
-import { VChart } from "@visactor/react-vchart"
+import { ISpec, VChart } from "@visactor/react-vchart"
 
 interface SmoothedAreaProps {}
 
-const spec = {
+const spec: ISpec = {
     type: "area",
+    axes: [
+        {
+            orient: "bottom",
+            label: {
+                autoLimit: true,
+                style: {
+                    fill: "#595959",
+                },
+            },
+        },
+        {
+            orient: "left",
+            maxWidth: 65,
+            label: {
+                autoLimit: true,
+                style: {
+                    fill: "#595959",
+                },
+            },
+        },
+    ],
     data: {
         values: [
             {

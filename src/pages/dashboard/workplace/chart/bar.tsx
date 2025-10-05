@@ -11,42 +11,34 @@ const spec: ISpec = {
                 {
                     province: "北京",
                     value: 3080,
-                    type: "top1",
                 },
                 {
                     province: "天津",
                     value: 2880,
-                    type: "top2",
                 },
                 {
                     province: "重庆",
                     value: 880,
-                    type: "top3",
                 },
                 {
                     province: "深圳",
                     value: 780,
-                    type: "common",
                 },
                 {
                     province: "广州",
                     value: 680,
-                    type: "common",
                 },
                 {
                     province: "山东",
                     value: 580,
-                    type: "common",
                 },
                 {
                     province: "浙江",
                     value: 480,
-                    type: "common",
                 },
                 {
                     province: "福建",
                     value: 100,
-                    type: "common",
                 },
             ],
         },
@@ -67,6 +59,9 @@ const spec: ISpec = {
             maxWidth: 65,
             label: {
                 autoLimit: true,
+                style: {
+                    fill: "#595959",
+                },
             },
             domainLine: {
                 visible: false,

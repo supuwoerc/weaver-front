@@ -34,7 +34,17 @@ const Ring: React.FC<RingProps> = () => {
                     },
                 }}
             />
-            <Legend visible orient="left" />
+            <Legend
+                visible
+                orient="left"
+                item={{
+                    label: {
+                        style: {
+                            fill: "#595959",
+                        },
+                    },
+                }}
+            />
         </PieChart>
     )
 }

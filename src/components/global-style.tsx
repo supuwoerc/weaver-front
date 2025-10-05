@@ -64,7 +64,7 @@ export const variables = css`
         --theme-color: #4070ff;
     }
     .arco-theme[arco-theme="dark"] {
-        --common-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        --common-shadow: rgba(0, 0, 0, 0.4) 0px 5px 15px;
         --theme-color: #4070ff;
     }
     .arco-table-th {
