@@ -23,7 +23,6 @@ const WorkplaceContainer = styled.div`
                 padding: 0 16px;
                 font-weight: bold;
                 color: var(--color-text-1);
-                background: var(--color-bg-2);
             }
         }
         .slot[data-swapy-highlighted] {
