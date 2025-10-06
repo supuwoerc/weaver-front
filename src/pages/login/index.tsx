@@ -36,7 +36,6 @@ const Login: React.FC<LoginProps> = () => {
     const carouselRef = useRef<HTMLDivElement>(null)
     const timelineRef = useRef<gsap.core.Timeline | null>(null)
     const splitRef = useRef<{ title?: SplitText; sub?: SplitText }>({})
-    gsap.registerPlugin(SplitText)
 
     useGSAP(
         () => {
@@ -44,9 +43,10 @@ const Login: React.FC<LoginProps> = () => {
             splitRef.current.title?.revert()
             splitRef.current.sub?.revert()
 
-            const titleSelector = `.item[data-index='${currentIndex}'] .title`
-            const subTitleSelector = `.item[data-index='${currentIndex}'] .sub-title`
-            const coverSelector = `.item[data-index='${currentIndex}'] .cover`
+            const scopeSelector = `.item[data-index='${currentIndex}']`
+            const titleSelector = `${scopeSelector} .title`
+            const subTitleSelector = `${scopeSelector} .sub-title`
+            const coverSelector = `${scopeSelector} .cover`
 
             // 中文使用 chars
             const titleSplit = SplitText.create(titleSelector, { type: "chars" })
