@@ -67,6 +67,7 @@
         "@types/lodash-es": "^4.17.12",
         "@visactor/react-vchart": "^2.0.5",
         "@visactor/vchart-arco-theme": "^1.12.2",
+        "@visactor/vchart-theme-utils": "^1.12.2",
         "await-to-js": "^3.0.0",
         "axios": "^1.6.8",
         "classnames": "^2.5.1",

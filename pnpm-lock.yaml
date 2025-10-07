@@ -38,6 +38,9 @@ importers:
       '@visactor/vchart-arco-theme':
         specifier: ^1.12.2
         version: 1.12.2(@visactor/vchart@2.0.5)
+      '@visactor/vchart-theme-utils':
+        specifier: ^1.12.2
+        version: 1.12.2(@visactor/vchart@2.0.5)
       await-to-js:
         specifier: ^3.0.0
         version: 3.0.0

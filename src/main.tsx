@@ -4,8 +4,8 @@ import { scan } from "react-scan"
 import { appIsDevEnv } from "./constant/system.ts"
 import nprogress from "nprogress"
 import "nprogress/nprogress.css"
+import "@/lib/v-chart/theme.ts"
 import { PostHogProvider } from "posthog-js/react"
-import { initVChartArcoTheme } from "@visactor/vchart-arco-theme"
 import { TextPlugin } from "gsap/all"
 import gsap from "gsap"
 import { postHogClient } from "@/constant/system.ts"
@@ -26,8 +26,6 @@ nprogress.configure({
 })
 
 const posthog = postHogClient.getClient()
-
-initVChartArcoTheme()
 
 gsap.registerPlugin(TextPlugin)
 
