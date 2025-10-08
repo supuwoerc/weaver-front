@@ -16,6 +16,9 @@ const spec: ISpec = {
             domainLine: {
                 style: { stroke: "#595959" }, // 轴线颜色
             },
+            tick: {
+                style: { stroke: "#595959" },
+            },
         },
         {
             orient: "left",
