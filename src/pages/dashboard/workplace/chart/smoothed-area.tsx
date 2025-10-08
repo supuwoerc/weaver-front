@@ -13,6 +13,9 @@ const spec: ISpec = {
                     fill: "#595959",
                 },
             },
+            domainLine: {
+                style: { stroke: "#595959" }, // 轴线颜色
+            },
         },
         {
             orient: "left",
