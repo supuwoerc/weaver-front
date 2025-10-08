@@ -1,3 +1,4 @@
+import { themeAttribute } from "@/constant/system"
 import { SystemSettingEvent } from "@/lib/posthog/event"
 import { system } from "@/store"
 import { Button } from "@arco-design/web-react"
@@ -19,9 +20,9 @@ const ThemeSelect: React.FC<ThemeSelectProps> = ({ style }) => {
     }
     useEffect(() => {
         if (theme === "dark") {
-            document.body.setAttribute("arco-theme", "dark")
+            document.body.setAttribute(themeAttribute, "dark")
         } else {
-            document.body.removeAttribute("arco-theme")
+            document.body.removeAttribute(themeAttribute)
         }
     }, [theme])
     return (

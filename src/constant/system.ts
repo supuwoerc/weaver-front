@@ -69,3 +69,5 @@ const toastErrorMessage = (err: unknown) => {
 }
 
 export const reactQueryClient = generateQueryClient(toastErrorMessage, toastErrorMessage)
+
+export const themeAttribute = "arco-theme"
