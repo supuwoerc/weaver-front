@@ -8,6 +8,7 @@ const NavbarContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
+    min-width: 520px;
     .trigger {
         border-radius: 2px;
         width: 32px;

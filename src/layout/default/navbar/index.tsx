@@ -7,6 +7,7 @@ import { IconMenuFold, IconMenuUnfold } from "@arco-design/web-react/icon"
 import { system } from "@/store"
 import { usePostHog } from "posthog-js/react"
 import { SystemSettingEvent } from "@/lib/posthog/event"
+import CmdModal from "@/components/cmd-modal"
 
 interface NavbarProps {}
 
@@ -30,6 +31,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                 {!sidebarCollapsed ? <IconMenuFold {...props} /> : <IconMenuUnfold {...props} />}
             </div>
             <Space size={14}>
+                <CmdModal />
                 <LanguageSelect />
                 <ThemeSelect />
                 <AccountMenu />
